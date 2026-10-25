@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<title>AI 윤리 저울</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 가운데 활동지 한 장. 한 번에 한 단계만 보이고, 위에서 아래로 번호를 따라 하면 끝. */
+:root{
+  --bg:#f6f4ee; --paper:#ffffff; --ink:#26303f; --muted:#6d7480; --line:#e2dfd6; --soft:#f3f1ea;
+  --main:#3d5a80; --main-soft:#e8eef6; --warm:#c8792f; --warm-soft:#fbefe2;
+  --left:#3d6fb4; --left-soft:#e7effa; --right:#c4563a; --right-soft:#fbe9e3;
+  --font:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15181d; --paper:#1e232b; --ink:#e6e9ee; --muted:#9aa2ae; --line:#323944; --soft:#252b34;
+  --main:#8fb0db; --main-soft:#24324a; --warm:#e5a465; --warm-soft:#3a2d1e;
+  --left:#86b0eb; --left-soft:#1f2e45; --right:#ee967d; --right-soft:#432a22; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15181d; --paper:#1e232b; --ink:#e6e9ee; --muted:#9aa2ae; --line:#323944; --soft:#252b34;
+  --main:#8fb0db; --main-soft:#24324a; --warm:#e5a465; --warm-soft:#3a2d1e;
+  --left:#86b0eb; --left-soft:#1f2e45; --right:#ee967d; --right-soft:#432a22; color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+header h1{font-size:1.5rem;margin:0;font-weight:700;color:var(--main);line-height:1.2}
+header p{margin:2px 0 0;font-size:.9rem;color:var(--muted)}
+button{font:inherit;cursor:pointer}
+.btn{border:0;border-radius:10px;padding:11px 22px;font-weight:700;background:var(--main);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.line{background:var(--paper);color:var(--main);box-shadow:inset 0 0 0 1.5px var(--main)}
+.btn.small{padding:7px 14px;font-size:.88rem}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--warm);outline-offset:2px}
+.sheet{background:var(--paper);border-radius:16px;border:1px solid var(--line);padding:24px clamp(16px,4vw,32px);display:grid;gap:22px}
+.sheethead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sheethead h2{margin:0;font-size:1.2rem;color:var(--main)}
+.progress{display:flex;gap:6px}
+.progress i{width:28px;height:6px;border-radius:3px;background:var(--line)}
+.progress i.on{background:var(--main)}
+.q{display:grid;gap:10px}
+.q>label,.q>.ql{font-weight:700}
+.q .note{font-size:.85rem;color:var(--muted)}
+input.txt,textarea{width:100%;font:inherit;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--paper);color:var(--ink);resize:vertical}
+input.num{max-width:160px}
+.card{border:1.5px dashed var(--main);background:var(--main-soft);border-radius:12px;padding:14px 16px}
+.card b{display:block;margin-bottom:4px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--paper);color:var(--ink)}
+.opt .n{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-size:.85rem;font-weight:700;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--main);background:var(--main-soft)}
+.opt[aria-pressed="true"] .n{background:var(--main);border-color:var(--main);color:var(--paper)}
+.yn{grid-template-columns:1fr 1fr}
+/* 저울 */
+.scale{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:14px;background:var(--soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.idea{border-radius:10px;padding:10px 12px;font-weight:500;font-size:.95rem;line-height:1.55;border:2px solid transparent;min-width:0}
+.idea small{display:block;font-size:.75rem;font-weight:700;margin-bottom:2px}
+.idea.l{background:var(--left-soft)} .idea.l small{color:var(--left)}
+.idea.r{background:var(--right-soft)} .idea.r small{color:var(--right)}
+.idea.l.on{border-color:var(--left)} .idea.r.on{border-color:var(--right)}
+.beamwrap{height:64px;position:relative;max-width:280px;width:100%;margin:0 auto}
+.beam{position:absolute;left:0;right:0;top:18px;height:6px;border-radius:3px;background:var(--ink);transition:transform .5s ease}
+.beam::before,.beam::after{content:"";position:absolute;top:6px;width:44px;height:14px;border-radius:0 0 22px 22px}
+.beam::before{left:-4px;background:var(--left)} .beam::after{right:-4px;background:var(--right)}
+.post{position:absolute;left:50%;top:18px;width:0;height:0;margin-left:-12px;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:34px solid var(--warm)}
+.foot{position:absolute;left:50%;bottom:0;width:80px;margin-left:-40px;height:8px;border-radius:4px;background:var(--warm)}
+.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.seg button{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:8px 2px;font-size:.82rem;font-weight:500;line-height:1.3}
+.seg button[aria-pressed="true"]{color:var(--paper);background:var(--warm);border-color:var(--warm)}
+.seg button:nth-child(-n+2)[aria-pressed="true"]{background:var(--left);border-color:var(--left)}
+.seg button:nth-child(n+4)[aria-pressed="true"]{background:var(--right);border-color:var(--right)}
+/* 확산 */
+.sim{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px}
+.dots{display:grid;grid-template-columns:repeat(30,1fr);gap:3px}
+.dots i{display:block;aspect-ratio:1;border-radius:50%;background:var(--line);transition:background .25s}
+.dots i.on{background:var(--right)} .dots i.me{background:var(--main)} .dots i.gone{background:transparent;box-shadow:inset 0 0 0 1.5px var(--muted)}
+.count{font-size:1.3rem;font-weight:700;color:var(--right);font-variant-numeric:tabular-nums}
+.stances{display:grid;gap:8px}
+.stance{background:var(--soft);border-radius:10px;padding:10px 14px}
+.stance b{display:block;font-size:.85rem;color:var(--muted)}
+.guide{background:var(--warm-soft);border-radius:10px;padding:10px 14px;font-size:.95rem}
+.pick2{display:flex;gap:8px;flex-wrap:wrap}
+.pick2 button[aria-pressed="true"]{background:var(--main);color:var(--paper)}
+.nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding-top:4px}
+.navnote{text-align:center;font-size:.85rem;color:var(--muted);margin:-10px 0 0}
+.peek{background:var(--soft);border-radius:12px;padding:14px;display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 3em;gap:8px;align-items:end;font-size:.88rem}
+.bar .track{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:2px}
+.bar .fill{height:100%;background:var(--main)} .bar .fill.b{background:var(--warm)}
+.bar span.n{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.quotes{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.quotes li{background:var(--paper);border-left:3px solid var(--warm);border-radius:4px;padding:6px 10px;font-size:.92rem}
+.result{background:var(--main-soft);border-radius:12px;padding:16px;display:grid;gap:6px;text-align:center}
+.result .flow{font-weight:700;font-size:1.1rem}
+.history{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+p{margin:0}
+h3{margin:0;font-size:1.05rem}
+/* 교사 */
+#teacher{background:var(--paper);border:2px solid var(--main);border-radius:16px;padding:20px clamp(16px,4vw,28px);margin-bottom:16px;display:grid;gap:16px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.tbox{background:var(--soft);border-radius:10px;padding:12px;display:grid;gap:6px;align-content:start;min-width:0}
+.hist{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;align-items:end;height:70px}
+.hist div{background:var(--warm);border-radius:4px 4px 0 0;min-height:3px}
+.hist div:nth-child(-n+2){background:var(--left)} .hist div:nth-child(n+4){background:var(--right)}
+.histlab{display:grid;grid-template-columns:repeat(5,1fr);font-size:.72rem;text-align:center;color:var(--muted)}
+.histends{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.75rem;font-weight:700}
+.histends span:first-child{color:var(--left)} .histends span:last-child{color:var(--right);text-align:right}
+.legend{display:flex;gap:12px;font-size:.82rem}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;background:var(--main)} .legend i.b{background:var(--warm)}
+select{font:inherit;padding:7px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);max-width:100%}
+.confirm{background:var(--right-soft);border-radius:10px;padding:12px;display:grid;gap:8px}
+footer{margin-top:20px;font-size:.78rem;color:var(--muted);line-height:1.6}
+@media (max-width:480px){.two{grid-template-columns:1fr}.seg button{font-size:.72rem}.yn{grid-template-columns:1fr}.dots{grid-template-columns:repeat(20,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<style>
+.scene2{border-radius:12px;padding:16px;background:var(--warm-soft);display:grid;gap:8px}
+.scene2 .lab{font-size:.82rem;font-weight:700;color:var(--warm)}
+.scene2 p{font-size:1.02rem}
+.path{background:var(--soft);border-radius:12px;padding:14px 16px;display:grid;gap:6px;font-size:.95rem}
+.path b{color:var(--main)}
+.path .lean-l{color:var(--left);font-weight:700} .path .lean-r{color:var(--right);font-weight:700} .path .lean-m{color:var(--warm);font-weight:700}
+.pinrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pinrow input{width:120px}
+.err{color:var(--right);font-size:.88rem}
+.qrbox{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.qr{width:150px;height:150px;background:#fff;border-radius:10px;padding:8px;display:grid;place-items:center}
+.qr svg{width:100%;height:100%}
+.url{font-size:.82rem;word-break:break-all;color:var(--muted);max-width:420px}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted)}
+.live i{width:8px;height:8px;border-radius:50%;background:#3aa76d}
+.demo{background:var(--warm-soft);border-radius:10px;padding:8px 12px;font-size:.82rem;margin-bottom:12px}
+.wait{text-align:center;color:var(--muted);padding:24px 0}
+.prep{border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.prep summary{cursor:pointer;font-weight:700;color:var(--main)}
+.stages{display:flex;gap:6px;flex-wrap:wrap}
+.stages button{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;font-size:.85rem;font-weight:700}
+.stages button[aria-selected="true"]{background:var(--main);border-color:var(--main);color:var(--paper)}
+.bigq{font-size:1.45rem;font-weight:700;line-height:1.45;color:var(--ink);text-wrap:balance}
+.bigq small{display:block;font-size:1rem;font-weight:500;color:var(--muted);margin-top:4px}
+.stagenav{display:flex;justify-content:space-between;gap:10px}
+.bignum{font-size:3.2rem;font-weight:700;color:var(--main);line-height:1;font-variant-numeric:tabular-nums}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+body.tmode .wrap{max-width:1080px}
+body.tmode #sheet,body.tmode footer,body.tmode #demo{display:none}
+body.tmode #teacher .bar{font-size:1rem}
+body.tmode #teacher .quotes li{font-size:1.05rem}
+body.tmode #teacher .tbox h3{font-size:1.15rem}
+</style>
+
+<div class="wrap">
+  <header>
+    <div><h1>AI 윤리 저울</h1><p id="sub">불러오는 중…</p></div>
+    <button class="btn line small" id="tbtn" aria-expanded="false">선생님</button>
+  </header>
+  <p class="demo" id="demo" hidden>기록은 이 기기(브라우저)에만 저장돼요. 한 기기에서 '다음 친구 차례'로 여러 명이 해 보면 선생님 화면에 반 전체 결과가 모여요. 선생님 화면 비밀번호는 1234예요.</p>
+
+  <section id="teacher" hidden aria-label="선생님 화면">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <h3>선생님 화면</h3>
+      <button class="btn small" id="tclose">닫기</button>
+    </div>
+    <div id="pinbox" class="q">
+      <label for="pin">선생님 비밀번호</label>
+      <div class="pinrow"><input class="txt" id="pin" type="password" inputmode="numeric" autocomplete="off"><button class="btn small" id="pinok">들어가기</button></div>
+      <p class="err" id="pinerr" aria-live="polite"></p>
+    </div>
+    <div id="tpanel" hidden style="display:grid;gap:16px">
+      <details class="prep" id="prep" open><summary>수업 준비 · 딜레마 고르기와 학생 접속</summary><div style="display:grid;gap:14px;padding-top:12px">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label for="cardsel" style="font-weight:700">오늘의 딜레마</label>
+        <select id="cardsel"></select>
+        <button class="btn small" id="setcard">학생들에게 열기</button>
+        <span id="setmsg" style="font-size:.85rem;color:var(--muted)" aria-live="polite"></span>
+      </div>
+      <div class="qrbox">
+        <div class="qr" id="qr" aria-label="학생 접속 QR 코드"></div>
+        <div style="display:grid;gap:6px">
+          <b>학생 접속 주소</b>
+          <span class="url" id="url"></span>
+          <div><button class="btn line small" id="copyurl">주소 복사</button></div>
+        </div>
+      </div>
+      </div></details>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <h3 id="tcardname"></h3>
+        <span class="live"><i></i><span id="livetxt">자동으로 새로 고쳐져요</span></span>
+      </div>
+      <div class="stages" id="stages" role="tablist" aria-label="함께 볼 내용"></div>
+      <div class="bigq" id="bigq"></div>
+      <div id="tstats"></div>
+      <div class="stagenav"><button class="btn line" id="sprev">◀ 이전</button><button class="btn" id="snext">다음 화면 ▶</button></div>
+      <div style="margin-top:8px"><button class="btn line small" id="treset">이 딜레마 기록 지우기</button></div>
+      <div id="tconfirm" class="confirm" hidden>
+        <p>이 딜레마의 기록을 모두 지울까요? 지운 기록은 되살릴 수 없어요.</p>
+        <div style="display:flex;gap:8px"><button class="btn small" id="tyes">네, 지울게요</button><button class="btn line small" id="tno">아니요</button></div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:8px 14px;font-size:.95rem;font-weight:500}
+  .chip[aria-pressed="true"]{background:var(--main);border-color:var(--main);color:var(--paper)}
+  .fgroups{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .fgroup{border-radius:12px;padding:12px;display:grid;gap:8px;align-content:start}
+  .fgroup.l{background:var(--left-soft)} .fgroup.r{background:var(--right-soft)}
+  .fgroup small{font-weight:700;font-size:.8rem}
+  .fgroup.l small{color:var(--left)} .fgroup.r small{color:var(--right)}
+  .fgroup .chip{text-align:left}
+  .fgroup.l .chip[aria-pressed="true"]{background:var(--left);border-color:var(--left)}
+  .fgroup.r .chip[aria-pressed="true"]{background:var(--right);border-color:var(--right)}
+  .ghost-note{font-size:.85rem;color:var(--muted)}
+  .myname{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;background:var(--warm-soft);border-radius:12px;padding:10px 16px}
+  .myname span{font-size:.85rem;color:var(--muted);font-weight:700}
+  .myname b{font-size:1.25rem;color:var(--warm)}
+  .hintbox{background:var(--main-soft);border-radius:10px;padding:10px 14px;font-size:.92rem}
+  @media (max-width:480px){.fgroups{grid-template-columns:1fr}}
+  </style>
+  <main class="sheet" id="sheet">
+    <div class="sheethead"><h2 id="stitle"></h2><div class="progress" id="prog" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+
+    <div id="p1" class="page">
+      <div class="myname" aria-live="polite"><span>오늘 나의 이름</span><b id="myname"></b></div>
+      <div class="card" style="margin-top:18px"><b id="ctitle"></b><span id="scene"></span></div>
+      <div class="q" id="feelq" style="margin-top:22px">
+        <div class="ql">1. 이 영상을 받았을 때, 내 마음은 어떤가요? (모두 골라요)</div>
+        <p class="ghost-note">양쪽에서 함께 골라도 돼요.</p>
+        <div class="fgroups" id="fgroups"></div>
+      </div>
+      <div class="q" style="margin-top:22px">
+        <div class="ql" id="ask1"></div>
+        <div class="opts" id="first" role="group"></div>
+      </div>
+      <div class="q" style="margin-top:22px">
+        <div class="ql" id="scaleq1"></div>
+        <div id="sc0"></div>
+      </div>
+    </div>
+
+    <div id="p2" class="page" hidden>
+      <div class="q">
+        <div class="ql">1. 내가 고른 대로 하면 이런 일이 생겼어요</div>
+        <div class="scene2"><span class="lab" id="mychoice"></span><p id="conseq"></p></div>
+      </div>
+      <div class="q" id="simq" style="margin-top:22px">
+        <div class="ql">2. 얼마나 빨리 퍼질까요?</div>
+        <div class="sim">
+          <span class="count" id="simcount" aria-live="polite"></span>
+          <div class="dots" id="dots" aria-hidden="true"></div>
+          <p id="simmsg" aria-live="polite"></p>
+          <div><button class="btn line small" id="simdel" hidden>내 휴대폰에서 지우기</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="p3" class="page" hidden>
+      <div class="q">
+        <div class="ql" id="perspq"></div>
+        <p class="ghost-note">마음 낱말을 모두 골라요.</p>
+        <div class="chips" id="words"></div>
+      </div>
+      <div class="q" style="margin-top:22px">
+        <label for="feel" class="ql">2. 왜 그런 기분이 들까요?</label>
+        <textarea id="feel" rows="3" maxlength="200" placeholder="왜냐하면 ___"></textarea>
+        <div><button class="btn line small" id="feelok" disabled>다 썼어요, 다른 사람들의 말 듣기</button></div>
+      </div>
+      <div class="q" id="stancebox" hidden style="margin-top:22px">
+        <div class="ql">3. 이 사람들은 이렇게 말해요</div>
+        <div class="stances" id="stances"></div>
+      </div>
+    </div>
+
+    <div id="p4" class="page" hidden>
+      <div class="path" id="path"></div>
+      <div class="q" style="margin-top:22px">
+        <div class="ql">1. 지금 다시 저울질한다면?</div>
+        <div id="sc1"></div>
+      </div>
+      <div class="peek" id="peek" style="margin-top:22px"></div>
+      <div class="q" style="margin-top:22px">
+        <div class="ql">2. 지금 다시 고른다면?</div>
+        <div class="opts" id="second" role="group"></div>
+      </div>
+      <div class="q" style="margin-top:22px">
+        <label for="reason">3. 왜 그렇게 골랐나요? 누구의 어떤 마음을 생각했는지 써 봐요.</label>
+        <input class="txt" id="reason" type="text" maxlength="120" placeholder="나는 ___의 마음을 생각했어요. 왜냐하면 ___">
+      </div>
+      <div class="q" style="margin-top:22px">
+        <label for="wise" id="stopq"></label>
+        <p class="hintbox" id="stophint"></p>
+        <input class="txt" id="wise" type="text" maxlength="120" placeholder="예: 이거 진짜일까?">
+      </div>
+    </div>
+
+    <div id="p5" class="page" hidden>
+      <div class="result">
+        <p style="font-size:.85rem;color:var(--muted)"><span id="myname2"></span>의 생각 길 · 처음 선택 → 다시 생각한 선택</p>
+        <p class="flow" id="flow"></p>
+        <p id="myreason"></p>
+      </div>
+      <div class="result" style="margin-top:14px;background:var(--warm-soft)">
+        <p style="font-size:.85rem;color:var(--muted)">나의 멈춤 질문</p>
+        <p class="flow" id="mystop"></p>
+      </div>
+      <p class="ghost-note" style="margin-top:14px;text-align:center">우리 반 친구들의 멈춤 질문은 선생님 화면에서 함께 봐요.</p>
+    </div>
+
+    <div class="nav" id="nav">
+      <button class="btn line" id="back" hidden>이전</button>
+      <button class="btn" id="next" disabled>다음</button>
+    </div>
+    <p class="navnote" id="navnote"></p>
+  </main>
+
+  <footer>딜레마 1~9는 김은경·이영준(2023), 「인공지능 윤리 역량 신장을 위한 인공지능 윤리 딜레마 개발」(컴퓨터교육학회 논문지 26(5))의 딜레마를 초등 4학년 눈높이로 다시 쓴 것입니다. 단계 구성은 김은경·이영준(2024)의 인공지능 윤리감수성 요소와 딜레마 토론 모델을 참고했습니다. 이름은 저장하지 않아요.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const YN=["찬성해요","반대해요"];
+const WORDS=["속상해요","억울해요","무서워요","화나요","외로워요","걱정돼요","안심돼요"];
+const P_STOP="이런 결정을 하기 전에, 나에게 어떤 질문을 해 볼까요?";
+const CARDS=[
+ {id:"d0",title:"그 영상, 보낼까?",
+  scene:"저녁에 반 단톡방 알림이 울렸어요. 영상 속에서 옆 반 지우가 \"우리 반 애들 다 별로야\"라고 말하고 있어요. 진짜 지우 같기도 하고, AI로 만든 것 같기도 해요. 내 손가락이 '전달' 버튼 위에 있어요.",
+  feelings:{l:"보내고 싶은 쪽",r:"멈추고 싶은 쪽",
+    L:["재밌어요","진짜인지 궁금해요","나만 모르면 대화에 못 낄 것 같아요","다른 친구들도 다 보니까요"],
+    R:["지우가 걱정돼요","진짜인지 의심돼요","보면 기분이 안 좋아요","퍼지면 큰일 날 것 같아요"]},
+  ask:"첫 행동을 골라요",
+  choices:["다른 친구들에게도 전달한다","지우에게만 \"너 이런 영상 돌아\" 하고 알려 준다","아무것도 하지 않는다","선생님이나 어른께 알린다"],
+  scaleQ:"내 안의 두 마음, 어느 쪽이 더 무거운가요?",
+  scale:{lab:["보내고 싶은 마음","멈추고 싶은 마음"],short:["보내고 싶은 마음","멈추고 싶은 마음"],L:"재밌고 궁금하고, 친구들 대화에 끼고 싶어요",R:"지우가 걱정되고, 퍼지면 큰일 날 것 같아요"},
+  conseq:[
+   "네가 보낸 영상이 다른 반, 다른 학교까지 퍼졌어. 다음 날 지우는 학교에 오지 않았어.",
+   "지우가 울면서 \"누가 또 봤어? 다들 내가 그런 말 했다고 믿어?\"라고 물어. 너도 그 영상을 본 사람 중 한 명이야.",
+   "너는 아무것도 하지 않았어. 그런데 다른 친구가 전달해서 다음 날 반 전체가 영상을 봤어. 너는 미리 알고 있었는데.",
+   "선생님이 영상을 지워 주셨어. 그런데 처음 올린 친구가 크게 혼난 뒤 너를 피하고, 몇몇 친구들은 \"누가 고자질했어?\"라며 수군거려."],
+  sim:[0],
+  persp:[["지우","다음 날 아침 교실 문을 열 때"]],
+  words:["무서워요","억울해요","창피해요","화나요","외로워요","믿을 사람이 없어요"],
+  stances:[["지우","나 그런 말 한 적 없어… 내일 학교 가기 무서워."],["영상을 본 친구","지우가 진짜 우리를 그렇게 생각하나 봐. 서운해."],["처음 영상을 올린 친구","그냥 재밌어서 올렸는데, 이렇게 커질 줄 몰랐어."]],
+  stopQ:"이런 영상을 받으면, 보내기 전에 나에게 어떤 질문을 해 볼까요?",stopEx:"예: 이거 진짜일까?"},
+ {id:"p1",title:"집 안의 소리를 듣는 AI 스피커",
+  scene:"집집마다 AI 스피커를 달아 집 안의 대화를 듣고, 위험한 일이 생기면 바로 도와주러 출동하는 안전 서비스를 만들려고 해요. 정확하게 도우려면 모든 집에 스피커를 달아야 해요.",
+  choices:YN,scale:{L:"혼자 계신 어르신, 장애가 있는 사람, 어린이가 더 안전해진다",R:"우리 집 대화가 다른 사람에게 알려질 수 있다"},
+  conseq:["스피커 덕분에 혼자 쓰러진 할머니를 10분 만에 구했어. 그런데 몇 달 뒤, 스피커에 저장된 집 안 대화가 해킹으로 새어 나갔다는 뉴스가 나왔어.","우리 집 대화는 지켜졌어. 그런데 혼자 사는 할아버지가 밤에 쓰러졌을 때 아무도 알지 못해 늦게 발견됐다는 소식을 들었어."],
+  persp:[["대화가 새어 나간 집의 가족","그 뉴스를 봤을 때"],["늦게 발견된 할아버지의 가족","그 소식을 들었을 때"]],
+  stances:[["혼자 사는 할머니","밤에 쓰러지면 누가 알아줄까 늘 걱정이었어."],["초등학생 민호","친구랑 전화한 이야기까지 다 들린다니 싫어."],["서비스를 만든 사람","정보를 안전하게 지키려고 하지만, 해킹을 완전히 막기는 어려워요."]]},
+ {id:"p2",title:"얼굴을 알아보는 AI CCTV",
+  scene:"얼굴을 알아보는 AI CCTV로, 예전에 죄를 지었지만 벌을 다 받은 사람들의 생활을 지켜보려고 해요.",
+  choices:YN,scale:{L:"다시 나쁜 일을 하는 사람이 줄어 동네가 안전해진다",R:"벌을 이미 다 받았으니 그 사람의 인권도 존중해야 한다"},
+  conseq:["동네 범죄가 줄었어. 그런데 벌을 다 받은 아저씨가 \"어디서든 감시받는 것 같아 일자리를 구할 수가 없어\"라며 동네를 떠났어.","새 출발하려는 사람들의 인권은 지켜졌어. 그런데 동네에서 비슷한 사건이 다시 일어나 부모님들이 불안해하셔."],
+  persp:[["동네를 떠난 아저씨","새 일자리를 또 거절당했을 때"],["불안해하는 부모님","아이를 혼자 학교에 보낼 때"]],
+  stances:[["어린이의 부모님","아이가 혼자 학교 가는 길이 늘 걱정이에요."],["새로 시작하려는 사람","잘못을 뉘우치고 열심히 살고 있는데, 어디를 가도 감시받는 느낌이에요."],["경찰관","범죄를 막는 데 도움이 되지만, 누구를 얼마나 지켜볼지는 신중해야 해요."]]},
+ {id:"p3",title:"거리를 지키는 로봇 경찰",
+  scene:"AI 로봇 경찰이 거리를 순찰하고, 사건이 생기면 직접 붙잡게 하려고 해요.",
+  choices:YN,scale:{L:"순찰하는 경찰이 많아져 사건이 줄고 더 안전해진다",R:"로봇 경찰이 사람을 붙잡다가 사람이 다칠 수 있다"},
+  conseq:["순찰이 늘어 밤길이 안전해졌어. 그런데 로봇이 범인을 잘못 알아보고 지나가던 사람을 붙잡다가 다치게 했어.","로봇 때문에 다치는 사람은 없었어. 그런데 경찰이 부족해서 신고해도 오래 기다려야 해."],
+  persp:[["로봇에게 잘못 붙잡힌 사람","다음 날 다시 그 길을 걸을 때"],["신고하고 오래 기다리는 사람","경찰이 오지 않을 때"]],
+  stances:[["밤늦게 집에 가는 사람","경찰이 보이면 마음이 놓여요."],["잘못 붙잡힌 사람","로봇이 나를 범인으로 착각해서 너무 무섭고 아팠어요."],["경찰관","위험한 현장에 로봇이 먼저 가면 경찰이 덜 다쳐요."]]},
+ {id:"p4",title:"돌아가신 가족을 만나는 딥페이크 앱",
+  scene:"갑자기 가족을 잃고 슬퍼하는 사람들을 위해, 생전 사진과 목소리로 돌아가신 가족의 영상을 만들어 주는 딥페이크 앱을 만들려고 해요.",
+  choices:YN,scale:{L:"그리움을 달래고 슬픔을 이겨 내는 데 도움이 된다",R:"이 앱으로 가짜 영상을 쉽게 만들어 사기가 늘어난다"},
+  conseq:["엄마를 잃은 아이가 영상 속 엄마 목소리를 듣고 오랜만에 웃었어. 그런데 같은 앱으로 만든 가짜 영상으로 \"돈을 보내 달라\"는 사기가 퍼지고 있어.","가짜 영상 사기는 막았어. 그런데 가족을 잃은 사람들이 \"한 번만 더 보고 싶었다\"며 슬퍼해."],
+  sim:[0],
+  persp:[["사기를 당한 사람","가족 목소리로 온 연락이 가짜였다는 걸 알았을 때"],["가족을 잃은 사람","다시는 그 목소리를 들을 수 없다는 걸 느낄 때"]],
+  stances:[["가족을 잃은 사람","엄마 목소리를 한 번만 더 듣고 싶었어요."],["사기를 당한 사람","아들 목소리로 돈을 보내 달라는 연락이 와서 속았어요."],["앱을 만든 사람","좋은 뜻으로 만들었는데, 나쁘게 쓰는 사람을 어떻게 막아야 할까요?"]]},
+ {id:"p5",title:"어르신 일자리와 청소 로봇",
+  scene:"어르신들이 하던 거리 청소 일을, 느리고 덜 깨끗하다는 불만 때문에 청소 로봇에게 맡기려고 해요.",
+  choices:YN,scale:{L:"적은 돈으로 도시를 깨끗하게 관리할 수 있다",R:"일자리를 잃은 어르신들의 생활이 어려워질 수 있다"},
+  conseq:["거리가 깨끗해지고 돈도 아꼈어. 그런데 일자리를 잃은 할머니가 \"이제 아침에 나갈 곳이 없다\"며 집에만 계셔.","어르신들은 일을 계속하셔. 그런데 거리가 지저분하다는 불만이 계속 쌓이고 있어."],
+  persp:[["일자리를 잃은 할머니","아침에 나갈 곳이 없을 때"],["청소 일을 하시는 어르신","지저분하다는 말을 들을 때"]],
+  stances:[["청소 일을 하던 어르신","이 일 덕분에 아침마다 나갈 곳이 있었는데…"],["동네 주민","길에 쓰레기가 많아서 아이들과 걷기 불편했어요."],["시청 직원","같은 돈으로 더 많은 곳을 청소할 수 있어요."]]},
+ {id:"p6",title:"드론 배달",
+  scene:"택배와 음식 배달을 드론이 하도록 바꾸려고 해요.",
+  choices:YN,scale:{L:"빠르고 싼 값에 배달받을 수 있다",R:"배달 일을 하던 많은 사람이 일자리를 잃는다"},
+  conseq:["섬마을에도 택배가 하루 만에 와. 그런데 배달 일을 하던 삼촌이 일자리를 잃었어.","배달 기사님들의 일자리는 지켜졌어. 그런데 섬마을 할머니의 약은 여전히 일주일 뒤에나 도착해."],
+  persp:[["일자리를 잃은 배달 기사","가족에게 그 소식을 말할 때"],["섬마을 할머니","약을 일주일째 기다릴 때"]],
+  stances:[["섬마을 주민","택배 하나 받는 데 일주일이 걸렸어요."],["배달 기사","가족을 위해 열심히 일했는데, 이제 무엇을 해야 할지 모르겠어요."],["드론 회사","사람이 가기 위험한 곳에도 배달할 수 있어요."]]},
+ {id:"p7",title:"AI 무기",
+  scene:"전쟁에 대비해 스스로 판단하는 AI 무기를 만들려고 해요.",
+  choices:YN,scale:{L:"전쟁에서 우리 군인의 생명을 지키고 나라를 지키는 돈을 줄일 수 있다",R:"AI 기계는 어떤 경우에도 사람을 해쳐서는 안 된다"},
+  conseq:["우리 군인이 위험한 곳에 가지 않아도 돼. 그런데 AI 무기가 사람을 잘못 알아보고 죄 없는 사람들을 다치게 했다는 소식이 들려.","AI 무기는 만들지 않았어. 그런데 다른 나라가 AI 무기를 만들어서 우리 군인들이 더 위험해질까 봐 걱정하는 사람이 많아."],
+  persp:[["다친 마을 사람들","하늘에서 기계 소리가 들릴 때"],["전쟁터에 나가는 군인의 가족","군인이 떠나는 날"]],
+  stances:[["군인의 가족","아빠가 무사히 돌아오기만 바라요."],["전쟁 지역의 어린이","하늘에서 기계 소리가 들리면 너무 무서워요."],["과학자","기계가 사람의 생명을 결정해도 되는지 고민돼요."]]},
+ {id:"p8",title:"AI가 그린 그림과 미술 대회",
+  scene:"AI 그림 프로그램으로 만든 작품이 미술 대회에 나왔어요. 지금까지 나온 작품 중 가장 아름다워서, 대회를 연 사람들은 1등으로 뽑고 싶어 해요.",
+  ask:"1등으로 뽑는 것에 여러분은?",choices:YN,scale:{L:"가장 아름다운 작품이니 1등을 받을 만하다",R:"사람의 창의성이 담기지 않은 작품은 1등이 되면 안 된다"},
+  conseq:["가장 아름다운 그림이 1등을 했어. 그런데 석 달 동안 직접 그린 참가자가 \"이제 그림 그릴 이유가 없다\"며 붓을 내려놓았어.","직접 그린 작품이 1등을 했어. 그런데 AI로 작품을 만든 사람은 \"나도 수백 번 고치며 노력했는데\"라며 속상해해."],
+  persp:[["붓을 내려놓은 참가자","시상식에서 1등 작품을 볼 때"],["AI로 작품을 만든 사람","떨어졌다는 소식을 들었을 때"]],
+  stances:[["AI로 작품을 만든 사람","원하는 그림이 나올 때까지 수백 번 명령어를 고쳤어요."],["직접 그린 참가자","석 달 동안 매일 그렸는데…"],["심사위원","작품만 보면 정말 아름다운데, 누가 만든 것인지도 중요할까요?"]]},
+ {id:"p9",title:"부모님과 똑같은 돌봄 로봇",
+  scene:"엄마, 아빠와 똑같은 목소리와 모습을 가진 돌봄 로봇을 만들려고 해요. 부모님이 바쁠 때 아이를 돌봐 줘요.",
+  choices:YN,scale:{L:"아이에게 마음의 안정까지 줄 수 있어 돌봄에 딱 맞다",R:"마음을 나누는 일은 사람만 할 수 있으니 로봇이 대신하면 안 된다"},
+  conseq:["아이는 부모님이 늦는 날에도 엄마 목소리를 들으며 잠들어. 그런데 진짜 엄마가 안아 주려 하자 아이가 \"로봇 엄마가 더 좋아\"라고 했어.","아이는 진짜 부모님과의 시간을 기다려. 그런데 부모님이 늦는 날이면 아이는 혼자 오래 기다리며 외로워해."],
+  persp:[["\"로봇 엄마가 더 좋아\"라는 말을 들은 엄마","아이를 안아 주려다 거절당했을 때"],["혼자 기다리는 아이","부모님이 또 늦는다는 연락을 받았을 때"]],
+  stances:[["늦게까지 일하는 부모님","퇴근하면 아이가 이미 잠들어 있어요."],["아이","로봇 엄마도 좋지만, 진짜 엄마가 안아 주는 게 더 좋아요."],["로봇을 만든 사람","로봇이 부모님을 대신해야 할까요, 도와야 할까요?"]]}
+];
+CARDS.forEach(c=>{c.ask=c.ask||(c.choices===YN?"여러분이 결정한다면?":"첫 행동을 골라요");c.scaleQ=c.scaleQ||"어느 쪽 생각이 더 무거운가요?";c.scale.lab=c.scale.lab||["왼쪽 생각","오른쪽 생각"];c.scale.short=c.scale.short||[c.scale.L,c.scale.R];c.words=c.words||WORDS;c.stopQ=c.stopQ||P_STOP;c.stopEx=c.stopEx||"예: 이 결정으로 힘들어질 사람은 없을까?"});
+const NAME_A=["맑은","따뜻한","반짝이는","포근한","싱그러운","잔잔한","부드러운","환한","고운","푸른","다정한","향긋한","말간","보드라운","산뜻한"];
+const NAME_B=["별빛","햇살","바람","구름","물결","꽃잎","새벽","노을","이슬","달빛","무지개","봄비","눈송이","나뭇잎","파도"];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+let myName="";
+const STEP=["1단계 · 내 마음 알아차리기","2단계 · 내 선택의 결과 보기","3단계 · 입장 바꾸어 생각하기","4단계 · 멈춤 질문 만들기","나의 기록"];
+const SEG=["왼쪽이\n훨씬","왼쪽이\n조금","비슷해요","오른쪽이\n조금","오른쪽이\n훨씬"];
+const SIM_GONE="내 휴대폰에서는 지웠어요. 그런데 이미 퍼진 영상은 다른 사람들의 휴대폰에 그대로 남아 있어요.";
+
+/* ---------- 서버 연결 (구글 앱스 스크립트) / 미리보기 모드 ---------- */
+const GAS=!!(window.google&&google.script&&google.script.run);
+const WEB=!GAS&&/^https?:$/.test(location.protocol);
+const LS="aiScale3.records", LSC="aiScale3.card";
+let memRecs=[],memCard="d0";
+const local={
+  get recs(){try{const v=JSON.parse(localStorage.getItem(LS));return Array.isArray(v)?v:memRecs}catch(e){return memRecs}},
+  set recs(r){memRecs=r;try{localStorage.setItem(LS,JSON.stringify(r))}catch(e){}},
+  get card(){try{return localStorage.getItem(LSC)||memCard}catch(e){return memCard}},
+  set card(c){memCard=c;try{localStorage.setItem(LSC,c)}catch(e){}}
+};
+const mock={
+  getState:()=>({card:local.card,url:location.href.split("#")[0]}),
+  verifyPin:p=>{if(String(p)!=="1234")throw new Error("비밀번호가 맞지 않아요.");return true},
+  setCard:(p,c)=>{mock.verifyPin(p);local.card=c;return true},
+  submitRecord:r=>{const a=local.recs;a.push(r);local.recs=a;return true},
+  getPeek:c=>{const rows=local.recs.filter(r=>r.card===c);return {firsts:rows.map(r=>r.first),feels:shuffle(rows.filter(r=>r.feel).map(r=>r.feel)).slice(0,3)}},
+  getResults:(p,c)=>{mock.verifyPin(p);return local.recs.filter(r=>r.card===c)},
+  resetCard:(p,c)=>{mock.verifyPin(p);local.recs=local.recs.filter(r=>r.card!==c);return true}
+};
+function api(name,...args){
+  if(GAS)return new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(e=>rej(e))[name](...args));
+  return new Promise((res,rej)=>{try{res(mock[name](...args))}catch(e){rej(e)}});
+}
+
+/* ---------- 공통 ---------- */
+const $=id=>document.getElementById(id);
+function el(tag,attrs={},kids=[]){const e=document.createElement(tag);for(const k in attrs){if(k==="text")e.textContent=attrs[k];else e.setAttribute(k,attrs[k])}(Array.isArray(kids)?kids:[kids]).forEach(k=>k&&e.appendChild(k));return e}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function barRow(label,n,total,cls){const pct=total?Math.round(n/total*100):0;return el("div",{class:"bar"},[el("div",{},[el("div",{text:label}),el("div",{class:"track"},[el("div",{class:"fill"+(cls?" "+cls:""),style:`width:${pct}%`})])]),el("span",{class:"n",text:n+"명"})])}
+const byId=id=>CARDS.find(c=>c.id===id)||CARDS[0];
+const persp=(c,choice)=>c.persp[Math.min(choice==null?0:choice,c.persp.length-1)];
+
+let card=CARDS[0], st, page=1, studentUrl="";
+function fresh(){st={feelings:{L:[],R:[]},first:null,s:[null,null],words:[],feelDone:false,second:null,simDone:false}}
+function started(){return page>1||st.first!=null||st.s[0]!=null||st.feelings.L.length+st.feelings.R.length>0}
+
+/* ---------- 학생 화면 ---------- */
+function renderFeelings(){
+  const box=$("fgroups");box.replaceChildren();if(!card.feelings)return;
+  ["L","R"].forEach(side=>{
+    const g=el("div",{class:"fgroup "+(side==="L"?"l":"r")},[el("small",{text:card.feelings[side==="L"?"l":"r"]})]);
+    card.feelings[side].forEach((t,i)=>{const on=st.feelings[side].includes(i);const b=el("button",{type:"button",class:"chip","aria-pressed":String(on),text:t});b.onclick=()=>{const a=st.feelings[side];const k=a.indexOf(i);k<0?a.push(i):a.splice(k,1);renderFeelings();check()};g.appendChild(b)});
+    box.appendChild(g);
+  });
+}
+function renderOpts(box,which){
+  box.replaceChildren();box.className="opts"+(card.choices.length===2?" yn":"");
+  card.choices.forEach((c,i)=>{const b=el("button",{type:"button",class:"opt","aria-pressed":String(st[which]===i)},[el("span",{class:"n",text:i+1}),el("span",{text:c})]);b.onclick=()=>{st[which]=i;renderOpts(box,which);check()};box.appendChild(b)});
+}
+function renderScale(k){
+  const box=$("sc"+k),v=st.s[k],L=card.scale.L,R=card.scale.R,lab=card.scale.lab;box.replaceChildren();
+  const w=el("div",{class:"scale"});
+  w.appendChild(el("div",{class:"two"},[el("div",{class:"idea l"+(v&&v<3?" on":"")},[el("small",{text:lab[0]}),el("span",{text:L})]),el("div",{class:"idea r"+(v&&v>3?" on":"")},[el("small",{text:lab[1]}),el("span",{text:R})])]));
+  const bw=el("div",{class:"beamwrap","aria-hidden":"true"},[el("div",{class:"post"}),el("div",{class:"beam",style:`transform:rotate(${v?(v-3)*7:0}deg)`}),el("div",{class:"foot"})]);
+  if(k===1&&st.s[0]){bw.insertBefore(el("div",{class:"beam",style:`opacity:.25;transform:rotate(${(st.s[0]-3)*7}deg)`}),bw.children[1])}
+  w.appendChild(bw);
+  if(k===1&&st.s[0])w.appendChild(el("p",{class:"ghost-note",style:"text-align:center;margin:0",text:"흐린 막대는 1단계에서 내가 기울인 저울이에요."}));
+  const seg=el("div",{class:"seg",role:"group","aria-label":"저울 기울이기"});
+  SEG.forEach((t,i)=>{const b=el("button",{type:"button","aria-pressed":String(v===i+1)});b.innerText=t;b.onclick=()=>{st.s[k]=i+1;renderScale(k);check()};seg.appendChild(b)});
+  w.appendChild(seg);box.appendChild(w);
+}
+function renderWords(){
+  const box=$("words");box.replaceChildren();
+  card.words.forEach((t,i)=>{const on=st.words.includes(i);const b=el("button",{type:"button",class:"chip","aria-pressed":String(on),text:t});b.onclick=()=>{const k=st.words.indexOf(i);k<0?st.words.push(i):st.words.splice(k,1);renderWords();check()};box.appendChild(b)});
+}
+let simTimer=[];
+function runSim(){
+  const dots=$("dots");dots.replaceChildren();for(let i=0;i<300;i++)dots.appendChild(el("i"));
+  const ds=[...dots.children],reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  simTimer.forEach(clearTimeout);simTimer=[];$("simdel").hidden=true;$("simmsg").textContent="";
+  const show=n=>{ds.forEach((x,i)=>{if(i===0)x.className="me";else if(i<n)x.className="on"});$("simcount").textContent=n+"명이 봤어요"};
+  const fin=()=>{$("simdel").hidden=false;st.simDone=true;$("simmsg").textContent="한 번 퍼지기 시작하면 몇 초 만에 이렇게 늘어나요.";check()};
+  if(reduce){show(300);fin();return}
+  [1,5,25,300].forEach((n,i,a)=>simTimer.push(setTimeout(()=>{show(n);if(i===a.length-1)fin()},300+i*900)));
+}
+function leanText(v){const [L,R]=card.scale.short;if(v===3)return el("span",{class:"lean-m",text:"두 쪽이 비슷하게"});return el("span",{class:v<3?"lean-l":"lean-r",text:`'${v<3?L:R}' 쪽으로${v===1||v===5?" 훨씬":" 조금"}`})}
+function renderPath(){
+  const p=$("path");p.replaceChildren();
+  p.appendChild(el("p",{style:"font-weight:700",text:"지금까지 나의 생각 길"}));
+  if(card.feelings){const f=[...st.feelings.L.map(i=>card.feelings.L[i]),...st.feelings.R.map(i=>card.feelings.R[i])];if(f.length)p.appendChild(el("p",{},[document.createTextNode("처음 내 마음: "),el("b",{text:f.join(", ")})]))}
+  p.appendChild(el("p",{},[document.createTextNode("처음 고른 행동: "),el("b",{text:card.choices[st.first]})]));
+  p.appendChild(el("p",{},[document.createTextNode("처음 저울: "),leanText(st.s[0])]));
+  const [who]=persp(card,st.first);
+  if(st.words.length)p.appendChild(el("p",{},[document.createTextNode(`'${who}'의 입장에서 고른 마음: `),el("b",{text:st.words.map(i=>card.words[i]).join(", ")})]));
+}
+async function renderPeek(){
+  const box=$("peek");box.replaceChildren(el("p",{style:"color:var(--muted)",text:"친구들의 생각을 불러오는 중…"}));
+  let d;try{d=await api("getPeek",card.id)}catch(e){box.replaceChildren(el("p",{style:"color:var(--muted)",text:"친구들의 생각을 불러오지 못했어요. 그대로 진행해도 돼요."}));return}
+  box.replaceChildren();
+  if(!d.firsts.length){box.appendChild(el("p",{style:"color:var(--muted)",text:"아직 먼저 마친 친구가 없어요. 선생님이 반 전체 생각을 보여 주시면 함께 살펴봐요."}));return}
+  box.appendChild(el("h3",{text:`먼저 마친 친구 ${d.firsts.length}명은 처음에 이렇게 골랐어요`}));
+  card.choices.forEach((c,i)=>box.appendChild(barRow((i+1)+". "+c,d.firsts.filter(f=>f===i).length,d.firsts.length,"")));
+}
+function ready(){
+  if(page===1)return (!card.feelings||st.feelings.L.length+st.feelings.R.length>0)&&st.first!=null&&st.s[0]!=null;
+  if(page===2)return !needSim()||st.simDone;
+  if(page===3)return st.feelDone;
+  if(page===4)return st.s[1]!=null&&st.second!=null&&$("reason").value.trim().length>=2&&$("wise").value.trim().length>=2&&!sending;
+  return true;
+}
+const needSim=()=>(card.sim||[]).includes(st.first);
+const NOTE=["","내 마음, 첫 행동, 저울을 모두 정하면 '다음'이 켜져요.","결과를 끝까지 보면 '다음'이 켜져요.","마음을 고르고 이유를 쓴 뒤, 다른 사람들의 말을 보면 '다음'이 켜져요.","저울, 다시 고르기, 이유, 멈춤 질문을 모두 쓰면 기록할 수 있어요.",""];
+function check(){
+  $("feelok").disabled=!(st.words.length>0&&$("feel").value.trim().length>=2);
+  $("next").disabled=!ready();
+  $("navnote").textContent=ready()?"":NOTE[page];
+}
+function show(n){
+  page=n;for(let i=1;i<=5;i++)$("p"+i).hidden=i!==n;
+  $("stitle").textContent=STEP[n-1];
+  [...$("prog").children].forEach((x,i)=>x.className=i<n?"on":"");
+  $("back").hidden=n===1||n===5;
+  $("next").textContent=n===4?"내 생각 기록하기":n===5?"다음 친구 차례":"다음";
+  if(n===2){$("mychoice").textContent="내 선택: "+card.choices[st.first];$("conseq").textContent=card.conseq[st.first];$("simq").hidden=!needSim();if(needSim()&&!st.simDone)runSim()}
+  if(n===3){const [who,when]=persp(card,st.first);$("perspq").textContent=`1. 내가 '${who}'(이)라면, ${when} 어떤 기분일까요?`}
+  if(n===4){renderPath();renderScale(1);renderPeek();
+    $("stopq").textContent="4. "+card.stopQ;
+    const w=st.words.map(i=>card.words[i]).join(", ");
+    $("stophint").textContent=(w?`3단계에서 '${persp(card,st.first)[0]}'의 입장이 되어 고른 마음: ${w}. 이 마음을 떠올리며 질문을 만들어 봐요. `:"")+card.stopEx;}
+  check();$("sheet").scrollIntoView({behavior:"smooth",block:"start"});
+}
+let sending=false;
+async function submit(){
+  sending=true;check();$("navnote").textContent="기록하는 중…";
+  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),card:card.id,num:"",
+    feelings:[...st.feelings.L.map(i=>"L"+i),...st.feelings.R.map(i=>"R"+i)].join(","),
+    first:st.first,s1:st.s[0],s2:st.s[1],words:st.words.join(","),feel:$("feel").value.trim(),
+    second:st.second,reason:$("reason").value.trim(),wise:$("wise").value.trim()};
+  try{await api("submitRecord",rec)}catch(e){sending=false;check();$("navnote").textContent="기록하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요.";return}
+  sending=false;
+  $("flow").textContent=`${card.choices[rec.first]} → ${card.choices[rec.second]}`;
+  $("myreason").textContent="내 이유: "+rec.reason;$("mystop").textContent=rec.wise;
+  show(5);
+}
+function startCard(){
+  fresh();myName=pick(NAME_A)+" "+pick(NAME_B);$("myname").textContent=myName;$("myname2").textContent=myName;
+  $("sub").textContent=card.title;
+  $("ctitle").textContent="딜레마 카드 · "+card.title;$("scene").textContent=card.scene;
+  $("feelq").hidden=!card.feelings;
+  $("ask1").textContent=(card.feelings?"2. ":"1. ")+card.ask;
+  $("scaleq1").textContent=(card.feelings?"3. ":"2. ")+card.scaleQ;
+  renderFeelings();renderOpts($("first"),"first");renderOpts($("second"),"second");renderScale(0);renderWords();
+  $("stancebox").hidden=true;$("feel").value="";$("reason").value="";$("wise").value="";
+  simTimer.forEach(clearTimeout);$("simcount").textContent="";$("simmsg").textContent="";$("simdel").hidden=true;
+  show(1);
+}
+async function syncCard(force){
+  try{const s=await api("getState");studentUrl=s.url||studentUrl;
+    if(s.card!==card.id&&(force||!started())){card=byId(s.card);startCard()}
+  }catch(e){if(force){$("sub").textContent="연결하지 못했어요. 새로 고침해 주세요."}}
+}
+
+/* ---------- 선생님 화면 ---------- */
+let pin="",tTimer=null,tCard="d0",tStage=0,tRecs=[],tCluster={};
+function fillSelect(){const s=$("cardsel");s.replaceChildren();CARDS.forEach((c,i)=>{const o=el("option",{value:c.id,text:(i===0?"★ ":i+". ")+c.title});if(c.id===tCard)o.selected=true;s.appendChild(o)})}
+function drawQR(){
+  if(!GAS&&!WEB){$("url").textContent="웹에 배포하면 여기에 학생 접속 주소와 QR 코드가 나와요.";$("qr").hidden=true;$("copyurl").hidden=true;return}
+  if(WEB)studentUrl=location.origin+location.pathname;
+  $("url").textContent=studentUrl;const box=$("qr");box.replaceChildren();
+  if(window.qrcode&&studentUrl){try{const q=qrcode(0,"M");q.addData(studentUrl);q.make();box.innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true})}catch(e){box.hidden=true}}else box.hidden=true;
+}
+async function refreshResults(){
+  let recs;try{recs=await api("getResults",pin,tCard)}catch(e){$("livetxt").textContent="결과를 불러오지 못했어요";return}
+  $("livetxt").textContent="자동으로 새로 고쳐져요 · "+new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  renderTeacher(recs);
+}
+function stagesFor(c){
+  const [who]=c.persp[0];
+  return [
+   ["진행 현황","친구들이 생각을 마치는 중이에요.",""],
+   c.feelings?["처음 마음","같은 영상을 보고, 우리 반에는 어떤 마음들이 있었을까요?","멈추고 싶은 마음을 고른 친구들의 이유도 들어 봐요."]:["처음 저울","우리 반의 처음 저울은 어느 쪽으로 기울었을까요?","왜 그쪽이 더 무거웠는지 이야기해 봐요."],
+   ["처음 선택","우리 반은 처음에 이렇게 골랐어요. 왜 이렇게 골랐을까요?","적게 고른 쪽의 이유부터 들어 봐요."],
+   ["입장 바꾸기",c.persp.length===1?`내가 '${who}'(이)라면, 어떤 기분일까요?`:"결과 속 사람의 입장이 되어 보니 어떤 기분이었나요?","친구들이 고른 마음 낱말과 그 이유를 함께 봐요."],
+   ["다시 저울질","입장을 바꿔 생각한 뒤, 우리 반의 저울은 어떻게 움직였을까요?","저울이 움직인 친구도, 그대로인 친구도 이유가 있어요."],
+   ["다시 선택","다시 생각한 뒤 우리 반의 선택은 어떻게 달라졌을까요?","바꾼 친구도, 지킨 친구도 이유가 있어요."],
+   ["멈춤 질문",c.stopQ,"비슷한 질문끼리 묶어 우리 반 멈춤 질문 3가지를 정해 봐요."]];
+}
+function renderStages(c){
+  const S=stagesFor(c),box=$("stages");box.replaceChildren();
+  S.forEach(([lab],i)=>{const b=el("button",{type:"button",role:"tab","aria-selected":String(i===tStage),text:(i+1)+". "+lab});b.onclick=()=>{tStage=i;renderTeacher(tRecs)};box.appendChild(b)});
+  const [,q,sub]=S[tStage];$("bigq").replaceChildren(document.createTextNode(q));if(sub)$("bigq").appendChild(el("small",{text:sub}));
+  $("sprev").disabled=tStage===0;$("snext").disabled=tStage===S.length-1;
+}
+function quoteList(items,empty){if(!items.length)return el("p",{style:"color:var(--muted)",text:empty});const ul=el("ul",{class:"quotes"});items.forEach(t=>ul.appendChild(el("li",{text:t})));return ul}
+function hist(title,recs,key,c){
+  const cnt=[0,0,0,0,0];recs.forEach(r=>{if(r[key])cnt[r[key]-1]++});const mx=Math.max(1,...cnt);
+  const h=el("div",{class:"hist",style:"height:120px"});cnt.forEach(m=>h.appendChild(el("div",{style:`height:${Math.round(m/mx*100)}%`})));
+  const lab=el("div",{class:"histlab"});cnt.forEach(m=>lab.appendChild(el("span",{text:m+"명"})));
+  return el("div",{class:"tbox"},[el("h3",{text:title}),h,lab,el("div",{class:"histends"},[el("span",{text:c.scale.short[0]}),el("span",{text:c.scale.short[1]})])]);
+}
+async function runCluster(){
+  tCluster={card:tCard,busy:true};renderTeacher(tRecs);
+  try{let groups;
+    if(GAS)groups=await api("clusterWise",pin,tCard);
+    else{const sentences=tRecs.filter(r=>r.wise).map(r=>r.wise);
+      const r=await fetch("/api/cluster",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({pin,sentences})});
+      let j={};try{j=await r.json()}catch(e){}
+      if(!r.ok)throw new Error(j.error||("AI 연결 기능을 찾지 못했어요. ("+r.status+")"));groups=j.groups}
+    tCluster={card:tCard,groups}}
+  catch(e){tCluster={card:tCard,err:(e&&e.message)||"묶지 못했어요. 다시 눌러 주세요."}}
+  renderTeacher(tRecs);
+}
+function renderTeacher(recs){
+  tRecs=recs;const c=byId(tCard),box=$("tstats");box.replaceChildren();$("tcardname").textContent=`'${c.title}' 반 전체 생각`;
+  renderStages(c);
+  const n=recs.length,newest=recs.slice().reverse();
+  if(tStage===0){box.appendChild(el("div",{class:"tbox",style:"justify-items:start"},[el("span",{class:"bignum",text:n}),el("span",{style:"font-weight:700",text:"명이 4단계까지 마쳤어요"})]));return}
+  if(!n){box.appendChild(el("p",{style:"color:var(--muted)",text:"아직 마친 학생이 없어요."}));return}
+  if(tStage===1){
+    if(!c.feelings){box.appendChild(el("div",{class:"pair"},[hist("처음 저울",recs,"s1",c)]));return}
+    const g=el("div",{class:"pair"});
+    ["L","R"].forEach(side=>{const b=el("div",{class:"tbox"},[el("h3",{text:c.feelings[side==="L"?"l":"r"]})]);
+      c.feelings[side].forEach((t,i)=>b.appendChild(barRow(t,recs.filter(r=>String(r.feelings||"").split(",").includes(side+i)).length,n,side==="L"?"":"b")));g.appendChild(b)});
+    const both=recs.filter(r=>{const f=String(r.feelings||"");return /L\d/.test(f)&&/R\d/.test(f)}).length;
+    box.appendChild(g);box.appendChild(el("p",{style:"font-weight:700;margin-top:10px",text:`두 쪽 마음을 함께 고른 친구 · ${both}명`}));return;
+  }
+  if(tStage===2){const b=el("div",{class:"tbox"});c.choices.forEach((ch,i)=>b.appendChild(barRow((i+1)+". "+ch,recs.filter(r=>r.first===i).length,n,"")));box.appendChild(b);return}
+  if(tStage===3){
+    const groups=c.persp.length===1?[[c.persp[0][0],recs]]:c.persp.map((p,i)=>[p[0],recs.filter(r=>Math.min(r.first,c.persp.length-1)===i)]);
+    const g=el("div",{class:"pair"});
+    groups.forEach(([who,rs])=>{if(!rs.length)return;const b=el("div",{class:"tbox"},[el("h3",{text:`'${who}'의 입장에서`})]);
+      c.words.forEach((t,i)=>{const m=rs.filter(r=>String(r.words||"").split(",").includes(String(i))).length;if(m)b.appendChild(barRow(t,m,rs.length,"b"))});
+      b.appendChild(el("p",{style:"font-weight:700;margin-top:6px",text:"그 이유"}));b.appendChild(quoteList(rs.slice().reverse().filter(r=>r.feel).map(r=>r.feel).slice(0,6),"아직 없어요."));g.appendChild(b)});
+    box.appendChild(g);return;
+  }
+  if(tStage===4){
+    const moved=recs.filter(r=>r.s1&&r.s2&&r.s2!==r.s1);const toR=moved.filter(r=>r.s2>r.s1).length,toL=moved.length-toR;
+    box.appendChild(el("div",{class:"pair"},[hist("1단계 · 처음 저울",recs,"s1",c),hist("4단계 · 다시 저울질",recs,"s2",c)]));
+    box.appendChild(el("p",{style:"font-weight:700;margin-top:10px",text:`'${c.scale.short[1]}' 쪽으로 움직인 친구 ${toR}명 · '${c.scale.short[0]}' 쪽으로 움직인 친구 ${toL}명 · 그대로인 친구 ${n-moved.length}명`}));return;
+  }
+  if(tStage===5){
+    const b1=el("div",{class:"tbox"},[el("h3",{text:"처음과 다시"}),el("div",{class:"legend"},[el("span",{},[el("i"),document.createTextNode("처음")]),el("span",{},[el("i",{class:"b"}),document.createTextNode("다시")])])]);
+    c.choices.forEach((ch,i)=>{b1.appendChild(el("div",{style:"font-weight:700;margin-top:6px",text:(i+1)+". "+ch}));b1.appendChild(barRow("처음",recs.filter(r=>r.first===i).length,n,""));b1.appendChild(barRow("다시",recs.filter(r=>r.second===i).length,n,"b"))});
+    const flows={};recs.forEach(r=>{if(r.first!==r.second){const k=(r.first+1)+"번 → "+(r.second+1)+"번";flows[k]=(flows[k]||0)+1}});
+    const fk=Object.entries(flows).sort((a,b)=>b[1]-a[1]);
+    const b2=el("div",{class:"tbox"},[el("h3",{text:"생각이 바뀐 흐름"})]);
+    if(!fk.length)b2.appendChild(el("p",{style:"color:var(--muted)",text:"선택을 바꾼 친구는 아직 없어요."}));
+    fk.forEach(([k,m])=>b2.appendChild(el("p",{style:"font-weight:700;font-size:1.1rem",text:`${k} · ${m}명`})));
+    b2.appendChild(el("p",{style:"font-weight:700;font-size:1.1rem",text:`처음 선택을 지킨 친구 · ${recs.filter(r=>r.first===r.second).length}명`}));
+    const b3=el("div",{class:"tbox"},[el("h3",{text:"바꾼 이유"}),quoteList(newest.filter(r=>r.first!==r.second&&r.reason).map(r=>r.reason).slice(0,6),"아직 없어요."),el("h3",{text:"지킨 이유",style:"margin-top:8px"}),quoteList(newest.filter(r=>r.first===r.second&&r.reason).map(r=>r.reason).slice(0,6),"아직 없어요.")]);
+    box.appendChild(el("div",{class:"pair"},[b1,el("div",{style:"display:grid;gap:14px;align-content:start"},[b2,b3])]));return;
+  }
+  if(tStage===6){
+    const wise=newest.filter(r=>r.wise).map(r=>r.wise);
+    if(GAS||WEB){
+      const bar=el("div",{style:"display:flex;gap:10px;align-items:center;flex-wrap:wrap"});
+      const b=el("button",{type:"button",class:"btn small",text:tCluster.busy?"묶는 중…":"AI로 비슷한 질문 묶어 보기"});
+      if(tCluster.busy||wise.length<3)b.disabled=true;b.onclick=runCluster;bar.appendChild(b);
+      bar.appendChild(el("span",{style:"font-size:.85rem;color:var(--muted)",text:wise.length<3?"질문이 3개 이상 모이면 묶을 수 있어요.":tCluster.err||""}));
+      box.appendChild(bar);
+      if(tCluster.card===tCard&&tCluster.groups){
+        const g=el("div",{class:"pair",style:"margin-top:12px"});
+        tCluster.groups.forEach(gr=>g.appendChild(el("div",{class:"tbox"},[el("h3",{text:`${gr.label} (${gr.items.length})`}),quoteList(gr.items,"")])));
+        box.appendChild(g);
+        box.appendChild(el("p",{style:"font-size:.9rem;color:var(--muted);margin:8px 0 14px",text:"묶음 이름은 AI가 붙였어요. 이 이름이 맞는지, 더 좋은 말이 있는지 함께 이야기해 봐요."}));
+      }
+    }
+    box.appendChild(el("div",{class:"tbox",style:"margin-top:12px"},[el("h3",{text:"우리 반이 쓴 멈춤 질문"}),quoteList(wise,"아직 모인 질문이 없어요.")]));
+  }
+}
+async function openPanel(){
+  $("pinbox").hidden=true;$("tpanel").hidden=false;document.body.classList.add("tmode");
+  try{const s=await api("getState");tCard=s.card;studentUrl=s.url||studentUrl}catch(e){}
+  fillSelect();drawQR();refreshResults();clearInterval(tTimer);tTimer=setInterval(refreshResults,5000);
+}
+
+/* ---------- 이벤트 ---------- */
+$("reason").oninput=check;$("feel").oninput=check;$("wise").oninput=check;
+$("simdel").onclick=()=>{$("dots").children[0].className="gone";$("simmsg").textContent=SIM_GONE;$("simdel").hidden=true};
+$("feelok").onclick=()=>{const box=$("stances");box.replaceChildren();card.stances.forEach(([w,s])=>box.appendChild(el("div",{class:"stance"},[el("b",{text:w}),el("span",{text:"\""+s+"\""})])));$("stancebox").hidden=false;st.feelDone=true;check();$("stancebox").scrollIntoView({behavior:"smooth",block:"center"})};
+$("back").onclick=()=>show(page-1);
+$("next").onclick=()=>{if(page<4)show(page+1);else if(page===4)submit();else{startCard();syncCard(true)}};
+$("tbtn").onclick=()=>{const t=$("teacher"),open=t.hidden;t.hidden=!open;$("tbtn").setAttribute("aria-expanded",String(open));if(open&&!pin)$("pin").focus();if(open&&pin)openPanel();if(!open){clearInterval(tTimer);document.body.classList.remove("tmode")}};
+$("tclose").onclick=()=>{$("teacher").hidden=true;document.body.classList.remove("tmode");$("tbtn").setAttribute("aria-expanded","false");$("tconfirm").hidden=true;clearInterval(tTimer)};
+$("pinok").onclick=async()=>{const p=$("pin").value.trim();$("pinerr").textContent="";try{await api("verifyPin",p);pin=p;$("pin").value="";openPanel()}catch(e){$("pinerr").textContent="비밀번호가 맞지 않아요."}};
+$("pin").onkeydown=e=>{if(e.key==="Enter")$("pinok").click()};
+$("cardsel").onchange=e=>{tCard=e.target.value;tStage=0;$("setmsg").textContent="'학생들에게 열기'를 눌러야 학생 화면이 바뀌어요.";refreshResults()};
+$("setcard").onclick=async()=>{try{await api("setCard",pin,tCard);$("setmsg").textContent="열었어요. 아직 시작하지 않은 학생 화면이 이 딜레마로 바뀌어요.";syncCard(false)}catch(e){$("setmsg").textContent="바꾸지 못했어요. 다시 눌러 주세요."}};
+$("copyurl").onclick=async()=>{try{await navigator.clipboard.writeText(studentUrl);$("copyurl").textContent="복사했어요"}catch(e){const r=document.createRange();r.selectNodeContents($("url"));const s=getSelection();s.removeAllRanges();s.addRange(r)}};
+$("sprev").onclick=()=>{if(tStage>0){tStage--;renderTeacher(tRecs)}};
+$("snext").onclick=()=>{if(tStage<stagesFor(byId(tCard)).length-1){tStage++;renderTeacher(tRecs)}};
+$("treset").onclick=()=>{$("tconfirm").hidden=false};$("tno").onclick=()=>{$("tconfirm").hidden=true};
+$("tyes").onclick=async()=>{try{await api("resetCard",pin,tCard);$("tconfirm").hidden=true;refreshResults()}catch(e){$("tconfirm").hidden=true}};
+
+$("demo").hidden=GAS;
+fresh();
+syncCard(true).then(()=>{if(!$("ctitle").textContent){startCard()}});
+setInterval(()=>syncCard(false),6000);
+</script>
+
+</body></html>
