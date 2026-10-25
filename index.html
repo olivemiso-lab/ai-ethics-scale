@@ -423,7 +423,7 @@ const local={
 };
 const mock={
   getState:()=>({card:local.card,url:location.href.split("#")[0]}),
-  verifyPin:p=>{if(String(p)!=="1234")throw new Error("비밀번호가 맞지 않아요.");return true},
+  verifyPin:p=>{if(!WEB&&String(p)!=="1234")throw new Error("비밀번호가 맞지 않아요.");if(!String(p).trim())throw new Error("비밀번호를 입력해 주세요.");return true},
   setCard:(p,c)=>{mock.verifyPin(p);local.card=c;return true},
   submitRecord:r=>{const a=local.recs;a.push(r);local.recs=a;return true},
   getPeek:c=>{const rows=local.recs.filter(r=>r.card===c);return {firsts:rows.map(r=>r.first),feels:shuffle(rows.filter(r=>r.feel).map(r=>r.feel)).slice(0,3)}},
