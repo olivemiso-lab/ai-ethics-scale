@@ -1,6 +1,17 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI 윤리 저울</title>
+<meta name="description" content="초등 4학년 눈높이의 AI 윤리 딜레마 10가지. 학생이 두 가치를 저울질하고, 결과와 다른 사람의 마음을 살핀 뒤 다시 판단해요. 기록은 선생님 구글 시트에만 저장돼요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI 윤리 저울">
+<meta property="og:description" content="초등 4학년 눈높이의 AI 윤리 딜레마 10가지. 학생이 두 가치를 저울질하고, 결과와 다른 사람의 마음을 살핀 뒤 다시 판단해요. 기록은 선생님 구글 시트에만 저장돼요.">
+<meta property="og:image" content="https://olivemiso-lab.github.io/ai-ethics-scale/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://olivemiso-lab.github.io/ai-ethics-scale/">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+</head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -146,10 +157,69 @@ footer{margin-top:20px;font-size:.78rem;color:var(--muted);line-height:1.6}
 .bignum{font-size:3.2rem;font-weight:700;color:var(--main);line-height:1;font-variant-numeric:tabular-nums}
 .pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
 body.tmode .wrap{max-width:1080px}
-body.tmode #sheet,body.tmode footer,body.tmode #demo{display:none}
+body.tmode:not(.vstudent) #sheet,body.tmode footer,body.tmode #demo{display:none}
 body.tmode #teacher .bar{font-size:1rem}
 body.tmode #teacher .quotes li{font-size:1.05rem}
 body.tmode #teacher .tbox h3{font-size:1.15rem}
+body.tfull .wrap{max-width:1200px}
+body.tfull:not(.vstudent) #sheet,body.tfull footer,body.tfull #demo,body.tfull #tbtn,body.tfull #tclose{display:none}
+body.vstudent #teacher{display:none}
+body.vstudent .wrap{max-width:640px}
+.tvbar{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:700}
+.tvbar button[aria-pressed="true"]{background:var(--main);color:var(--paper);border-color:var(--main)}
+body:not(.tfull) .tvbar,body.tshow .tvbar{display:none}
+body.tshow #prep,body.tshow #gate,body.tshow #stages,body.tshow .stagenav,body.tshow #treset,body.tshow #tconfirm,body.tshow .live,body.tshow #tcardname{display:none}
+body.tshow .bigq{font-size:2.4rem;margin:12px 0 8px}
+body.tshow #teacher .quotes li{font-size:1.4rem}
+body.tshow #teacher .tbox h3{font-size:1.5rem}
+body.tshow .bignum{font-size:5rem}
+body.tshow .histlab span,body.tshow .histends span{font-size:1.1rem}
+body.tshow .bar{font-size:1.15rem}
+body.tfull #teacher{border:0;padding:0;background:none}
+body.tfull .bigq{font-size:1.9rem}
+body.tfull #teacher .quotes li{font-size:1.2rem}
+body.tfull #teacher .tbox h3{font-size:1.3rem}
+body.tfull .bignum{font-size:4rem}
+body.tfull .gate{font-size:1.05rem}
+.tkey{font-size:.8rem;color:var(--muted)}
+.flowbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:12px 16px}
+.flowbar .lab{flex:1;min-width:200px;font-weight:700}
+.flowbar .lab small{display:block;font-weight:500;color:var(--muted);font-size:.82rem}
+.flowbar .btn.big{font-size:1.15rem;padding:12px 26px}
+.cover{display:grid;place-items:center;gap:18px;padding:40px 16px;border:2px dashed var(--line);border-radius:16px;text-align:center}
+.cover .btn.big{font-size:1.5rem;padding:18px 40px;border-radius:99px}
+.cover .dots3{font-size:2.4rem;letter-spacing:.3em;color:var(--muted)}
+.rev .fill{transform-origin:left;animation:growX .9s cubic-bezier(.2,.8,.2,1) both}
+.rev .hist>div{transform-origin:bottom;animation:growY .9s cubic-bezier(.2,.8,.2,1) both}
+.rev .quotes li,.rev .tbox>p{animation:fadeUp .6s ease-out both}
+.rev .quotes li:nth-child(2){animation-delay:.15s}.rev .quotes li:nth-child(3){animation-delay:.3s}.rev .quotes li:nth-child(4){animation-delay:.45s}.rev .quotes li:nth-child(5){animation-delay:.6s}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rev *{animation:none!important}}
+.deck{display:grid;gap:16px;justify-items:center}
+.deckcard{width:100%;box-sizing:border-box;border-radius:18px;background:var(--paper);border:2px solid var(--warm);padding:22px 26px;display:grid;gap:8px}
+.deckcard .decknum{font-size:.85rem;font-weight:700;color:var(--warm)}
+.deckcard p{font-size:1.4rem;line-height:1.6;font-weight:700;margin:0;word-break:keep-all}
+.pile{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.pcard{width:54px;height:74px;border-radius:10px;background:var(--main);color:var(--paper);font-weight:700;font-size:1.2rem;display:grid;place-items:center;border:0;padding:0;font-family:inherit;cursor:pointer}
+.pcard.used{opacity:.3}.pcard.cur{opacity:1;outline:3px solid var(--warm);outline-offset:2px}
+body.tshow .deckcard p{font-size:2.2rem}body.tshow .pcard{width:72px;height:98px;font-size:1.6rem;cursor:default}
+.rev .deckcard{animation:fadeUp .6s ease-out both}
+body.tfull #stages,body.tfull .stagenav,body.tfull .gate button,body.tfull #teacher>div:first-child{display:none!important}
+body.tfull .gate{border:0;padding:0}
+body.tshow .flowbar{display:none}
+.counter{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.counter .tbox{justify-items:start}
+/* 이름 카드: 화면에서는 덮개로 보여 주고, 인쇄할 때는 카드만 나와요 */
+#ncards{position:fixed;inset:0;z-index:50;overflow:auto;background:#fff;color:#111;padding:16px}
+#ncards .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+#ncards .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6mm}
+.ncard{border:1px dashed #888;border-radius:8px;padding:4mm;display:grid;justify-items:center;gap:2mm;break-inside:avoid;page-break-inside:avoid}
+.ncard .no{font-size:18pt;font-weight:800;line-height:1.2;white-space:nowrap}
+.ncard .q{width:42mm;height:42mm}.ncard .q svg{width:100%;height:100%}
+.ncard small{font-size:8pt;color:#444;text-align:center}
+@media print{body.printing>*:not(#ncards){display:none!important}body.printing #ncards{position:static;padding:0}body.printing #ncards .bar{display:none}@page{size:A4;margin:10mm}}
 </style>
 
 <div class="wrap">
@@ -171,6 +241,12 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
     </div>
     <div id="tpanel" hidden style="display:grid;gap:16px">
       <details class="prep" id="prep" open><summary>수업 준비 · 딜레마 고르기와 학생 접속</summary><div style="display:grid;gap:14px;padding-top:12px">
+      <div id="linkbox" hidden style="display:grid;gap:6px;background:var(--main-soft);border-radius:10px;padding:10px 14px">
+        <label for="linkurl" style="font-weight:700">구글 시트 연결 <span id="linkstate" style="font-weight:500;font-size:.85rem;color:var(--muted)"></span></label>
+        <div class="pinrow"><input class="txt" id="linkurl" type="text" placeholder="앱스 스크립트 웹앱 주소(…/exec)를 붙여 넣어요" style="width:min(100%,520px)"><button class="btn small" id="linkok">연결</button></div>
+        <p class="err" id="linkerr" aria-live="polite"></p>
+        <span class="tkey">시트의 앱스 스크립트를 '웹 앱 · 모든 사용자'로 배포하고 그 주소를 넣으면, 학생 기록이 선생님 시트로 들어가요. 학생 QR에는 이 연결 열쇠가 자동으로 붙어요. <a href="setup.html" target="_blank" rel="noopener">처음이라면 설치 안내 보기 ↗</a></span>
+      </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <label for="cardsel" style="font-weight:700">오늘의 딜레마</label>
         <select id="cardsel"></select>
@@ -182,14 +258,18 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
         <div style="display:grid;gap:6px">
           <b>학생 접속 주소</b>
           <span class="url" id="url"></span>
-          <div><button class="btn line small" id="copyurl">주소 복사</button></div>
+          <div><button class="btn line small" id="copyurl">주소 복사</button> <button class="btn line small" id="printcards">이름 카드 인쇄</button></div>
+          <span class="tkey">선생님 화면은 이 주소 뒤에 <b>?t=1</b>을 붙여 열어요. 결과 화면에서 ← → 키로 넘길 수 있어요.</span>
         </div>
       </div>
       </div></details>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
         <h3 id="tcardname"></h3>
+        <span class="tvbar"><span>TV 화면</span><button type="button" class="btn line small" data-v="results" aria-pressed="true">결과</button><button type="button" class="btn line small" data-v="student" aria-pressed="false">학생 화면</button><a class="btn line small" id="tvlink" target="_blank" rel="opener">TV 창 열기</a></span>
         <span class="live"><i></i><span id="livetxt">자동으로 새로 고쳐져요</span></span>
       </div>
+      <div class="gate" id="gate"><b>학생 진행</b><button type="button" class="btn line small" data-g="1">① 1단계만</button><button type="button" class="btn line small" data-g="2">② 2~3단계 열기</button><button type="button" class="btn line small" data-g="3">③ 4단계 열기</button><span class="gatecount" id="gatecount"></span></div>
+      <div class="flowbar" id="flowbar" hidden><button type="button" class="btn line" id="fprev">◀</button><div class="lab" id="flowlab"></div><button type="button" class="btn big" id="fnext">다음 ▶</button></div>
       <div class="stages" id="stages" role="tablist" aria-label="함께 볼 내용"></div>
       <div class="bigq" id="bigq"></div>
       <div id="tstats"></div>
@@ -215,8 +295,13 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
   .fgroup.l .chip[aria-pressed="true"]{background:var(--left);border-color:var(--left)}
   .fgroup.r .chip[aria-pressed="true"]{background:var(--right);border-color:var(--right)}
   .ghost-note{font-size:.85rem;color:var(--muted)}
-  .myname{font-size:.82rem;color:var(--muted);text-align:right;margin:-12px 0 0}
-  .myname b{color:var(--warm);font-weight:700}
+  .myname{font-size:.95rem;color:var(--muted);text-align:right;margin:-12px 0 0}
+  .myname b{color:var(--warm);font-weight:700;font-size:1.15rem}
+  .namepick{background:var(--warm-soft);border-radius:14px;padding:16px;display:grid;gap:10px;margin-bottom:16px}
+  .namepick h3{font-size:1.15rem}
+  .namepick .chip{font-size:1.1rem;padding:12px 18px}
+  body.picking #p1>*:not(#namepick){display:none}
+  .linkbtn{background:none;border:0;padding:0;color:var(--main);text-decoration:underline;font:inherit;font-size:.82rem;cursor:pointer}
   .card.withpic{display:grid;gap:14px}
   .pic{border-radius:14px;background:var(--paper);display:grid;place-items:center;color:var(--main);padding:14px}
   .pic>svg{width:96px;height:96px}
@@ -233,18 +318,49 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
   .chat .fwd{justify-self:end;background:#fde66b;color:#26303f;font-weight:700;border-radius:99px;padding:5px 14px;font-size:.85rem;animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{50%{transform:scale(1.06)}}
   @media (prefers-reduced-motion:reduce){.chat .fwd{animation:none}}
+  .waitbox{text-align:center;padding:36px 12px;display:grid;gap:12px;justify-items:center}
+  .waitbox h3{font-size:1.25rem}
+  .waitbox p{color:var(--muted)}
+  .waitdots{display:flex;gap:8px}
+  .waitdots i{width:12px;height:12px;border-radius:50%;background:var(--main);animation:wd 1.2s infinite ease-in-out}
+  .waitdots i:nth-child(2){animation-delay:.2s}.waitdots i:nth-child(3){animation-delay:.4s}
+  @keyframes wd{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){.waitdots i{animation:none}}
+  .gate{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .gate b{margin-right:4px}
+  .gate button[aria-pressed="true"]{background:var(--main);color:var(--paper)}
+  .gatecount{width:100%;font-size:.88rem;color:var(--muted)}
   .hintbox{background:var(--main-soft);border-radius:10px;padding:10px 14px;font-size:.92rem}
+  .sents{font-size:1.06rem;line-height:1.9;word-break:keep-all}
+  .sents .sent{cursor:pointer;border-radius:6px;padding:2px 3px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-decoration:underline dotted var(--muted);text-decoration-thickness:1px;text-underline-offset:5px}
+  .sents .sent:hover,.sents .sent:focus-visible{background:var(--paper)}
+  .sents .sent[aria-pressed="true"]{background:var(--right-soft);box-shadow:0 0 0 1.5px var(--right);font-weight:700;text-decoration:none}
+  .parttag{display:inline-block;font-size:.78rem;font-weight:700;color:var(--warm);background:var(--warm-soft);border-radius:99px;padding:3px 10px;margin-bottom:6px}
+  .backline{background:var(--warm-soft);border-radius:12px;padding:12px 16px;font-weight:700;margin-bottom:14px}
   @media (max-width:480px){.fgroups{grid-template-columns:1fr}}
   </style>
   <main class="sheet" id="sheet">
     <div class="sheethead"><h2 id="stitle"></h2><div class="progress" id="prog" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
 
     <div id="p1" class="page">
-      <p class="myname" aria-live="polite">오늘은 <b id="myname"></b><span id="myjosa">으로</span> 생각해 봐요</p>
+      <div id="namepick" hidden class="namepick">
+        <h3>오늘 쓸 내 이름을 하나 골라요</h3>
+        <p class="ghost-note">진짜 이름은 쓰지 않아요. 튕겨서 다시 들어오면 '하다가 튕겼어요'에서 <b>이 이름을 눌러요.</b></p>
+        <div class="chips" id="namechips"></div>
+        <button type="button" class="linkbtn" id="pickresume" style="justify-self:start">아까 하다가 튕겼어요 → 내 이름 찾기</button>
+      </div>
+      <p class="myname" aria-live="polite">오늘은 <b id="myname"></b><span id="myjosa">으로</span> 생각해 봐요 · <button type="button" class="linkbtn" id="resumebtn">하다가 튕겼어요</button></p>
+      <div class="q" id="resumebox" hidden style="background:var(--warm-soft);border-radius:12px;padding:12px 14px;margin-top:10px">
+        <p class="ql" style="font-size:.95rem">아까 쓰던 내 이름을 누르면 하던 데서 이어서 해요</p>
+        <div class="chips" id="resumechips"></div>
+        <label for="resumename" style="font-size:.85rem;color:var(--muted)">목록에 없으면 이름을 직접 써요</label>
+        <div class="pinrow"><input class="txt" id="resumename" type="text" maxlength="20" placeholder="예: 맑은 달빛 27"><button class="btn small" id="resumeok">이어서 하기</button><button class="btn line small" id="resumeno">취소</button></div>
+        <p class="err" id="resumeerr" aria-live="polite"></p>
+      </div>
       <div class="card withpic" style="margin-top:14px"><div class="pic" id="pic" aria-hidden="true"></div><div><b id="ctitle"></b><span id="scene"></span></div></div>
       <div class="q" id="feelq" style="margin-top:22px">
-        <div class="ql">1. 이 영상을 받았을 때, 내 마음은 어떤가요? (모두 골라요)</div>
-        <p class="ghost-note">양쪽에서 함께 골라도 돼요. 정답은 없으니 솔직하게 골라요.</p>
+        <div class="ql">1. 이 영상을 받았을 때, 내 마음은 어떤가요?</div>
+        <p class="ghost-note">양쪽에서 가장 가까운 마음을 하나씩 골라요. 한쪽만 골라도 되고, 양쪽 다 골라도 돼요. 정답은 없으니 솔직하게.</p>
         <div class="fgroups" id="fgroups"></div>
       </div>
       <div class="q" style="margin-top:22px">
@@ -256,12 +372,17 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
         <p class="ghost-note">정답은 없어요. 누가 어느 쪽으로 기울였는지는 선생님도 알 수 없으니, 솔직한 마음대로 기울여 봐요.</p>
         <div id="sc0"></div>
       </div>
+      <div class="q" style="margin-top:22px">
+        <label for="why1" class="ql" id="why1q"></label>
+        <input class="txt" id="why1" type="text" maxlength="120" placeholder="왜냐하면 ___">
+      </div>
     </div>
 
     <div id="p2" class="page" hidden>
       <div class="q">
         <div class="ql">1. 내가 고른 대로 하면 이런 일이 생겼어요</div>
-        <div class="scene2"><span class="lab" id="mychoice"></span><p id="conseq"></p></div>
+        <p class="ghost-note">읽고 나서, <b>가장 마음에 걸리는 문장</b>을 하나 눌러요.</p>
+        <div class="scene2"><span class="lab" id="mychoice"></span><div class="sents" id="conseq" role="group" aria-label="마음에 걸리는 문장 고르기"></div></div>
       </div>
       <div class="q" id="simq" style="margin-top:22px">
         <div class="ql">2. 얼마나 빨리 퍼질까요?</div>
@@ -276,14 +397,15 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
 
     <div id="p3" class="page" hidden>
       <div class="q">
+        <p class="hintbox" id="hookline" hidden></p>
         <div class="ql" id="perspq"></div>
         <p class="ghost-note">마음 낱말을 모두 골라요.</p>
         <div class="chips" id="words"></div>
       </div>
       <div class="q" style="margin-top:22px">
-        <label for="feel" class="ql">2. 왜 그런 기분이 들까요?</label>
+        <label for="feel" class="ql">2. 왜 그런 기분이 들까요? <small style="font-weight:400;color:var(--muted)">(안 써도 괜찮아요. 뒤에서 말로 나눠요)</small></label>
         <textarea id="feel" rows="3" maxlength="200" placeholder="왜냐하면 ___"></textarea>
-        <div><button class="btn line small" id="feelok" disabled>다 썼어요, 다른 사람들의 말 듣기</button></div>
+        <div><button class="btn line small" id="feelok" disabled>다른 사람들의 말 듣기</button></div>
       </div>
       <div class="q" id="stancebox" hidden style="margin-top:22px">
         <div class="ql">3. 이 사람들은 이렇게 말해요</div>
@@ -292,24 +414,35 @@ body.tmode #teacher .tbox h3{font-size:1.15rem}
     </div>
 
     <div id="p4" class="page" hidden>
+      <p class="backline" id="backline"></p>
       <div class="path" id="path"></div>
       <div class="q" style="margin-top:22px">
-        <div class="ql">1. 지금 다시 저울질한다면?</div>
-        <div id="sc1"></div>
+        <label for="wise" class="ql" id="stopq"></label>
+        <p class="hintbox" id="stophint"></p>
+        <input class="txt" id="wise" type="text" maxlength="120" placeholder="예: 이거 진짜일까?">
+        <p class="hintbox" id="wisesent" hidden>질문을 보냈어요. 친구들 질문을 같이 보고 나서, 선생님이 열어 주면 최종 결정을 해요.</p>
       </div>
-      <div class="peek" id="peek" style="margin-top:22px"></div>
+      <div id="finalsec">
       <div class="q" style="margin-top:22px">
-        <div class="ql">2. 지금 다시 고른다면?</div>
+        <div class="ql">2. 나의 최종 결정은?</div>
+        <p class="ghost-note">아까와 같은 저울이에요. 지금은 어느 쪽이 더 무거운가요?</p>
+        <div id="sc1"></div>
+        <div class="peek" id="peek" style="margin-top:16px"></div>
+        <p class="ghost-note" style="margin-top:16px;font-weight:700;color:var(--ink)">그래서, 지금 다시 고른다면?</p>
         <div class="opts" id="second" role="group"></div>
       </div>
       <div class="q" style="margin-top:22px">
-        <label for="reason">3. 왜 그렇게 골랐나요? 누구의 어떤 마음을 생각했는지 써 봐요.</label>
+        <label for="reason">3. 왜 그렇게 골랐나요? <small style="font-weight:400;color:var(--muted)">(안 써도 괜찮아요. 뒤에서 말로 나눠요)</small></label>
         <input class="txt" id="reason" type="text" maxlength="120" placeholder="나는 ___의 마음을 생각했어요. 왜냐하면 ___">
       </div>
-      <div class="q" style="margin-top:22px">
-        <label for="wise" id="stopq"></label>
-        <p class="hintbox" id="stophint"></p>
-        <input class="txt" id="wise" type="text" maxlength="120" placeholder="예: 이거 진짜일까?">
+      </div>
+    </div>
+
+    <div id="pwait" class="page" hidden>
+      <div class="waitbox">
+        <div class="waitdots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h3>잘했어요! 잠깐 기다려요</h3>
+        <p id="waitmsg">친구들이 다 마치면 선생님이 다음 단계를 열어 줄 거예요.<br>그동안 내가 고른 것을 떠올려 봐요.</p>
       </div>
     </div>
 
@@ -357,79 +490,129 @@ const CARDS=[
    "너는 아무것도 하지 않았어. 그런데 다른 친구가 전달해서 다음 날 반 전체가 영상을 봤어. 너는 미리 알고 있었는데.",
    "선생님이 영상을 지워 주셨어. 그런데 처음 올린 친구가 크게 혼난 뒤 너를 피하고, 몇몇 친구들은 \"누가 고자질했어?\"라며 수군거려."],
   sim:[0],
+  /* 상황 카드: 2·3단계 대신 TV에서 한 장씩 뽑아 다 같이 "나라면 어떻게 할까?"를 이야기해요. 이 칸이 있으면 학생은 1단계 뒤 바로 4단계로 가요 */
+  deck:[
+   "영상을 보냈어. 다음 날 지우가 학교에 오지 않았어.",
+   "지우에게만 알려 줬어. 지우가 울면서 \"누가 또 봤어? 다들 내가 그런 말 했다고 믿어?\" 하고 물어.",
+   "아무것도 안 했어. 그런데 다른 친구가 전달해서 다음 날 반 전체가 봤어. 친구가 말해. \"너는 미리 알고 있었잖아.\"",
+   "선생님께 말씀드렸어. 영상은 지워졌는데, 몇몇 친구가 \"누가 고자질했어?\" 하고 수군거려.",
+   "안 보냈어. 그런데 친구들이 \"너만 안 봤어? 왜 안 보내?\" 하고 놀려.",
+   "단톡방에서 친구가 \"빨리 보내 봐. 다 봤는데 너만 안 보냄\" 하고 재촉해.",
+   "알고 보니 영상이 진짜였어. 지우가 정말 그렇게 말했대. 그래도 보내면 안 될까?",
+   "알고 보니 영상은 가짜였어. 그런데 이미 다른 반까지 퍼졌어. 지우가 \"누가 처음 보냈어?\" 하고 물어.",
+   "이번에는 내 얼굴로 만든 가짜 영상이 단톡방에 돌아. 친구들이 \"이거 너야?\" 하고 물어."],
   persp:[["지우","다음 날 아침 교실 문을 열 때"]],
   words:["무서워요","억울해요","창피해요","화나요","외로워요","믿을 사람이 없어요"],
   stances:[["지우","나 그런 말 한 적 없어… 내일 학교 가기 무서워."],["영상을 본 친구","지우가 진짜 우리를 그렇게 생각하나 봐. 서운해."],["처음 영상을 올린 친구","그냥 재밌어서 올렸는데, 이렇게 커질 줄 몰랐어."]],
-  stopQ:"이런 영상을 받으면, 보내기 전에 나에게 어떤 질문을 해 볼까요?",stopEx:"예: 이거 진짜일까?"},
- {id:"p1",title:"집 안의 소리를 듣는 AI 스피커",
-  scene:"집집마다 AI 스피커를 달아 집 안의 대화를 듣고, 위험한 일이 생기면 바로 도와주러 출동하는 안전 서비스를 만들려고 해요. 정확하게 도우려면 모든 집에 스피커를 달아야 해요.",
-  choices:YN,scale:{L:"혼자 계신 어르신, 장애가 있는 사람, 어린이가 더 안전해진다",R:"우리 집 대화가 다른 사람에게 알려질 수 있다"},
-  conseq:["스피커 덕분에 혼자 쓰러진 할머니를 10분 만에 구했어. 그런데 몇 달 뒤, 스피커에 저장된 집 안 대화가 해킹으로 새어 나갔다는 뉴스가 나왔어.","우리 집 대화는 지켜졌어. 그런데 혼자 사는 할아버지가 밤에 쓰러졌을 때 아무도 알지 못해 늦게 발견됐다는 소식을 들었어."],
-  persp:[["대화가 새어 나간 집의 가족","그 뉴스를 봤을 때"],["늦게 발견된 할아버지의 가족","그 소식을 들었을 때"]],
-  stances:[["혼자 사는 할머니","밤에 쓰러지면 누가 알아줄까 늘 걱정이었어."],["초등학생 민호","친구랑 전화한 이야기까지 다 들린다니 싫어."],["서비스를 만든 사람","정보를 안전하게 지키려고 하지만, 해킹을 완전히 막기는 어려워요."]]},
- {id:"p2",title:"얼굴을 알아보는 AI CCTV",
-  scene:"얼굴을 알아보는 AI CCTV로, 예전에 죄를 지었지만 벌을 다 받은 사람들의 생활을 지켜보려고 해요.",
-  choices:YN,scale:{L:"다시 나쁜 일을 하는 사람이 줄어 동네가 안전해진다",R:"벌을 이미 다 받았으니 그 사람의 인권도 존중해야 한다"},
-  conseq:["동네 범죄가 줄었어. 그런데 벌을 다 받은 아저씨가 \"어디서든 감시받는 것 같아 일자리를 구할 수가 없어\"라며 동네를 떠났어.","새 출발하려는 사람들의 인권은 지켜졌어. 그런데 동네에서 비슷한 사건이 다시 일어나 부모님들이 불안해하셔."],
-  persp:[["동네를 떠난 아저씨","새 일자리를 또 거절당했을 때"],["불안해하는 부모님","아이를 혼자 학교에 보낼 때"]],
-  stances:[["어린이의 부모님","아이가 혼자 학교 가는 길이 늘 걱정이에요."],["새로 시작하려는 사람","잘못을 뉘우치고 열심히 살고 있는데, 어디를 가도 감시받는 느낌이에요."],["경찰관","범죄를 막는 데 도움이 되지만, 누구를 얼마나 지켜볼지는 신중해야 해요."]]},
- {id:"p3",title:"거리를 지키는 로봇 경찰",
-  scene:"AI 로봇 경찰이 거리를 순찰하고, 사건이 생기면 직접 붙잡게 하려고 해요.",
-  choices:YN,scale:{L:"순찰하는 경찰이 많아져 사건이 줄고 더 안전해진다",R:"로봇 경찰이 사람을 붙잡다가 사람이 다칠 수 있다"},
-  conseq:["순찰이 늘어 밤길이 안전해졌어. 그런데 로봇이 범인을 잘못 알아보고 지나가던 사람을 붙잡다가 다치게 했어.","로봇 때문에 다치는 사람은 없었어. 그런데 경찰이 부족해서 신고해도 오래 기다려야 해."],
-  persp:[["로봇에게 잘못 붙잡힌 사람","다음 날 다시 그 길을 걸을 때"],["신고하고 오래 기다리는 사람","경찰이 오지 않을 때"]],
-  stances:[["밤늦게 집에 가는 사람","경찰이 보이면 마음이 놓여요."],["잘못 붙잡힌 사람","로봇이 나를 범인으로 착각해서 너무 무섭고 아팠어요."],["경찰관","위험한 현장에 로봇이 먼저 가면 경찰이 덜 다쳐요."]]},
- {id:"p4",title:"돌아가신 가족을 만나는 딥페이크 앱",
-  scene:"갑자기 가족을 잃고 슬퍼하는 사람들을 위해, 생전 사진과 목소리로 돌아가신 가족의 영상을 만들어 주는 딥페이크 앱을 만들려고 해요.",
-  choices:YN,scale:{L:"그리움을 달래고 슬픔을 이겨 내는 데 도움이 된다",R:"이 앱으로 가짜 영상을 쉽게 만들어 사기가 늘어난다"},
-  conseq:["엄마를 잃은 아이가 영상 속 엄마 목소리를 듣고 오랜만에 웃었어. 그런데 같은 앱으로 만든 가짜 영상으로 \"돈을 보내 달라\"는 사기가 퍼지고 있어.","가짜 영상 사기는 막았어. 그런데 가족을 잃은 사람들이 \"한 번만 더 보고 싶었다\"며 슬퍼해."],
+  stopQ:"이런 영상을 받으면, 보내기 전에 나에게 어떤 질문을 해 볼까요?",stopEx:"'보내기 전에, 나는 ___에게 ___을 물어본다' 꼴로 써 봐요. 예: 나는 지우에게 '이 영상, 너도 알아?'를 물어본다.",
+  parts:["보내기 전","보낸 다음","다시 보내기 전"],stopPh:"나는 ___에게 ___을 물어본다"},
+ {id:"a1",title:"집 안을 듣는 AI 스피커",
+  scene:"우리 동네에서 새 안전 서비스를 시작하려고 해요. 집집마다 AI 스피커를 달아 집 안의 소리를 듣고 있다가, 누가 쓰러지거나 위험한 일이 생기면 바로 구조대를 보내 줘요. 정확하게 도우려면 동네의 모든 집에 스피커를 달아야 한대요.",
+  choices:YN,scale:{L:"혼자 사시는 어르신, 아픈 사람, 어린이가 더 안전해진다",R:"우리 집에서 한 말이 다른 사람에게 알려질 수 있다"},
+  conseq:["스피커 덕분에 혼자 쓰러진 옆집 할머니를 10분 만에 구했어. 그런데 몇 달 뒤, 스피커에 저장된 집 안 대화가 밖으로 새어 나갔다는 뉴스가 나왔어. 네가 친구랑 전화한 이야기가 모르는 사람 휴대폰에 떠 있을 수도 있어.","우리 집 이야기는 지켜졌어. 그런데 혼자 사시는 윗집 할아버지가 밤에 쓰러졌을 때 아무도 몰라서, 다음 날 아침에야 발견됐다는 소식을 들었어."],
+  persp:[["대화가 새어 나간 집의 아이","그 뉴스를 봤을 때"],["늦게 발견된 할아버지의 손주","그 소식을 들었을 때"]],
+  stances:[["혼자 사시는 할머니","밤에 쓰러지면 누가 알아줄까, 늘 걱정이었어."],["초등학생 민호","내가 친구랑 한 이야기까지 다 들린다니 싫어."],["서비스를 만든 사람","정보를 안전하게 지키려고 하지만, 새어 나가는 걸 완전히 막기는 어려워요."]]},
+ {id:"a2",title:"우리 학교의 얼굴 출석",
+  scene:"우리 학교에 얼굴을 알아보는 카메라를 달려고 해요. 교문을 지나면 저절로 출석이 되고, 급식실에서도 얼굴만 보여 주면 돼요. 길 잃은 아이나 낯선 사람이 들어오면 바로 알 수 있어요. 대신 모든 학생의 얼굴 정보가 학교 컴퓨터에 저장돼요.",
+  choices:YN,scale:{L:"출석과 급식이 편해지고, 낯선 사람이 들어오면 바로 알 수 있다",R:"내 얼굴 정보가 어딘가에 저장되고, 내가 어디 있는지 늘 기록된다"},
+  conseq:["교문에서 얼굴만 보이면 출석이 끝나. 낯선 사람이 들어왔을 때 바로 알아서 막기도 했어. 그런데 네가 몇 시에 어디를 지나갔는지 기록이 다 남아 있고, 어느 날 그 기록을 누가 볼 수 있는지 아무도 정확히 말해 주지 못했어.","얼굴 정보는 저장되지 않았어. 출석은 예전처럼 선생님이 부르고, 급식실 줄은 길어. 그런데 어느 날 모르는 사람이 학교 안까지 들어왔는데 한참 동안 아무도 몰랐어."],
+  persp:[["기록이 누구 손에 있는지 모르는 학생","내 하루가 다 기록된다는 걸 알았을 때"],["낯선 사람이 들어온 날의 1학년 동생","복도에서 모르는 어른을 마주쳤을 때"]],
+  stances:[["1학년 동생의 부모님","학교에 아무나 못 들어오게 하는 게 제일 중요해요."],["4학년 학생","내 얼굴이 저장된다는 게 왠지 찜찜해. 누가 보는 거지?"],["학교 선생님","편리한 건 맞지만, 아이들 얼굴 정보를 누가 어떻게 지킬지 먼저 정해야 해요."]]},
+ {id:"a3",title:"돌아가신 가족을 만나는 앱",
+  scene:"갑자기 가족을 잃고 슬퍼하는 사람들을 위한 앱이 나왔어요. 생전 사진과 목소리를 넣으면, 돌아가신 가족이 움직이고 말하는 영상을 만들어 줘요. 그런데 같은 앱으로 누구든 아무 사람의 가짜 영상을 만들 수 있어요.",
+  choices:YN,scale:{L:"그리운 사람을 다시 보며 슬픔을 이겨 내는 데 도움이 된다",R:"누구나 가짜 영상을 쉽게 만들 수 있어 속이는 일이 늘어난다"},
+  conseq:["엄마를 잃은 아이가 영상 속 엄마 목소리를 듣고 오랜만에 웃었어. 그런데 같은 앱으로 만든 가짜 영상으로 \"할머니, 급해요, 돈 좀 보내 주세요\" 하고 속이는 일이 퍼지고 있어.","속이는 영상은 막았어. 그런데 가족을 잃은 사람들이 \"목소리 한 번만 더 듣고 싶었다\"며 슬퍼해."],
   sim:[0],
-  persp:[["사기를 당한 사람","가족 목소리로 온 연락이 가짜였다는 걸 알았을 때"],["가족을 잃은 사람","다시는 그 목소리를 들을 수 없다는 걸 느낄 때"]],
-  stances:[["가족을 잃은 사람","엄마 목소리를 한 번만 더 듣고 싶었어요."],["사기를 당한 사람","아들 목소리로 돈을 보내 달라는 연락이 와서 속았어요."],["앱을 만든 사람","좋은 뜻으로 만들었는데, 나쁘게 쓰는 사람을 어떻게 막아야 할까요?"]]},
- {id:"p5",title:"어르신 일자리와 청소 로봇",
-  scene:"어르신들이 하던 거리 청소 일을, 느리고 덜 깨끗하다는 불만 때문에 청소 로봇에게 맡기려고 해요.",
-  choices:YN,scale:{L:"적은 돈으로 도시를 깨끗하게 관리할 수 있다",R:"일자리를 잃은 어르신들의 생활이 어려워질 수 있다"},
-  conseq:["거리가 깨끗해지고 돈도 아꼈어. 그런데 일자리를 잃은 할머니가 \"이제 아침에 나갈 곳이 없다\"며 집에만 계셔.","어르신들은 일을 계속하셔. 그런데 거리가 지저분하다는 불만이 계속 쌓이고 있어."],
-  persp:[["일자리를 잃은 할머니","아침에 나갈 곳이 없을 때"],["청소 일을 하시는 어르신","지저분하다는 말을 들을 때"]],
-  stances:[["청소 일을 하던 어르신","이 일 덕분에 아침마다 나갈 곳이 있었는데…"],["동네 주민","길에 쓰레기가 많아서 아이들과 걷기 불편했어요."],["시청 직원","같은 돈으로 더 많은 곳을 청소할 수 있어요."]]},
- {id:"p6",title:"드론 배달",
-  scene:"택배와 음식 배달을 드론이 하도록 바꾸려고 해요.",
-  choices:YN,scale:{L:"빠르고 싼 값에 배달받을 수 있다",R:"배달 일을 하던 많은 사람이 일자리를 잃는다"},
-  conseq:["섬마을에도 택배가 하루 만에 와. 그런데 배달 일을 하던 삼촌이 일자리를 잃었어.","배달 기사님들의 일자리는 지켜졌어. 그런데 섬마을 할머니의 약은 여전히 일주일 뒤에나 도착해."],
-  persp:[["일자리를 잃은 배달 기사","가족에게 그 소식을 말할 때"],["섬마을 할머니","약을 일주일째 기다릴 때"]],
-  stances:[["섬마을 주민","택배 하나 받는 데 일주일이 걸렸어요."],["배달 기사","가족을 위해 열심히 일했는데, 이제 무엇을 해야 할지 모르겠어요."],["드론 회사","사람이 가기 위험한 곳에도 배달할 수 있어요."]]},
- {id:"p7",title:"AI 무기",
-  scene:"전쟁에 대비해 스스로 판단하는 AI 무기를 만들려고 해요.",
-  choices:YN,scale:{L:"전쟁에서 우리 군인의 생명을 지키고 나라를 지키는 돈을 줄일 수 있다",R:"AI 기계는 어떤 경우에도 사람을 해쳐서는 안 된다"},
-  conseq:["우리 군인이 위험한 곳에 가지 않아도 돼. 그런데 AI 무기가 사람을 잘못 알아보고 죄 없는 사람들을 다치게 했다는 소식이 들려.","AI 무기는 만들지 않았어. 그런데 다른 나라가 AI 무기를 만들어서 우리 군인들이 더 위험해질까 봐 걱정하는 사람이 많아."],
-  persp:[["다친 마을 사람들","하늘에서 기계 소리가 들릴 때"],["전쟁터에 나가는 군인의 가족","군인이 떠나는 날"]],
-  stances:[["군인의 가족","아빠가 무사히 돌아오기만 바라요."],["전쟁 지역의 어린이","하늘에서 기계 소리가 들리면 너무 무서워요."],["과학자","기계가 사람의 생명을 결정해도 되는지 고민돼요."]]},
- {id:"p8",title:"AI가 그린 그림과 미술 대회",
-  scene:"AI 그림 프로그램으로 만든 작품이 미술 대회에 나왔어요. 지금까지 나온 작품 중 가장 아름다워서, 대회를 연 사람들은 1등으로 뽑고 싶어 해요.",
-  ask:"1등으로 뽑는 것에 여러분은?",choices:YN,scale:{L:"가장 아름다운 작품이니 1등을 받을 만하다",R:"사람의 창의성이 담기지 않은 작품은 1등이 되면 안 된다"},
-  conseq:["가장 아름다운 그림이 1등을 했어. 그런데 석 달 동안 직접 그린 참가자가 \"이제 그림 그릴 이유가 없다\"며 붓을 내려놓았어.","직접 그린 작품이 1등을 했어. 그런데 AI로 작품을 만든 사람은 \"나도 수백 번 고치며 노력했는데\"라며 속상해해."],
+  persp:[["가짜 영상에 속은 할머니","손주 목소리가 가짜였다는 걸 알았을 때"],["가족을 잃은 아이","다시는 그 목소리를 들을 수 없다는 걸 느낄 때"]],
+  stances:[["가족을 잃은 아이","엄마 목소리를 한 번만 더 듣고 싶었어요."],["속은 할머니","손주 목소리로 돈을 보내 달라고 해서 믿었어요."],["앱을 만든 사람","좋은 뜻으로 만들었는데, 나쁘게 쓰는 사람을 어떻게 막아야 할까요?"]]},
+ {id:"b1",title:"얼굴 바꾸는 필터 놀이",
+  scene:"쉬는 시간에 친구들과 사진을 찍다가, 짝꿍 얼굴에 '할아버지 얼굴' 필터를 씌워 봤어요. 너무 웃겨서 다들 배를 잡고 웃었어요. 짝꿍은 그 자리에 없었어요. 이 사진, 우리 반 단톡방에 올릴까요?",
+  ask:"첫 행동을 골라요",choices:["바로 단톡방에 올린다","짝꿍에게 먼저 보여 주고 물어본다","나만 간직한다","사진을 지운다"],
+  scaleQ:"솔직한 내 마음, 어느 쪽이 더 무거운가요?",
+  scale:{lab:["올리고 싶은 마음","멈추고 싶은 마음"],short:["올리고 싶은 마음","멈추고 싶은 마음"],L:"너무 웃기고, 다들 좋아할 것 같아요",R:"짝꿍은 싫어할지도 몰라요"},
+  parts:["올리기 전","올린 다음","다시 올리기 전"],sim:[0],
+  conseq:["단톡방이 웃음으로 가득 찼어. 그런데 짝꿍은 집에서 그 사진을 처음 봤어. 다음 날 짝꿍은 네 옆에 앉지 않았어.","짝꿍이 사진을 보더니 한참 웃고는 \"이건 나만 보고 싶어\"라고 했어. 조금 아쉬웠지만, 짝꿍이 웃어서 좋았어.","사진은 네 휴대폰에만 있어. 며칠 뒤 다른 친구가 \"그때 그 사진 올려 줘!\"라고 조르고 있어.","사진을 지웠어. 친구들이 \"아깝다, 진짜 웃겼는데\"라고 했지만 금방 다른 놀이로 넘어갔어."],
+  persp:[["짝꿍","집에서 혼자 단톡방을 열어 그 사진을 처음 봤을 때"],["짝꿍","네가 사진을 보여 주며 물어봤을 때"],["조르는 친구","네가 계속 안 올려 줄 때"],["짝꿍","그런 사진이 있었다는 걸 나중에 들었을 때"]],
+  words:["창피해요","서운해요","고마워요","화나요","괜찮아요","안심돼요"],
+  stances:[["짝꿍","내 얼굴인데, 나한테 먼저 물어봐 줬으면 좋겠어."],["사진을 찍은 친구","그냥 다 같이 웃자고 한 건데… 이렇게 될 줄 몰랐어."],["같은 반 친구","나도 웃었는데, 내 사진이었으면 어땠을지 생각해 보니 좀 그래."]],
+  stopQ:"친구 얼굴이 들어간 사진을 올리기 전에, 나에게 어떤 질문을 해 볼까요?",stopEx:"'올리기 전에, 나는 ___에게 ___을 물어본다' 꼴로 써 봐요. 예: 나는 짝꿍에게 '이거 올려도 돼?'를 물어본다.",stopPh:"나는 ___에게 ___을 물어본다"},
+ {id:"b2",title:"이미 퍼졌다면?",
+  scene:"어제 그 영상이 결국 반 전체에 퍼졌어요. 오늘 아침 지우가 교실에 들어왔는데, 아무도 말을 걸지 않아요. 몇몇은 지우를 보고 수군거려요. 지우는 가방을 내려놓고 책상만 보고 있어요. 너는 지우의 옆자리예요.",
+  ask:"지금 나는 어떻게 할까요?",choices:["모른 척하고 내 할 일을 한다","지우에게 먼저 말을 건다","선생님께 조용히 알린다","영상을 올린 친구에게 지우라고 말한다"],
+  scaleQ:"솔직한 내 마음, 어느 쪽이 더 무거운가요?",
+  scale:{lab:["가만히 있고 싶은 마음","움직이고 싶은 마음"],short:["가만히 있고 싶은 마음","움직이고 싶은 마음"],L:"괜히 나섰다가 나까지 엮일까 봐요",R:"지우를 이대로 두면 안 될 것 같아요"},
+  parts:["움직이기 전","움직인 다음","다시 움직이기 전"],
+  conseq:["하루가 그냥 지나갔어. 지우는 점심도 혼자 먹었어. 집에 가는 길에 지우의 뒷모습이 자꾸 생각났어.","\"지우야, 어제 그거 가짜인 거 알아\" 하고 말했어. 지우가 처음으로 고개를 들었어. 다른 친구 둘도 너를 보더니 지우 옆으로 왔어.","선생님이 조용히 지우를 불러 이야기를 나눴어. 영상을 올린 친구가 혼나는 걸 보고, 몇몇이 \"누가 말했어?\" 하고 둘러봤어. 지우는 점심시간에 네 옆에 앉았어.","\"그거 지워. 가짜잖아\" 하고 말했어. 그 친구는 \"장난이었어\"라며 영상을 지웠지만, 이미 다른 애들 휴대폰에는 남아 있었어."],
+  persp:[["지우","아무도 말을 걸지 않는 쉬는 시간에"]],
+  words:["외로워요","무서워요","고마워요","억울해요","창피해요","조금 안심돼요"],
+  stances:[["지우","나한테 먼저 말 걸어 준 친구가 있다면… 그것만으로도 학교에 올 수 있을 것 같아."],["영상을 올린 친구","혼날까 봐 무서워. 근데 지우한테 미안하다고 말할 용기가 안 나."],["옆에서 본 친구","나도 뭔가 하고 싶은데, 혼자 나서기는 무서워."]],
+  stopQ:"이런 날 아침, 지우에게 내가 할 수 있는 가장 작은 일은 무엇일까요?",stopEx:"'나는 지우에게 ___ 한다' 꼴로 써 봐요. 예: 나는 지우에게 '같이 급식 먹자'고 말한다.",stopPh:"나는 지우에게 ___ 한다"},
+ {id:"b3",title:"숙제를 대신 해 주는 AI",
+  scene:"독후감 숙제가 나왔어요. AI에게 책 제목만 말하면 1분 만에 멋진 독후감을 써 줘요. 반 친구들 절반은 이미 그렇게 내서 칭찬을 받았대요. 너는 어젯밤 두 시간 동안 직접 썼는데, 친구들 것보다 훨씬 짧아요.",
+  ask:"AI가 써 준 독후감을 내는 것에 여러분은?",choices:YN,scale:{L:"빠르고 멋진 글을 내서 칭찬받을 수 있다",R:"내가 읽고 생각한 게 아니면 내 숙제가 아니다"},
+  conseq:["AI 독후감으로 칭찬을 받았어. 그런데 선생님이 \"이 책에서 가장 기억에 남는 장면이 뭐야?\" 하고 물었을 때, 아무 말도 떠오르지 않았어.","짧은 독후감을 냈어. 칭찬은 못 받았지만, 선생님이 \"이 장면이 왜 기억에 남았어?\" 하고 물었을 때 한참 동안 이야기할 수 있었어."],
+  persp:[["질문에 답하지 못한 나","선생님과 친구들이 나를 보고 있을 때"],["두 시간 동안 직접 쓴 나","친구들 글이 더 길고 멋진 걸 봤을 때"]],
+  words:["창피해요","억울해요","뿌듯해요","불안해요","속상해요","괜찮아요"],
+  stances:[["직접 쓴 친구","두 시간 걸렸는데, 1분 만에 쓴 글이 더 칭찬받으면 억울해."],["AI로 낸 친구","다들 하니까 나만 안 하면 손해잖아."],["선생님","독후감은 글을 보려는 게 아니라, 네가 무슨 생각을 했는지 보려는 거야."]],
+  stopQ:"AI에게 숙제를 맡기기 전에, 나에게 어떤 질문을 해 볼까요?",stopEx:"예: 이걸 내고 나면, 나는 무엇을 배운 걸까?"},
+ {id:"b4",title:"나를 잘 아는 추천 영상",
+  scene:"영상 앱이 네가 좋아할 만한 짧은 영상을 끝없이 보여 줘요. 하나 보면 다음 게 저절로 나와요. 어젯밤에도 '딱 하나만' 하다가 한 시간이 지났어요. 앱 회사는 네가 뭘 오래 보는지 다 알고, 그걸로 다음 영상을 골라요.",
+  ask:"이런 자동 추천 기능에 여러분은?",choices:YN,scale:{L:"내가 좋아하는 걸 알아서 찾아 주니 재밌고 편하다",R:"내 시간과 선택을 앱이 대신 정하는 것 같다"},
+  conseq:["앱은 점점 더 네 취향을 잘 맞춰. 그런데 어느 날 보니, 네가 보는 영상은 전부 비슷한 것뿐이고 책이나 친구들과 놀 시간은 사라져 있었어.","추천을 껐더니 볼 게 줄었어. 심심했지만, 네가 직접 찾아본 영상 하나가 오래 기억에 남았어."],
+  persp:[["한 시간을 또 넘긴 나","'딱 하나만'이라고 다섯 번째 말했을 때"],["심심해진 나","휴대폰을 내려놓고 뭘 할지 생각할 때"]],
+  words:["후회돼요","불안해요","편해요","답답해요","심심해요","괜찮아요"],
+  stances:[["나","재밌는 걸 알아서 보여 주는데 뭐가 문제야?"],["부모님","네가 고른 게 아니라 앱이 고른 걸 보고 있는 거야."],["앱을 만든 사람","오래 볼수록 회사는 돈을 벌어요. 그래서 멈추기 어렵게 만들어요."]],
+  stopQ:"다음 영상이 저절로 나올 때, 나에게 어떤 질문을 해 볼까요?",stopEx:"예: 이건 내가 고른 걸까, 앱이 고른 걸까?"},
+ {id:"b5",title:"내 마음을 다 아는 AI 친구",
+  scene:"언제든 말을 걸면 대답해 주는 AI 친구 앱이 있어요. 내 기분을 알아채고, 절대 화내지 않고, 내 편만 들어 줘요. 요즘 너는 진짜 친구보다 AI 친구에게 더 많이 이야기해요. 진짜 친구는 가끔 내 말을 안 들어 주니까요.",
+  ask:"이런 AI 친구 앱에 여러분은?",choices:YN,scale:{L:"외로울 때 언제든 들어 주는 친구가 있어서 좋다",R:"늘 내 편만 드는 건 진짜 친구가 아니다"},
+  conseq:["AI 친구와 매일 이야기했어. 편했어. 그런데 어느 날 진짜 친구가 \"요즘 너랑 얘기한 적이 없네\"라고 했을 때, 뭐라고 해야 할지 몰랐어.","AI 친구 대신 진짜 친구에게 말했어. 친구는 내 말을 끝까지 안 듣고 자기 얘기를 했어. 서운했어. 그런데 다음 날 그 친구가 먼저 \"어제 미안\" 하고 말을 걸었어."],
+  persp:[["\"요즘 너랑 얘기한 적이 없네\"라고 말한 친구","그 말을 하면서"],["서운했던 나","친구가 먼저 미안하다고 했을 때"]],
+  words:["편해요","외로워요","서운해요","고마워요","불안해요","괜찮아요"],
+  stances:[["나","AI 친구는 절대 나를 싫어하지 않아. 그게 좋아."],["진짜 친구","나도 가끔 서툴지만, 네 얘기 듣고 싶었어."],["앱을 만든 사람","AI는 네 편을 들도록 만들어졌어요. 네가 틀렸을 때도요."]],
+  stopQ:"AI 친구에게 말을 걸기 전에, 나에게 어떤 질문을 해 볼까요?",stopEx:"예: 이 이야기를 진짜 친구에게 하면 어떻게 될까?",
+  /* 상황 카드(연습용): 이 카드도 2·3단계 대신 TV에서 한 장씩 뽑아 다 같이 이야기한다 */
+  deck:[
+   "AI 친구에게 매일 이야기했어. 편했어. 어느 날 진짜 친구가 \"요즘 너랑 얘기한 적이 없네\" 하고 말해.",
+   "친구와 다퉜어. AI 친구는 \"네 말이 다 맞아. 그 친구가 잘못했어\" 하고 내 편을 들어. 그런데 사실은 내가 먼저 놀렸어.",
+   "AI 친구에게 내 비밀을 다 말했어. 그런데 앱 설명에 \"대화 내용은 회사가 저장합니다\"라고 적혀 있어.",
+   "AI 친구 앱을 안 썼어. 속상한 날, 진짜 친구는 학원에 가서 연락이 안 돼. 말할 사람이 없어.",
+   "진짜 친구에게 말했어. 친구는 내 말을 끝까지 안 듣고 자기 얘기를 했어. AI 친구는 끝까지 들어 줄 텐데.",
+   "반 친구들이 다 AI 친구 앱을 써. \"너도 해 봐. 진짜 내 마음을 다 알아\" 하고 권해.",
+   "AI 친구 앱이 돈을 내야 쓸 수 있게 바뀌었어. 돈을 안 내면 그동안 나눈 이야기가 다 지워진대.",
+   "이번엔 내 진짜 친구가 나보다 AI 친구에게 더 많이 이야기해. 나에게 \"AI가 더 잘 들어 줘\" 하고 말해.",
+   "밤에 너무 슬퍼서 AI 친구에게 말했어. AI는 \"괜찮아질 거야\"라고만 해. 사실은 어른에게 꼭 말해야 하는 일이었어."
+  ]},
+ {id:"b6",title:"AI가 그린 그림과 미술 대회",
+  scene:"미술 대회에 AI 그림 프로그램으로 만든 작품이 나왔어요. 지금까지 나온 작품 중 가장 아름다워서, 심사위원들은 1등으로 뽑고 싶어 해요. 작품을 낸 사람은 원하는 그림이 나올 때까지 수백 번 명령어를 고쳤대요.",
+  ask:"이 작품을 1등으로 뽑는 것에 여러분은?",choices:YN,scale:{L:"가장 아름다운 작품이니 1등을 받을 만하다",R:"사람이 직접 그리지 않은 작품은 1등이 되면 안 된다"},
+  conseq:["가장 아름다운 그림이 1등을 했어. 그런데 석 달 동안 매일 그린 참가자가 \"이제 그림 그릴 이유가 없다\"며 붓을 내려놓았어.","직접 그린 작품이 1등을 했어. 그런데 AI로 작품을 만든 사람은 \"나도 수백 번 고치며 노력했는데\"라며 속상해해."],
   persp:[["붓을 내려놓은 참가자","시상식에서 1등 작품을 볼 때"],["AI로 작품을 만든 사람","떨어졌다는 소식을 들었을 때"]],
-  stances:[["AI로 작품을 만든 사람","원하는 그림이 나올 때까지 수백 번 명령어를 고쳤어요."],["직접 그린 참가자","석 달 동안 매일 그렸는데…"],["심사위원","작품만 보면 정말 아름다운데, 누가 만든 것인지도 중요할까요?"]]},
- {id:"p9",title:"부모님과 똑같은 돌봄 로봇",
-  scene:"엄마, 아빠와 똑같은 목소리와 모습을 가진 돌봄 로봇을 만들려고 해요. 부모님이 바쁠 때 아이를 돌봐 줘요.",
-  choices:YN,scale:{L:"아이에게 마음의 안정까지 줄 수 있어 돌봄에 딱 맞다",R:"마음을 나누는 일은 사람만 할 수 있으니 로봇이 대신하면 안 된다"},
-  conseq:["아이는 부모님이 늦는 날에도 엄마 목소리를 들으며 잠들어. 그런데 진짜 엄마가 안아 주려 하자 아이가 \"로봇 엄마가 더 좋아\"라고 했어.","아이는 진짜 부모님과의 시간을 기다려. 그런데 부모님이 늦는 날이면 아이는 혼자 오래 기다리며 외로워해."],
-  persp:[["\"로봇 엄마가 더 좋아\"라는 말을 들은 엄마","아이를 안아 주려다 거절당했을 때"],["혼자 기다리는 아이","부모님이 또 늦는다는 연락을 받았을 때"]],
-  stances:[["늦게까지 일하는 부모님","퇴근하면 아이가 이미 잠들어 있어요."],["아이","로봇 엄마도 좋지만, 진짜 엄마가 안아 주는 게 더 좋아요."],["로봇을 만든 사람","로봇이 부모님을 대신해야 할까요, 도와야 할까요?"]]}
+  stances:[["AI로 작품을 만든 사람","원하는 그림이 나올 때까지 수백 번 고쳤어요. 이것도 노력이에요."],["직접 그린 참가자","석 달 동안 매일 그렸는데…"],["심사위원","작품만 보면 정말 아름다운데, 누가 어떻게 만들었는지도 중요할까요?"]]}
 ];
-CARDS.forEach(c=>{c.ask=c.ask||(c.choices===YN?"여러분이 결정한다면?":"첫 행동을 골라요");c.scaleQ=c.scaleQ||"어느 쪽 생각이 더 무거운가요?";c.scale.lab=c.scale.lab||["왼쪽 생각","오른쪽 생각"];c.scale.short=c.scale.short||[c.scale.L,c.scale.R];c.words=c.words||WORDS;c.stopQ=c.stopQ||P_STOP;c.stopEx=c.stopEx||"예: 이 결정으로 힘들어질 사람은 없을까?"});
+CARDS.forEach(c=>{c.stopPh=c.stopPh||"이 결정으로 힘들어질 사람은 없을까?";c.ask=c.ask||(c.choices===YN?"여러분이 결정한다면?":"첫 행동을 골라요");c.scaleQ=c.scaleQ||"어느 쪽 생각이 더 무거운가요?";c.scale.lab=c.scale.lab||["왼쪽 생각","오른쪽 생각"];c.scale.short=c.scale.short||[c.scale.L,c.scale.R];c.words=c.words||WORDS;c.stopQ=c.stopQ||P_STOP;c.stopEx=c.stopEx||"예: 이 결정으로 힘들어질 사람은 없을까?"});
 const NAME_A=["맑은","따뜻한","반짝이는","포근한","싱그러운","잔잔한","부드러운","환한","고운","푸른","다정한","향긋한","말간","보드라운","산뜻한"];
 const NAME_B=["별빛","햇살","바람","구름","물결","꽃잎","새벽","노을","이슬","달빛","무지개","봄비","눈송이","나뭇잎","파도"];
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 let myName="";
 const PIC={"p1": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><rect x=\"14\" y=\"6\" width=\"20\" height=\"36\" rx=\"10\"/><circle cx=\"24\" cy=\"30\" r=\"5\"/><path d=\"M20 15h8\"/><path d=\"M6 18c-2 4-2 8 0 12M42 18c2 4 2 8 0 12\"/></svg>", "p2": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M6 14l26-6 4 12-26 6z\"/><circle cx=\"30\" cy=\"16\" r=\"3\"/><path d=\"M14 24l4 12h-8M10 36h16\"/></svg>", "p3": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><rect x=\"12\" y=\"14\" width=\"24\" height=\"20\" rx=\"6\"/><circle cx=\"19\" cy=\"24\" r=\"2.5\" fill=\"currentColor\"/><circle cx=\"29\" cy=\"24\" r=\"2.5\" fill=\"currentColor\"/><path d=\"M24 14V8M20 8h8M18 34v6M30 34v6M12 22H7M36 22h5\"/></svg>", "p4": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><rect x=\"6\" y=\"10\" width=\"36\" height=\"26\" rx=\"5\"/><circle cx=\"24\" cy=\"21\" r=\"5\"/><path d=\"M15 32c2-5 16-5 18 0\"/><path d=\"M18 42h12\"/></svg>", "p5": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M30 6L20 28\"/><path d=\"M14 26l12 5-3 11c-6-1-11-4-14-8z\"/><path d=\"M16 36l-3 5M21 38l-2 5\"/></svg>", "p6": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M10 14h10M28 14h10M15 14v4M33 14v4\"/><rect x=\"15\" y=\"18\" width=\"18\" height=\"8\" rx=\"3\"/><rect x=\"19\" y=\"30\" width=\"10\" height=\"10\" rx=\"2\"/><path d=\"M24 26v4\"/></svg>", "p7": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M24 5l15 6v11c0 10-7 17-15 21-8-4-15-11-15-21V11z\"/><path d=\"M18 23h12M24 17v12\"/></svg>", "p8": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M24 6C13 6 6 14 6 23c0 7 5 12 11 12 3 0 3 3 3 5 0 2 2 3 4 3 11 0 18-9 18-19S35 6 24 6z\"/><circle cx=\"16\" cy=\"20\" r=\"2.5\" fill=\"currentColor\"/><circle cx=\"24\" cy=\"14\" r=\"2.5\" fill=\"currentColor\"/><circle cx=\"32\" cy=\"20\" r=\"2.5\" fill=\"currentColor\"/></svg>", "p9": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M24 40S8 31 8 19a8 8 0 0116-3 8 8 0 0116 3c0 12-16 21-16 21z\"/><rect x=\"18\" y=\"18\" width=\"12\" height=\"9\" rx=\"2.5\"/></svg>", "d0": "<div class=\"chat\"><p class=\"room\">우리 반 단톡방 · 오후 8:12</p><div class=\"msg\"><span class=\"ava\" style=\"background:#3d6fb4\">현</span><div class=\"vid\"><div class=\"face\"></div><div class=\"play\"></div><div class=\"cap\">\"우리 반 애들 다 별로야\"</div></div></div><div class=\"msg\"><span class=\"ava\" style=\"background:#c4563a\">서</span><span class=\"bub\">헐 대박</span></div><div class=\"msg\"><span class=\"ava\" style=\"background:#2f8a6e\">준</span><span class=\"bub\">이거 진짜야?</span></div><div class=\"fwd\">↪ 전달</div></div>"};
-const STEP=["1단계 · 내 마음 알아차리기","2단계 · 내 선택의 결과 보기","3단계 · 입장 바꾸어 생각하기","4단계 · 멈춤 질문 만들기","나의 기록"];
+Object.assign(PIC,{"a2": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><rect x=\"6\" y=\"12\" width=\"36\" height=\"26\" rx=\"5\"/><circle cx=\"24\" cy=\"25\" r=\"7\"/><circle cx=\"24\" cy=\"25\" r=\"2.5\" fill=\"currentColor\"/><path d=\"M18 12l3-5h6l3 5\"/><path d=\"M36 20l4-2\"/></svg>", "b1": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><circle cx=\"24\" cy=\"26\" r=\"14\"/><path d=\"M18 23h.1M30 23h.1\" stroke-width=\"3.5\"/><path d=\"M17 31c3 4 11 4 14 0\"/><path d=\"M8 8l2 4M12 6l1 4M6 13l4 1M38 6l-1 4M42 10l-4 2\"/></svg>", "b2": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><circle cx=\"17\" cy=\"16\" r=\"6\"/><circle cx=\"33\" cy=\"18\" r=\"5\"/><path d=\"M6 40c0-8 5-13 11-13s11 5 11 13\"/><path d=\"M28 40c0-6 2-10 5-11 4 0 9 4 9 11\"/><path d=\"M24 24l5 3\" /></svg>", "b3": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><path d=\"M8 40V10a3 3 0 013-3h22a3 3 0 013 3v30\"/><path d=\"M8 40h28\"/><path d=\"M14 16h14M14 22h14M14 28h8\"/><path d=\"M34 34l8-8 3 3-8 8h-3z\"/></svg>", "b4": "<svg viewBox=\"0 0 48 48\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"><rect x=\"13\" y=\"4\" width=\"22\" height=\"40\" rx=\"5\"/><path d=\"M21 16l10 7-10 7z\" fill=\"currentColor\"/><path d=\"M21 40h6\"/><path d=\"M38 14c3 4 3 8 0 12M42 10c5 7 5 13 0 20\"/></svg>"},{a1:PIC.p1,a3:PIC.p4,b5:PIC.p9,b6:PIC.p8});
+const STEP=["1단계 · 내 마음 알아차리기","2단계 · 내 선택의 결과 보기","3단계 · 입장 바꾸어 생각하기","4단계 · 멈춤 질문과 최종 결정","나의 기록"];
+const PARTS_DEFAULT=["결정하기 전","결정한 다음","다시 결정하기 전"];
+const partOf=(c,n)=>(c.parts||PARTS_DEFAULT)[n===1?0:n===4?2:1];
+const splitSents=t=>{const s=String(t),out=[];let cur="",q=false;for(let i=0;i<s.length;i++){const ch=s[i];cur+=ch;if(ch==="\""||ch==="“"||ch==="”"){q=!q;continue}if(!q&&/[.!?]/.test(ch)&&!/[.!?"”]/.test(s[i+1]||"")){out.push(cur);cur=""}}if(cur.trim())out.push(cur);const r=out.map(x=>x.trim()).filter(Boolean);return r.length?r:[s]};
 const SEG=["왼쪽이\n훨씬","왼쪽이\n조금","비슷해요","오른쪽이\n조금","오른쪽이\n훨씬"];
 const SIM_GONE="내 휴대폰에서는 지웠어요. 그런데 이미 퍼진 영상은 다른 사람들의 휴대폰에 그대로 남아 있어요.";
 
 /* ---------- 서버 연결 (구글 앱스 스크립트) / 미리보기 모드 ---------- */
 const GAS=!!(window.google&&google.script&&google.script.run);
 const WEB=!GAS&&/^https?:$/.test(location.protocol);
+/* 웹 화면 + 선생님 구글 시트 저장: 주소의 k=열쇠로 연결해요 (설치는 setup.html) */
+let SHEET_KEY="";
+try{const q=new URLSearchParams(location.search);const k=q.get("k");if(k&&/^[A-Za-z0-9_-]{20,}$/.test(k)){SHEET_KEY=k;localStorage.setItem("aes.k",k)}else SHEET_KEY=localStorage.getItem("aes.k")||""}catch(e){}
+const LINKED=()=>WEB&&!!SHEET_KEY;
+const sheetUrl=()=>window.AES_SHEET_URL||("https://script.google.com/macros/s/"+SHEET_KEY+"/exec");
+function parseKey(v){const m=String(v||"").trim().match(/\/s\/([A-Za-z0-9_-]{20,})\//)||String(v||"").trim().match(/^([A-Za-z0-9_-]{20,})$/);return m?m[1]:""}
 const LS="aiScale3.records", LSC="aiScale3.card";
 let memRecs=[],memCard="d0";
 const local={
@@ -439,16 +622,21 @@ const local={
   set card(c){memCard=c;try{localStorage.setItem(LSC,c)}catch(e){}}
 };
 const mock={
-  getState:()=>({card:local.card,url:location.href.split("#")[0]}),
+  getState:()=>({card:local.card,gate:3,url:location.href.split("#")[0]}),
+  setGate:()=>true,
+  saveProgress:r=>{const a=local.recs;r.t=Date.now();const i=a.findIndex(x=>x.id===r.id);if(i<0)a.push(r);else{for(const k in r)if(r[k]!==null&&r[k]!==undefined&&r[k]!=="")a[i][k]=r[k]}local.recs=a;return true},
   verifyPin:p=>{if(!WEB&&String(p)!=="1234")throw new Error("비밀번호가 맞지 않아요.");if(!String(p).trim())throw new Error("비밀번호를 입력해 주세요.");return true},
   setCard:(p,c)=>{mock.verifyPin(p);local.card=c;return true},
   submitRecord:r=>{const a=local.recs;a.push(r);local.recs=a;return true},
-  getPeek:c=>{const rows=local.recs.filter(r=>r.card===c);return {firsts:rows.map(r=>r.first),feels:shuffle(rows.filter(r=>r.feel).map(r=>r.feel)).slice(0,3)}},
+  getProgress:(c,n)=>{const rows=local.recs.filter(r=>r.card===c&&r.name===n);return rows.length?rows[rows.length-1]:null},
+  getOpen:c=>{const seen=new Set();return local.recs.filter(r=>r.card===c&&r.name&&r.second==null).reverse().map(r=>r.name).filter(n=>!seen.has(n)&&seen.add(n)).slice(0,40)},
+  getPeek:c=>{const rows=local.recs.filter(r=>r.card===c&&r.first!=null);return {firsts:rows.map(r=>r.first),feels:shuffle(rows.filter(r=>r.feel).map(r=>r.feel)).slice(0,3)}},
   getResults:(p,c)=>{mock.verifyPin(p);return local.recs.filter(r=>r.card===c)},
   resetCard:(p,c)=>{mock.verifyPin(p);local.recs=local.recs.filter(r=>r.card!==c);return true}
 };
 function api(name,...args){
   if(GAS)return new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(e=>rej(e))[name](...args));
+  if(LINKED())return fetch(sheetUrl(),{method:"POST",body:JSON.stringify({name,args}),redirect:"follow"}).then(r=>r.json()).then(j=>{if(j&&j.error)throw new Error(j.error);return j&&j.result});
   return new Promise((res,rej)=>{try{res(mock[name](...args))}catch(e){rej(e)}});
 }
 
@@ -461,15 +649,23 @@ const byId=id=>CARDS.find(c=>c.id===id)||CARDS[0];
 const persp=(c,choice)=>c.persp[Math.min(choice==null?0:choice,c.persp.length-1)];
 
 let card=CARDS[0], st, page=1, studentUrl="";
-function fresh(){st={feelings:{L:[],R:[]},first:null,s:[null,null],words:[],feelDone:false,second:null,simDone:false}}
-function started(){return page>1||st.first!=null||st.s[0]!=null||st.feelings.L.length+st.feelings.R.length>0}
+let gate=3,waitFor=0,waitTimer=null;
+function fresh(){st={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),feelings:{L:[],R:[]},first:null,s:[null,null],words:[],feelDone:false,second:null,simDone:false,hook:null,named:false,wiseSent:false};waitFor=0;clearInterval(waitTimer)}
+/* 카드마다 따로 저장해요: 잠깐 다른 카드로 열려도 하던 기록이 덮이지 않게 */
+const SESS="aes.sess",sessKey=()=>SESS+"."+card.id;
+function persist(){if(document.body.classList.contains("tfull")&&!document.body.classList.contains("vstudent"))return;try{localStorage.setItem(sessKey(),JSON.stringify({card:card.id,name:myName,page,waitFor,st,inputs:{why1:$("why1").value,feel:$("feel").value,reason:$("reason").value,wise:$("wise").value}}))}catch(e){}}
+function savedSess(){try{const v=JSON.parse(localStorage.getItem(sessKey()));return (v&&v.card===card.id&&v.st&&v.page<5)?v:null}catch(e){return null}}
+function clearSess(){try{localStorage.removeItem(sessKey())}catch(e){}}
+function setName(n){myName=n;$("myname").textContent=n;$("myname2").textContent=n;const ch=n[n.length-1],c=n.charCodeAt(n.length-1)-44032,j=c%28;$("myjosa").textContent=/[0367]/.test(ch)?"으로":/[124589]/.test(ch)?"로":(c>=0&&j&&j!==8)?"으로":"로"}
+function newName(){return pick(NAME_A)+" "+pick(NAME_B)+" "+(10+Math.floor(Math.random()*90))}
+function started(){return waitFor>0||page>1||st.first!=null||st.s[0]!=null||st.feelings.L.length+st.feelings.R.length>0}
 
 /* ---------- 학생 화면 ---------- */
 function renderFeelings(){
   const box=$("fgroups");box.replaceChildren();if(!card.feelings)return;
   ["L","R"].forEach(side=>{
     const g=el("div",{class:"fgroup "+(side==="L"?"l":"r")},[el("small",{text:card.feelings[side==="L"?"l":"r"]})]);
-    card.feelings[side].forEach((t,i)=>{const on=st.feelings[side].includes(i);const b=el("button",{type:"button",class:"chip","aria-pressed":String(on),text:t});b.onclick=()=>{const a=st.feelings[side];const k=a.indexOf(i);k<0?a.push(i):a.splice(k,1);renderFeelings();check()};g.appendChild(b)});
+    card.feelings[side].forEach((t,i)=>{const on=st.feelings[side].includes(i);const b=el("button",{type:"button",class:"chip","aria-pressed":String(on),text:t});b.onclick=()=>{st.feelings[side]=on?[]:[i];renderFeelings();check()};g.appendChild(b)});
     box.appendChild(g);
   });
 }
@@ -503,13 +699,21 @@ function runSim(){
   if(reduce){show(300);fin();return}
   [1,5,25,300].forEach((n,i,a)=>simTimer.push(setTimeout(()=>{show(n);if(i===a.length-1)fin()},300+i*900)));
 }
+function renderSents(){ /* 결과는 이어지는 한 덩어리 글로 보이고, 문장을 누르면 색이 칠해져요 */
+  const box=$("conseq");box.replaceChildren();const ss=splitSents(card.conseq[st.first]);
+  const pick=i=>{st.hook=i;[...box.children].forEach((x,k)=>x.setAttribute("aria-pressed",String(k===i)));check()};
+  ss.forEach((t,i)=>{if(i)box.appendChild(document.createTextNode(" "));const b=el("span",{class:"sent",role:"button",tabindex:"0","aria-pressed":String(st.hook===i),text:t});
+    b.onclick=()=>pick(i);b.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(i)}};box.appendChild(b)});
+}
+const hookText=()=>st.hook==null?"":(splitSents(card.conseq[st.first])[st.hook]||"");
 function leanText(v){const [L,R]=card.scale.short;if(v===3)return el("span",{class:"lean-m",text:"두 쪽이 비슷하게"});return el("span",{class:v<3?"lean-l":"lean-r",text:`'${v<3?L:R}' 쪽으로${v===1||v===5?" 훨씬":" 조금"}`})}
 function renderPath(){
   const p=$("path");p.replaceChildren();
   p.appendChild(el("p",{style:"font-weight:700",text:"지금까지 나의 생각 길"}));
   if(card.feelings){const f=[...st.feelings.L.map(i=>card.feelings.L[i]),...st.feelings.R.map(i=>card.feelings.R[i])];if(f.length)p.appendChild(el("p",{},[document.createTextNode("처음 내 마음: "),el("b",{text:f.join(", ")})]))}
   p.appendChild(el("p",{},[document.createTextNode("처음 고른 행동: "),el("b",{text:card.choices[st.first]})]));
-  p.appendChild(el("p",{},[document.createTextNode("처음 저울: "),leanText(st.s[0])]));
+  p.appendChild(el("p",{},[document.createTextNode("처음 저울: "),leanText(st.s[0]),document.createTextNode(" — "),el("b",{text:$("why1").value.trim()})]));
+  if(hookText())p.appendChild(el("p",{},[document.createTextNode("마음에 걸린 문장: "),el("b",{text:"\""+hookText()+"\""})]));
   const [who]=persp(card,st.first);
   if(st.words.length)p.appendChild(el("p",{},[document.createTextNode(`'${who}'의 입장에서 고른 마음: `),el("b",{text:st.words.map(i=>card.words[i]).join(", ")})]));
 }
@@ -522,93 +726,208 @@ async function renderPeek(){
   card.choices.forEach((c,i)=>box.appendChild(barRow((i+1)+". "+c,d.firsts.filter(f=>f===i).length,d.firsts.length,"")));
 }
 function ready(){
-  if(page===1)return (!card.feelings||st.feelings.L.length+st.feelings.R.length>0)&&st.first!=null&&st.s[0]!=null;
-  if(page===2)return !needSim()||st.simDone;
+  if(page===1)return (!card.feelings||st.feelings.L.length+st.feelings.R.length>0)&&st.first!=null&&st.s[0]!=null&&$("why1").value.trim().length>=2;
+  if(page===2)return st.hook!=null&&(!needSim()||st.simDone);
   if(page===3)return st.feelDone;
-  if(page===4)return st.s[1]!=null&&st.second!=null&&$("reason").value.trim().length>=2&&$("wise").value.trim().length>=2&&!sending;
+  if(page===4){if(card.deck&&!st.wiseSent)return $("wise").value.trim().length>=2&&!sending;return st.s[1]!=null&&st.second!=null&&$("wise").value.trim().length>=2&&!sending}
   return true;
 }
 const needSim=()=>(card.sim||[]).includes(st.first);
-const NOTE=["","내 마음, 첫 행동, 저울을 모두 정하면 '다음'이 켜져요.","결과를 끝까지 보면 '다음'이 켜져요.","마음을 고르고 이유를 쓴 뒤, 다른 사람들의 말을 보면 '다음'이 켜져요.","저울, 다시 고르기, 이유, 멈춤 질문을 모두 쓰면 기록할 수 있어요.",""];
+const NOTE=["","내 마음, 첫 행동, 저울, 까닭을 모두 쓰면 '다음'이 켜져요.","마음에 걸리는 문장을 하나 고르면 '다음'이 켜져요.","마음을 고른 뒤 '다른 사람들의 말 듣기'를 누르면 '다음'이 켜져요.","멈춤 질문을 쓰고, 저울과 다시 고르기를 하면 기록할 수 있어요.",""];
 function check(){
-  $("feelok").disabled=!(st.words.length>0&&$("feel").value.trim().length>=2);
+  persist();
+  $("feelok").disabled=!(st.words.length>0);
   $("next").disabled=!ready();
-  $("navnote").textContent=ready()?"":NOTE[page];
+  $("navnote").textContent=ready()?"":(page===4&&card.deck&&!st.wiseSent)?"멈춤 질문을 쓰면 '질문 보내기'가 켜져요.":NOTE[page];
 }
 function show(n){
-  page=n;for(let i=1;i<=5;i++)$("p"+i).hidden=i!==n;
-  $("stitle").textContent=STEP[n-1];
+  page=n;waitFor=0;clearInterval(waitTimer);$("pwait").hidden=true;$("nav").hidden=false;for(let i=1;i<=5;i++)$("p"+i).hidden=i!==n;
+  $("stitle").textContent=(n<=4?partOf(card,n)+" · ":"")+STEP[n-1];
   [...$("prog").children].forEach((x,i)=>x.className=i<n?"on":"");
-  $("back").hidden=n===1||n===5;
-  $("next").textContent=n===4?"내 생각 기록하기":n===5?"다음 친구 차례":"다음";
-  if(n===2){$("mychoice").textContent="내 선택: "+card.choices[st.first];$("conseq").textContent=card.conseq[st.first];$("simq").hidden=!needSim();if(needSim()&&!st.simDone)runSim()}
-  if(n===3){const [who,when]=persp(card,st.first);$("perspq").textContent=`1. 내가 '${who}'(이)라면, ${when} 어떤 기분일까요?`}
-  if(n===4){renderPath();renderScale(1);renderPeek();
-    $("stopq").textContent="4. "+card.stopQ;
+  $("back").hidden=n===1||n===2||n===4||n===5;
+  $("next").textContent=n===4?((card.deck&&!st.wiseSent)?"질문 보내기":"내 생각 기록하기"):n===5?"다음 친구 차례":"다음";
+  if(n===2){$("mychoice").textContent="내 선택: "+card.choices[st.first];renderSents();$("simq").hidden=!needSim();if(needSim()&&!st.simDone)runSim()}
+  if(n===3){const [who,when]=persp(card,st.first);$("perspq").textContent=`1. 내가 '${who}'(이)라면, ${when} 어떤 기분일까요?`;const h=hookText();$("hookline").hidden=!h;$("hookline").textContent=h?`내가 마음에 걸린 문장: "${h}"  — 이 문장 속으로 들어가 봐요.`:""}
+  if(n===4){$("backline").textContent=`자, 다시 '${partOf(card,1)}'으로 돌아왔어요. ${card.deck?"친구들과 이야기한 상황 카드를":"결과와 다른 사람의 마음을"} 떠올리며, 먼저 멈춤 질문을 만들어요.`;$("wise").placeholder=card.stopPh;renderPath();renderScale(1);renderPeek();
+    $("stopq").textContent="1. "+card.stopQ;
     const w=st.words.map(i=>card.words[i]).join(", ");
-    $("stophint").textContent=(w?`3단계에서 '${persp(card,st.first)[0]}'의 입장이 되어 고른 마음: ${w}. 이 마음을 떠올리며 질문을 만들어 봐요. `:"")+card.stopEx;}
+    $("stophint").textContent=(w?`3단계에서 '${persp(card,st.first)[0]}'의 입장이 되어 고른 마음: ${w}. 이 마음을 떠올리며 질문을 만들어 봐요. `:"")+card.stopEx;
+    $("finalsec").hidden=!!(card.deck&&!st.wiseSent);$("wise").readOnly=!!(card.deck&&st.wiseSent);$("wisesent").hidden=!(card.deck&&st.wiseSent);
+    if(card.deck&&st.wiseSent)$("backline").textContent=`우리 반 멈춤 질문을 같이 봤어요. 이제 '${partOf(card,4)}' — 나의 최종 결정이에요.`}
   check();$("sheet").scrollIntoView({behavior:"smooth",block:"start"});
 }
 let sending=false;
+/* 친구들이 한꺼번에 보내 저장이 밀리면 잠깐 기다렸다가 저절로 다시 보내요(같은 기록ID라 줄이 늘지 않아요) */
+async function saveRec(rec){
+  for(let i=0;;i++){
+    try{return await api("saveProgress",rec)}catch(e){
+      if(i>=3)throw e;
+      $("navnote").textContent="친구들이 한꺼번에 보내고 있어요. 저절로 다시 보내는 중이니 그대로 기다려요…";
+      await new Promise(r=>setTimeout(r,1500*(i+1)+Math.random()*1500));
+    }
+  }
+}
+const SAVE_FAIL="기록하지 못했어요. 잠시 뒤 다시 눌러 주세요. 쓴 내용은 그대로 남아 있어요.";
+function buildRec(stage){
+  const r={id:st.id,card:card.id,name:myName,feelings:[...st.feelings.L.map(i=>"L"+i),...st.feelings.R.map(i=>"R"+i)].join(","),first:st.first,s1:st.s[0],why1:$("why1").value.trim()};
+  if(stage>=3)r.hook=hookText();
+  if(stage>=3){r.words=st.words.join(",");r.feel=$("feel").value.trim()}
+  if(stage>=4){r.s2=st.s[1];r.second=st.second;r.reason=$("reason").value.trim();r.wise=$("wise").value.trim()}
+  return r;
+}
+async function stepDone(stage,target){
+  sending=true;check();$("navnote").textContent="기록하는 중…";
+  try{await saveRec(buildRec(stage))}catch(e){sending=false;check();$("navnote").textContent=SAVE_FAIL;return}
+  sending=false;
+  await waitUntil(target);
+}
+const needGate=t=>t===4?((card.deck&&!st.wiseSent)?2:3):2;
+async function waitUntil(target){
+  try{const s=await api("getState");gate=s.gate||3}catch(e){}
+  const need=needGate(target);
+  if(gate>=need){show(target);return}
+  waitFor=target;for(let i=1;i<=5;i++)$("p"+i).hidden=true;$("pwait").hidden=false;
+  $("waitmsg").textContent=(card.deck&&st.wiseSent)?"질문을 보냈어요. 친구들 질문을 같이 보고 나서, 선생님이 최종 결정을 열어 줄 거예요.":"친구들이 다 마치면 선생님이 다음 단계를 열어 줄 거예요. 그동안 내가 고른 것을 떠올려 봐요.";$("nav").hidden=true;$("navnote").textContent="";persist();
+  $("sheet").scrollIntoView({behavior:"smooth",block:"start"});
+  clearInterval(waitTimer);waitTimer=setInterval(async()=>{try{const s=await api("getState");gate=s.gate||3;if(waitFor&&gate>=needGate(waitFor))show(waitFor)}catch(e){}},3000);
+}
+async function sendWise(){
+  sending=true;check();$("navnote").textContent="기록하는 중…";
+  const r=buildRec(1);r.wise=$("wise").value.trim();
+  try{await saveRec(r)}catch(e){sending=false;check();$("navnote").textContent=SAVE_FAIL;return}
+  sending=false;st.wiseSent=true;persist();
+  await waitUntil(4);
+}
 async function submit(){
   sending=true;check();$("navnote").textContent="기록하는 중…";
-  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),card:card.id,num:"",
-    feelings:[...st.feelings.L.map(i=>"L"+i),...st.feelings.R.map(i=>"R"+i)].join(","),
-    first:st.first,s1:st.s[0],s2:st.s[1],words:st.words.join(","),feel:$("feel").value.trim(),
-    second:st.second,reason:$("reason").value.trim(),wise:$("wise").value.trim()};
-  try{await api("submitRecord",rec)}catch(e){sending=false;check();$("navnote").textContent="기록하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요.";return}
+  const rec=buildRec(4);
+  try{await saveRec(rec)}catch(e){sending=false;check();$("navnote").textContent=SAVE_FAIL;return}
   sending=false;
   $("flow").textContent=`${card.choices[rec.first]} → ${card.choices[rec.second]}`;
-  $("myreason").textContent="내 이유: "+rec.reason;$("mystop").textContent=rec.wise;
-  show(5);
+  $("myreason").textContent=rec.reason?"내 이유: "+rec.reason:"";$("mystop").textContent=rec.wise;
+  show(5);clearSess();
 }
+function subTitle(){const B=document.body.classList;$("sub").textContent=(B.contains("tfull")&&!B.contains("vstudent"))?(SHOW?"TV 화면":"선생님 화면"):card.title}
+/* 이름 카드(주소의 n=카드 순서)로 들어오면 딜레마마다 다른 이름이 정해져요("오늘은 ○○로 생각해 봐요").
+   같은 딜레마 안에서는 이름이 그대로라 튕기면 카드를 다시 찍어 같은 줄로 이어 해요.
+   딜레마가 바뀌면 이름도 바뀌어 여러 차시 기록을 한 아이로 이어 볼 수 없어요(익명).
+   숫자는 화면 어디에도 보이지 않아요. NAME_A·NAME_B·CARDS 순서를 바꾸면 이름도 바뀌니 수업 중에는 그대로 둬요. */
+let MY_NO=0;
+function cardName(n,cid){const N=NAME_A.length*NAME_B.length,ci=Math.max(0,CARDS.findIndex(c=>c.id===cid));
+  const k=(n-1+ci*53)%N,a=k%NAME_A.length,q=Math.floor(k/NAME_A.length);return NAME_A[a]+" "+NAME_B[(a*7+q)%NAME_B.length]}
+const noName=()=>cardName(MY_NO,card.id);
+const TEACH_VIEW=()=>document.body.classList.contains("tfull")&&!document.body.classList.contains("vstudent");
 function startCard(){
-  fresh();myName=pick(NAME_A)+" "+pick(NAME_B);$("myname").textContent=myName;$("myname2").textContent=myName;{const c=myName.charCodeAt(myName.length-1)-44032,j=c%28;$("myjosa").textContent=(c>=0&&j&&j!==8)?"으로":"로"}
-  $("sub").textContent=card.title;
+  let sess=savedSess();if(MY_NO&&sess&&sess.name!==noName())sess=null;
+  fresh();setName(sess?sess.name:MY_NO?noName():newName());if(MY_NO)st.named=true;
+  subTitle();$("resumebox").hidden=true;$("resumeerr").textContent="";$("resumebtn").hidden=!!MY_NO;
+  if(sess||st.named||TEACH_VIEW()){$("namepick").hidden=true;document.body.classList.remove("picking")}else showNamePick();
   $("ctitle").textContent="딜레마 카드 · "+card.title;$("scene").textContent=card.scene;$("pic").innerHTML=PIC[card.id]||"";
   $("feelq").hidden=!card.feelings;
   $("ask1").textContent=(card.feelings?"2. ":"1. ")+card.ask;
   $("scaleq1").textContent=(card.feelings?"3. ":"2. ")+card.scaleQ;
   renderFeelings();renderOpts($("first"),"first");renderOpts($("second"),"second");renderScale(0);renderWords();
-  $("stancebox").hidden=true;$("feel").value="";$("reason").value="";$("wise").value="";
+  $("stancebox").hidden=true;$("feel").value="";$("reason").value="";$("wise").value="";$("why1").value="";
+  $("why1q").textContent=(card.feelings?"4. ":"3. ")+"그 마음이 더 무거운 까닭은 무엇인가요?";
   simTimer.forEach(clearTimeout);$("simcount").textContent="";$("simmsg").textContent="";$("simdel").hidden=true;
+  if(sess){resumeSess(sess);return}
+  show(1);
+  if(MY_NO&&!TEACH_VIEW())resumeNo(card.id);
+}
+async function resumeNo(cid){
+  let rec=null;try{rec=await api("getProgress",cid,noName())}catch(e){}
+  if(cid!==card.id)return;
+  if(rec&&started()){st.id=rec.id;persist();return}  // 기다리는 사이 이미 시작했으면 같은 줄에 이어 써요
+  if(rec){resumeByName(noName());return}
+  saveRec({id:st.id,card:card.id,name:noName()}).catch(()=>{});
+}
+/* 튕긴 뒤 다시 들어오면 하던 데서 이어서 */
+function showNamePick(){
+  const box=$("namechips");box.replaceChildren();const seen=new Set();
+  while(box.children.length<3){const n=newName();if(seen.has(n))continue;seen.add(n);const b=el("button",{type:"button",class:"chip",text:n});b.onclick=()=>{setName(n);st.named=true;$("namepick").hidden=true;document.body.classList.remove("picking");persist();$("sheet").scrollIntoView({behavior:"smooth",block:"start"});
+    /* 이름을 고르자마자 시트에 내 줄을 만들어 둬요: 튕겨도 이 이름을 눌러 같은 줄로 이어 해요 */
+    saveRec({id:st.id,card:card.id,name:n}).catch(()=>{})};box.appendChild(b)}
+  $("namepick").hidden=false;document.body.classList.add("picking");
+}
+function resumeSess(sess){
+  st=Object.assign(st,sess.st);const inp=sess.inputs||{};$("why1").value=inp.why1||"";$("feel").value=inp.feel||"";$("reason").value=inp.reason||"";$("wise").value=inp.wise||"";
+  renderFeelings();renderOpts($("first"),"first");renderOpts($("second"),"second");renderScale(0);renderWords();
+  if(st.feelDone){const box=$("stances");box.replaceChildren();card.stances.forEach(([w,s])=>box.appendChild(el("div",{class:"stance"},[el("b",{text:w}),el("span",{text:"\""+s+"\""})])));$("stancebox").hidden=false}
+  if(sess.waitFor){waitUntil(sess.waitFor);return}
+  show(sess.page||1);
+}
+/* 다른 기기·지워진 저장소: 이름으로 시트에서 불러오기 */
+async function resumeByName(name){
+  let rec;try{rec=await api("getProgress",card.id,name)}catch(e){$("resumeerr").textContent="불러오지 못했어요. 인터넷을 확인해요.";return}
+  if(!rec){$("resumeerr").textContent="그 이름으로 된 기록이 없어요. 띄어쓰기와 숫자까지 똑같이 써 봐요.";return}
+  fresh();st.id=rec.id;setName(name);st.named=true;$("namepick").hidden=true;document.body.classList.remove("picking");
+  const f=String(rec.feelings||"").split(",").filter(Boolean);st.feelings={L:f.filter(x=>x[0]==="L").map(x=>+x.slice(1)),R:f.filter(x=>x[0]==="R").map(x=>+x.slice(1))};
+  st.first=rec.first==null?null:+rec.first;st.s=[rec.s1==null?null:+rec.s1,rec.s2==null?null:+rec.s2];st.second=rec.second==null?null:+rec.second;
+  st.words=String(rec.words||"").split(",").filter(x=>x!=="").map(Number);st.feelDone=st.words.length>0;st.simDone=true;
+  if(rec.hook&&st.first!=null){const i=splitSents(card.conseq[st.first]).indexOf(rec.hook);st.hook=i<0?0:i}
+  $("why1").value=rec.why1||"";$("feel").value=rec.feel||"";$("reason").value=rec.reason||"";$("wise").value=rec.wise||"";
+  renderFeelings();renderOpts($("first"),"first");renderOpts($("second"),"second");renderScale(0);renderWords();$("resumebox").hidden=true;
+  if(st.feelDone){const box=$("stances");box.replaceChildren();card.stances.forEach(([w,s])=>box.appendChild(el("div",{class:"stance"},[el("b",{text:w}),el("span",{text:"\""+s+"\""})])));$("stancebox").hidden=false}
+  if(st.second!=null){$("flow").textContent=`${card.choices[st.first]} → ${card.choices[st.second]}`;$("myreason").textContent=rec.reason?"내 이유: "+rec.reason:"";$("mystop").textContent=rec.wise||"";show(5);clearSess();return}
+  if(card.deck){st.wiseSent=!!rec.wise;if(st.first!=null){waitUntil(4);return}}
+  if(st.feelDone){waitUntil(4);return}
+  if(st.first!=null){waitUntil(2);return}
   show(1);
 }
 async function syncCard(force){
-  try{const s=await api("getState");studentUrl=s.url||studentUrl;
+  try{const s=await api("getState");studentUrl=s.url||studentUrl;gate=s.gate||3;
     if(s.card!==card.id&&(force||!started())){card=byId(s.card);startCard()}
-  }catch(e){if(force){$("sub").textContent="연결하지 못했어요. 새로 고침해 주세요."}}
+    return true;
+  }catch(e){if(force){$("sub").textContent="연결하지 못했어요. 새로 고침해 주세요."}return false}
 }
 
 /* ---------- 선생님 화면 ---------- */
-let pin="",tTimer=null,tCard="d0",tStage=0,tRecs=[],tCluster={};
-function fillSelect(){const s=$("cardsel");s.replaceChildren();CARDS.forEach((c,i)=>{const o=el("option",{value:c.id,text:(i===0?"★ ":i+". ")+c.title});if(c.id===tCard)o.selected=true;s.appendChild(o)})}
+let pin="",tTimer=null,tCard="d0",tStage=0,tRecs=[],tCluster={},tGate=1,tCmp="",tCmpRecs=[],tView="results",SHOW=false,tFlow=0,tRev=false,tKey="",tAnim=false,tApplied=false;
+let bc=null;try{if("BroadcastChannel" in window)bc=new BroadcastChannel("aes-show")}catch(e){bc=null}
+function castState(){if(SHOW)return;const m={stage:tStage,card:tCard,view:tView,flow:tFlow,rev:tRev,deck:tDeck.drawn,t:Date.now()};try{bc&&bc.postMessage(m)}catch(e){}try{localStorage.setItem("aes.show",JSON.stringify(m))}catch(e){}}
+function applyShow(m){if(!SHOW||!m)return;
+  const view=m.view||"results",card=m.card||tCard,stage=typeof m.stage==="number"?m.stage:tStage,flow=typeof m.flow==="number"?m.flow:tFlow,rev=!!m.rev,drawn=Array.isArray(m.deck)?m.deck:[];
+  const sameDeck=JSON.stringify(drawn)===JSON.stringify(tDeck.drawn);
+  if(tApplied&&view===tView&&card===tCard&&stage===tStage&&flow===tFlow&&rev===tRev&&sameDeck)return; /* 같은 상태면 다시 그리지 않아요(화면 떨림 방지) */
+  tApplied=true;if(rev&&!tRev)tAnim=true;if(drawn.length>tDeck.drawn.length)tAnim=true;tDeck={drawn:drawn.slice()};
+  tView=view;document.body.classList.toggle("vstudent",tView==="student");document.body.classList.toggle("tmode",tView!=="student");subTitle();
+  const cardChanged=card!==tCard;tCard=card;tStage=stage;tFlow=flow;tRev=rev;if(cardChanged){tCmp="";tCmpRecs=[];fillSelect();refreshResults()}else renderTeacher(tRecs)}
+if(bc)bc.onmessage=e=>applyShow(e.data);
+window.addEventListener("storage",e=>{if(e.key==="aes.show"){try{applyShow(JSON.parse(e.newValue))}catch(x){}}});
+function renderGate(){const cd=byId(tCard);[...$("gate").querySelectorAll("button")].forEach(b=>{const g=+b.dataset.g;b.setAttribute("aria-pressed",String(g===tGate));b.textContent=g===1?"① 1단계만":g===2?(cd.deck?"② 멈춤 질문 열기":"② 2~3단계 열기"):(cd.deck?"③ 최종 결정 열기":"③ 4단계 열기")});
+  const r=tRecs,a=r.filter(x=>x.first!=null).length,b=r.filter(x=>x.words).length,w=r.filter(x=>x.wise).length,c=r.filter(x=>x.second!=null).length;
+  $("gatecount").textContent=cd.deck?`1단계 마침 ${a}명 · 질문 보냄 ${w}명 · 최종 결정 ${c}명`:`1단계 마침 ${a}명 · 3단계 마침 ${b}명 · 4단계 마침 ${c}명`;}
+function fillSelect(){const s=$("cardsel");s.replaceChildren();const G={d:"★ 대표 딜레마(딥페이크)",a:"앞 · 다가가기",b:"뒤 · 넓히기"};const gs={};CARDS.forEach((c,i)=>{const k=c.id[0];if(!gs[k]){gs[k]=el("optgroup",{label:G[k]||""});s.appendChild(gs[k])}const o=el("option",{value:c.id,text:(i===0?"★ ":i+". ")+c.title});if(c.id===tCard)o.selected=true;gs[k].appendChild(o)})}
 function drawQR(){
+  {const base=(GAS||WEB)?studentUrl:location.pathname;$("tvlink").href=base+(base.includes("?")?"&":"?")+"t=1&show=1"}
   if(!GAS&&!WEB){$("url").textContent="웹에 배포하면 여기에 학생 접속 주소와 QR 코드가 나와요.";$("qr").hidden=true;$("copyurl").hidden=true;return}
-  if(WEB)studentUrl=location.origin+location.pathname;
+  if(WEB)studentUrl=location.origin+location.pathname+(SHEET_KEY?"?k="+SHEET_KEY:"");
   $("url").textContent=studentUrl;const box=$("qr");box.replaceChildren();
   if(window.qrcode&&studentUrl){try{const q=qrcode(0,"M");q.addData(studentUrl);q.make();box.innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true})}catch(e){box.hidden=true}}else box.hidden=true;
 }
 async function refreshResults(){
   let recs;try{recs=await api("getResults",pin,tCard)}catch(e){$("livetxt").textContent="결과를 불러오지 못했어요";return}
+  let gate=tGate;try{const s=await api("getState");if(s.card===tCard)gate=s.gate||1}catch(e){}
   $("livetxt").textContent="자동으로 새로 고쳐져요 · "+new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  renderTeacher(recs);
+  /* 기록이 바뀌었을 때만 다시 그려요. 5초마다 통째로 다시 그리면 막대·글이 매번 다시 자라나 화면이 떨려요 */
+  const key=tCard+"|"+gate+"|"+JSON.stringify(recs);if(key===tKey)return;tKey=key;tGate=gate;
+  renderTeacher(recs);renderGate();
 }
 function stagesFor(c){
   const [who]=c.persp[0];
   return [
    ["진행 현황","친구들이 생각을 마치는 중이에요.",""],
-   c.feelings?["처음 마음","같은 영상을 보고, 우리 반에는 어떤 마음들이 있었을까요?","멈추고 싶은 마음을 고른 친구들의 이유도 들어 봐요."]:["처음 저울","우리 반의 처음 저울은 어느 쪽으로 기울었을까요?","왜 그쪽이 더 무거웠는지 이야기해 봐요."],
-   ["처음 선택","우리 반은 처음에 이렇게 골랐어요. 왜 이렇게 골랐을까요?","적게 고른 쪽의 이유부터 들어 봐요."],
+   ["처음 저울","우리 반의 처음 저울은 어느 쪽으로 기울었을까요?","왜 그쪽이 더 무거웠을까요? 먼저 짝과 이야기해 봐요."],
+   ["까닭과 선택",c.feelings?"친구들이 쓴 까닭과 처음 마음, 처음 선택이에요.":"친구들이 쓴 까닭과 처음 선택이에요.","우리가 이야기한 까닭과 같은 것, 다른 것을 찾아 봐요."],
    ["입장 바꾸기",c.persp.length===1?`내가 '${who}'(이)라면, 어떤 기분일까요?`:"결과 속 사람의 입장이 되어 보니 어떤 기분이었나요?","친구들이 고른 마음 낱말과 그 이유를 함께 봐요."],
-   ["다시 저울질","입장을 바꿔 생각한 뒤, 우리 반의 저울은 어떻게 움직였을까요?","저울이 움직인 친구도, 그대로인 친구도 이유가 있어요."],
+   ["다시 저울질",(c.deck?"상황 카드와 멈춤 질문을 이야기한 뒤":"입장을 바꿔 생각한 뒤")+", 우리 반의 저울은 어떻게 움직였을까요?","저울이 움직인 친구도, 그대로인 친구도 이유가 있어요."],
    ["다시 선택","다시 생각한 뒤 우리 반의 선택은 어떻게 달라졌을까요?","바꾼 친구도, 지킨 친구도 이유가 있어요."],
    ["멈춤 질문",c.stopQ,"비슷한 질문끼리 묶어 우리 반 멈춤 질문 3가지를 정해 봐요."]];
 }
 function renderStages(c){
   const S=stagesFor(c),box=$("stages");box.replaceChildren();
   S.forEach(([lab],i)=>{const b=el("button",{type:"button",role:"tab","aria-selected":String(i===tStage),text:(i+1)+". "+lab});b.onclick=()=>{tStage=i;renderTeacher(tRecs)};box.appendChild(b)});
-  const [,q,sub]=S[tStage];$("bigq").replaceChildren(document.createTextNode(q));if(sub)$("bigq").appendChild(el("small",{text:sub}));
+  const [,q,sub]=S[tStage];$("bigq").replaceChildren();if(tStage>0){$("bigq").appendChild(el("span",{class:"parttag",text:partOf(c,tStage<=2?1:tStage===3?2:4)}));$("bigq").appendChild(document.createElement("br"))}$("bigq").appendChild(document.createTextNode(q));if(sub)$("bigq").appendChild(el("small",{text:sub}));
   $("sprev").disabled=tStage===0;$("snext").disabled=tStage===S.length-1;
 }
 function quoteList(items,empty){if(!items.length)return el("p",{style:"color:var(--muted)",text:empty});const ul=el("ul",{class:"quotes"});items.forEach(t=>ul.appendChild(el("li",{text:t})));return ul}
@@ -621,37 +940,94 @@ function hist(title,recs,key,c){
 async function runCluster(){
   tCluster={card:tCard,busy:true};renderTeacher(tRecs);
   try{let groups;
-    if(GAS)groups=await api("clusterWise",pin,tCard);
-    else{const sentences=tRecs.filter(r=>r.wise).map(r=>r.wise);
-      const r=await fetch("/api/cluster",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({pin,sentences})});
-      let j={};try{j=await r.json()}catch(e){}
-      if(!r.ok)throw new Error(j.error||("AI 연결 기능을 찾지 못했어요. ("+r.status+")"));groups=j.groups}
+    if(GAS||LINKED())groups=await api("clusterWise",pin,tCard);
+    else throw new Error("연습 모드에서는 AI로 묶을 수 없어요. 구글 시트를 연결하고 시트의 Apps Script에 GEMINI_API_KEY를 넣으면 쓸 수 있어요(설치 안내 참고).");
     tCluster={card:tCard,groups}}
   catch(e){tCluster={card:tCard,err:(e&&e.message)||"묶지 못했어요. 다시 눌러 주세요."}}
   renderTeacher(tRecs);
 }
+/* ---------- 수업 진행 모드 (선생님 화면 전용): 다음 ▶ 하나로 열기와 결과 공개를 순서대로 ---------- */
+const FLOW_G1={g:1,t:"1단계 하는 중",done:r=>r.first!=null,dl:"1단계를 마친 친구"},FLOW_G2={g:2,t:"2·3단계 하는 중",done:r=>!!r.words,dl:"3단계를 마친 친구"},FLOW_G3={g:3,t:"4단계 하는 중",done:r=>r.second!=null,dl:"4단계를 마친 친구"};
+const FLOW_GQ={g:2,t:"멈춤 질문 쓰는 중",done:r=>!!r.wise,dl:"질문을 보낸 친구"},FLOW_GF={g:3,t:"최종 결정 하는 중",done:r=>r.second!=null,dl:"최종 결정을 마친 친구"};
+/* 상황 카드(deck)가 있는 카드는 2·3단계 대신 TV 상황 카드로 다 같이 이야기하고 바로 4단계로 가요 */
+const flowFor=c=>c.deck?[FLOW_G1,{s:1},{s:2},{d:1},FLOW_GQ,{s:6},FLOW_GF,{s:4},{s:5}]:[FLOW_G1,{s:1},{s:2},FLOW_G2,{s:3},FLOW_G3,{s:4},{s:5},{s:6}];
+const FL=()=>flowFor(byId(tCard));
+let tDeck={drawn:[]};
+function drawCard(i){const c=byId(tCard);if(!c.deck)return;const k=tDeck.drawn.indexOf(i);if(k>=0)tDeck.drawn.splice(k,1);tDeck.drawn.push(i);tAnim=true;renderFlowView();castState()}
+function drawNext(){const c=byId(tCard);if(!c.deck)return false;const i=c.deck.findIndex((_,j)=>!tDeck.drawn.includes(j));if(i<0)return false;drawCard(i);return true}
+function renderDeck(box,c){
+  const total=c.deck.length,dr=tDeck.drawn,k=dr.length,cur=k?dr[k-1]:-1;
+  $("bigq").replaceChildren(el("span",{class:"parttag",text:"멈춤 ② · 상황 카드"}),document.createElement("br"),document.createTextNode("혹시 나에게 이런 상황이 생긴다면?"));
+  if(k)$("bigq").appendChild(el("small",{text:"나라면 어떻게 할까? 다 같이 이야기해 봐요."}));
+  const wrap=el("div",{class:"deck"});
+  if(k)wrap.appendChild(el("div",{class:"deckcard"},[el("span",{class:"decknum",text:`${cur+1}번 카드 · ${k} / ${total}`}),el("p",{text:c.deck[cur]})]));
+  const pile=el("div",{class:"pile"});
+  c.deck.forEach((t,i)=>{const cls="pcard"+(dr.includes(i)?" used":"")+(i===cur?" cur":"");if(SHOW)pile.appendChild(el("span",{class:cls,text:String(i+1)}));else{const b=el("button",{type:"button",class:cls,text:String(i+1),title:t});b.onclick=()=>drawCard(i);pile.appendChild(b)}});
+  wrap.appendChild(pile);
+  if(!SHOW){if(k<total){const b=el("button",{type:"button",class:"btn big",text:"카드 뽑기 ▶"});b.onclick=()=>drawNext();wrap.appendChild(b)}wrap.appendChild(el("p",{class:"tkey",text:k<total?"번호를 누르거나 '카드 뽑기 ▶'(스페이스)로 한 장씩 열어요. 아이들이 번호를 골라도 좋아요. 이야기를 마치면 '다음 ▶'으로 4단계를 열어요.":"다 뽑았어요. '다음 ▶'을 누르면 4단계가 열려요."}))}
+  box.appendChild(wrap);
+}
+const TFULL=()=>document.body.classList.contains("tfull");
+function flowLabel(){const it=FL()[tFlow],c=byId(tCard),S=stagesFor(c);const stops={1:"멈춤 ①",2:"멈춤 ①",3:"멈춤 ②",4:"멈춤 ③",5:"멈춤 ③",6:"멈춤 ③"};
+  if(it.d){const k=tDeck.drawn.length,t=c.deck.length;return [`멈춤 ② · 상황 카드 ${k}/${t}`,k<t?"번호나 '카드 뽑기 ▶'로 한 장씩. 이야기를 마치면 '다음 ▶'로 4단계":"다 뽑았어요. '다음 ▶'로 4단계를 열어요"]}
+  return it.g?[`${it.g===1?"①":it.g===2?"②":"③"} ${it.t}`,"친구들이 다 마치면 '다음 ▶'"]:[`${stops[it.s]} · ${S[it.s][0]}`,tRev?"이야기 나눈 뒤 '다음 ▶'":"'짠!'을 누르면 결과가 나와요"]}
+function renderFlowView(){
+  const F=FL();if(tFlow>=F.length)tFlow=0;const it=F[tFlow],c=byId(tCard),box=$("tstats"),S=stagesFor(c);box.replaceChildren();box.classList.remove("rev");
+  $("flowbar").hidden=SHOW;const [l1,l2]=flowLabel();$("flowlab").replaceChildren(document.createTextNode(l1),el("small",{text:l2}));$("fprev").disabled=tFlow===0;$("fnext").disabled=tFlow===F.length-1;
+  $("fnext").textContent="다음 ▶";
+  if(it.d){renderDeck(box,c);if(tAnim){box.classList.add("rev");tAnim=false}return}
+  if(it.g){tStage=0;$("bigq").replaceChildren(el("span",{class:"parttag",text:partOf(c,it.g===1?1:(it.g===2&&!c.deck)?2:4)}),document.createElement("br"),document.createTextNode(it.t));
+    const live=tRecs.filter(x=>x.name),done=tRecs.filter(it.done);
+    box.appendChild(el("div",{class:"counter"},[el("div",{class:"tbox"},[el("span",{class:"bignum",text:live.length}),el("span",{style:"font-weight:700",text:"들어온 친구"})]),el("div",{class:"tbox"},[el("span",{class:"bignum",text:done.length}),el("span",{style:"font-weight:700",text:it.dl})])]));
+    if(!SHOW&&live.length){const lb=el("div",{class:"tbox",style:"margin-top:14px"},[el("h3",{text:"들어온 친구 · 이름을 잊은 친구는 여기서 찾아 줘요"})]);const ul=el("ul",{class:"quotes"});
+      live.slice().sort((x,y)=>(y.t||0)-(x.t||0)).forEach(r=>{const stg=r.second!=null?"다 마침":r.words?"3단계 마침":r.wise?"질문 보냄":r.first!=null?"1단계 마침":"시작";const tm=r.t?new Date(r.t).toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"}):"";ul.appendChild(el("li",{text:`${r.name} · ${stg}${tm?" · "+tm:""}`}))});lb.appendChild(ul);box.appendChild(lb)}
+    return}
+  tStage=it.s;const [,q,sub]=S[tStage];$("bigq").replaceChildren(el("span",{class:"parttag",text:partOf(c,tStage<=2?1:tStage===3?2:4)}),document.createElement("br"),document.createTextNode(q));if(sub&&tRev)$("bigq").appendChild(el("small",{text:sub}));
+  if(!tRev){const cv=el("div",{class:"cover"});if(SHOW)cv.appendChild(el("div",{class:"dots3",text:"● ● ●"}));else{const b=el("button",{type:"button",class:"btn big",text:"짠! 결과 보기"});b.onclick=()=>{tRev=true;tAnim=true;renderFlowView();castState()};cv.appendChild(b);cv.appendChild(el("p",{class:"tkey",text:"아직 결과가 보이지 않아요. TV 창도 같이 열려요."}))}box.appendChild(cv);return}
+  renderStageInto(box,c,tRecs);if(tAnim){box.classList.add("rev");tAnim=false}
+}
 function renderTeacher(recs){
-  tRecs=recs;const c=byId(tCard),box=$("tstats");box.replaceChildren();$("tcardname").textContent=`'${c.title}' 반 전체 생각`;
+  tRecs=recs;renderGate();castState();const c=byId(tCard),box=$("tstats");box.replaceChildren();$("tcardname").textContent=`'${c.title}' 반 전체 생각`;
+  if(TFULL()){renderFlowView();return}
   renderStages(c);
+  renderStageInto(box,c,recs);
+}
+function renderStageInto(box,c,recs){
+  const all=recs;
+  if(tStage===0){const a=all.filter(x=>x.first!=null).length,b=all.filter(x=>x.words).length,c3=all.filter(x=>x.second!=null).length;
+    box.appendChild(el("div",{class:"pair"},[["1단계를 마친 친구",a],["3단계를 마친 친구",b],["4단계를 마친 친구",c3]].map(([t,v])=>el("div",{class:"tbox",style:"justify-items:start"},[el("span",{class:"bignum",text:v}),el("span",{style:"font-weight:700",text:t})]))));
+    const live=all.filter(x=>x.name).slice().sort((x,y)=>(y.t||0)-(x.t||0));
+    if(live.length){const lb=el("div",{class:"tbox",style:"margin-top:14px"},[el("h3",{text:`들어온 친구 ${live.length}명 · 이름을 잊은 친구는 여기서 찾아 줘요`})]);
+      const ul=el("ul",{class:"quotes"});live.forEach(r=>{const stg=r.second!=null?"다 마침":r.words?"3단계 마침":r.wise?"질문 보냄":r.first!=null?"1단계 마침":"시작";const tm=r.t?new Date(r.t).toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"}):"";ul.appendChild(el("li",{text:`${r.name} · ${stg}${tm?" · "+tm:""}`}))});lb.appendChild(ul);box.appendChild(lb)}
+    return}
+  recs=tStage<=2?all.filter(x=>x.first!=null):tStage===3?all.filter(x=>x.words):all.filter(x=>x.second!=null);
   const n=recs.length,newest=recs.slice().reverse();
-  if(tStage===0){box.appendChild(el("div",{class:"tbox",style:"justify-items:start"},[el("span",{class:"bignum",text:n}),el("span",{style:"font-weight:700",text:"명이 4단계까지 마쳤어요"})]));return}
-  if(!n){box.appendChild(el("p",{style:"color:var(--muted)",text:"아직 마친 학생이 없어요."}));return}
-  if(tStage===1){
-    if(!c.feelings){box.appendChild(el("div",{class:"pair"},[hist("처음 저울",recs,"s1",c)]));return}
-    const g=el("div",{class:"pair"});
-    ["L","R"].forEach(side=>{const b=el("div",{class:"tbox"},[el("h3",{text:c.feelings[side==="L"?"l":"r"]})]);
-      c.feelings[side].forEach((t,i)=>b.appendChild(barRow(t,recs.filter(r=>String(r.feelings||"").split(",").includes(side+i)).length,n,side==="L"?"":"b")));g.appendChild(b)});
-    const both=recs.filter(r=>{const f=String(r.feelings||"");return /L\d/.test(f)&&/R\d/.test(f)}).length;
-    box.appendChild(g);box.appendChild(el("p",{style:"font-weight:700;margin-top:10px",text:`두 쪽 마음을 함께 고른 친구 · ${both}명`}));return;
+  if(!n){box.appendChild(el("p",{style:"color:var(--muted)",text:"아직 이 단계를 마친 친구가 없어요."}));return}
+  const whyBoxes=()=>{const g=el("div",{class:"pair",style:"margin-top:14px"});
+    [[`'${c.scale.short[0]}' 쪽 까닭`,r=>r.s1<3],["비슷하다고 한 까닭",r=>r.s1===3],[`'${c.scale.short[1]}' 쪽 까닭`,r=>r.s1>3]].forEach(([t,f])=>{const rs=newest.filter(r=>r.why1&&f(r));if(!rs.length)return;g.appendChild(el("div",{class:"tbox"},[el("h3",{text:`${t} (${rs.length})`}),quoteList(rs.map(r=>r.why1).slice(0,8),"")]))});return g};
+  if(tStage===1){ /* 멈춤 ① 첫 화면: 저울(어느 쪽이 몇 명)만 보여요. 까닭은 이야기 나눈 뒤 다음 화면에서 */
+    const nL=recs.filter(r=>r.s1<3).length,nM=recs.filter(r=>r.s1===3).length,nR=recs.filter(r=>r.s1>3).length;
+    box.appendChild(el("div",{class:"counter"},[[c.scale.short[0],nL],["두 쪽이 비슷해요",nM],[c.scale.short[1],nR]].map(([t,v])=>el("div",{class:"tbox"},[el("span",{class:"bignum",text:v}),el("span",{style:"font-weight:700",text:t})]))));
+    box.appendChild(el("div",{class:"pair",style:"margin-top:14px"},[hist("처음 저울",recs,"s1",c)]));return;
   }
-  if(tStage===2){const b=el("div",{class:"tbox"});c.choices.forEach((ch,i)=>b.appendChild(barRow((i+1)+". "+ch,recs.filter(r=>r.first===i).length,n,"")));box.appendChild(b);return}
+  if(tStage===2){ /* 멈춤 ① 둘째 화면: 까닭 → (마음) → 처음 선택 */
+    box.appendChild(whyBoxes());
+    if(c.feelings){const g=el("div",{class:"pair",style:"margin-top:14px"});
+      ["L","R"].forEach(side=>{const b=el("div",{class:"tbox"},[el("h3",{text:c.feelings[side==="L"?"l":"r"]})]);
+        c.feelings[side].forEach((t,i)=>b.appendChild(barRow(t,recs.filter(r=>String(r.feelings||"").split(",").includes(side+i)).length,n,side==="L"?"":"b")));g.appendChild(b)});
+      const both=recs.filter(r=>{const f=String(r.feelings||"");return /L\d/.test(f)&&/R\d/.test(f)}).length;
+      box.appendChild(g);box.appendChild(el("p",{style:"font-weight:700;margin-top:10px",text:`두 쪽 마음을 함께 고른 친구 · ${both}명`}))}
+    const b=el("div",{class:"tbox",style:"margin-top:14px"},[el("h3",{text:"처음 선택"})]);c.choices.forEach((ch,i)=>b.appendChild(barRow((i+1)+". "+ch,recs.filter(r=>r.first===i).length,n,"")));box.appendChild(b);return}
   if(tStage===3){
     const groups=c.persp.length===1?[[c.persp[0][0],recs]]:c.persp.map((p,i)=>[p[0],recs.filter(r=>Math.min(r.first,c.persp.length-1)===i)]);
     const g=el("div",{class:"pair"});
     groups.forEach(([who,rs])=>{if(!rs.length)return;const b=el("div",{class:"tbox"},[el("h3",{text:`'${who}'의 입장에서`})]);
       c.words.forEach((t,i)=>{const m=rs.filter(r=>String(r.words||"").split(",").includes(String(i))).length;if(m)b.appendChild(barRow(t,m,rs.length,"b"))});
       b.appendChild(el("p",{style:"font-weight:700;margin-top:6px",text:"그 이유"}));b.appendChild(quoteList(rs.slice().reverse().filter(r=>r.feel).map(r=>r.feel).slice(0,6),"아직 없어요."));g.appendChild(b)});
-    box.appendChild(g);return;
+    box.appendChild(g);
+    {const hk={};recs.forEach(r=>{if(r.hook)hk[r.hook]=(hk[r.hook]||0)+1});const ks=Object.entries(hk).sort((a,b)=>b[1]-a[1]);
+      if(ks.length){const hb=el("div",{class:"tbox",style:"margin-top:14px"},[el("h3",{text:"결과에서 가장 마음에 걸린 문장"})]);ks.forEach(([t,m])=>hb.appendChild(barRow(t,m,recs.length,"b")));box.appendChild(hb)}}
+    return;
   }
   if(tStage===4){
     const moved=recs.filter(r=>r.s1&&r.s2&&r.s2!==r.s1);const toR=moved.filter(r=>r.s2>r.s1).length,toL=moved.length-toR;
@@ -686,35 +1062,106 @@ function renderTeacher(recs){
       }
     }
     box.appendChild(el("div",{class:"tbox",style:"margin-top:12px"},[el("h3",{text:"우리 반이 쓴 멈춤 질문"}),quoteList(wise,"아직 모인 질문이 없어요.")]));
+    /* 지난 카드와 비교 */
+    const cmpBar=el("div",{style:"display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px"});
+    const sel=el("select",{class:"small","aria-label":"비교할 지난 카드"});
+    sel.appendChild(el("option",{value:"",text:"지난 카드와 비교하기…"}));
+    CARDS.forEach((k,i)=>{if(k.id===tCard)return;const o=el("option",{value:k.id,text:(i===0?"★ ":i+". ")+k.title});if(k.id===tCmp)o.selected=true;sel.appendChild(o)});
+    sel.onchange=async e=>{tCmp=e.target.value;tCmpRecs=[];if(tCmp){try{tCmpRecs=await api("getResults",pin,tCmp)}catch(err){}}renderTeacher(tRecs)};
+    cmpBar.appendChild(sel);cmpBar.appendChild(el("span",{style:"font-size:.85rem;color:var(--muted)",text:"지난 시간의 멈춤 질문과 오늘 질문이 어떻게 달라졌는지 함께 봐요."}));
+    box.appendChild(cmpBar);
+    if(tCmp){
+      const pc=byId(tCmp);
+      const sum=(rs,k)=>{const d=rs.filter(r=>r.second!=null);const mv=d.filter(r=>r.s1&&r.s2&&r.s2!==r.s1).length,ch=d.filter(r=>r.first!==r.second).length;
+        return el("p",{style:"font-size:.9rem;color:var(--muted);margin:0 0 8px",text:`${d.length}명 · 저울이 움직인 친구 ${mv}명 · 선택을 바꾼 친구 ${ch}명`})};
+      const pw=tCmpRecs.slice().reverse().filter(r=>r.wise).map(r=>r.wise);
+      box.appendChild(el("div",{class:"pair",style:"margin-top:12px"},[
+        el("div",{class:"tbox"},[el("h3",{text:`지난 시간 · ${pc.title}`}),sum(tCmpRecs),quoteList(pw,"기록이 없어요.")]),
+        el("div",{class:"tbox"},[el("h3",{text:`오늘 · ${c.title}`}),sum(recs),quoteList(wise,"아직 모인 질문이 없어요.")])]));
+    }
   }
 }
+function renderLink(){$("linkbox").hidden=!WEB;$("linkstate").textContent=LINKED()?"· 연결됨 (열쇠 …"+SHEET_KEY.slice(-6)+")":"· 아직 연결 안 됨 (연습 모드)"}
 async function openPanel(){
-  $("pinbox").hidden=true;$("tpanel").hidden=false;document.body.classList.add("tmode");
+  $("pinbox").hidden=true;$("tpanel").hidden=false;document.body.classList.add("tmode");renderLink();
   try{const s=await api("getState");tCard=s.card;studentUrl=s.url||studentUrl}catch(e){}
   fillSelect();drawQR();refreshResults();clearInterval(tTimer);tTimer=setInterval(refreshResults,5000);
 }
 
 /* ---------- 이벤트 ---------- */
-$("reason").oninput=check;$("feel").oninput=check;$("wise").oninput=check;
+$("reason").oninput=check;$("feel").oninput=check;$("wise").oninput=check;$("why1").oninput=check;
+$("resumebtn").onclick=async()=>{$("resumebox").hidden=false;$("resumeerr").textContent="";const box=$("resumechips");box.replaceChildren(el("span",{style:"color:var(--muted)",text:"이름을 불러오는 중…"}));
+  let names=[];try{names=(await api("getOpen",card.id))||[]}catch(e){}
+  names=names.filter(n=>n!==myName);box.replaceChildren();
+  if(!names.length){box.appendChild(el("span",{style:"color:var(--muted)",text:"불러올 이름이 없어요. 아래에 직접 써 봐요."}));return}
+  names.forEach(n=>{const b=el("button",{type:"button",class:"chip",text:n});b.onclick=()=>resumeByName(n);box.appendChild(b)})};$("resumeno").onclick=()=>{$("resumebox").hidden=true;if(!st.named)showNamePick()};
+/* 이름 고르는 화면에서 바로: 새 이름을 고르지 않고 내 이름을 찾아요 */
+$("pickresume").onclick=()=>{$("namepick").hidden=true;document.body.classList.remove("picking");$("resumebtn").click()};
+$("resumeok").onclick=()=>{const n=$("resumename").value.trim().replace(/\s+/g," ");$("resumeerr").textContent="";if(n.length<3){$("resumeerr").textContent="이름을 써 주세요.";return}resumeByName(n)};
+$("resumename").onkeydown=e=>{if(e.key==="Enter")$("resumeok").click()};
 $("simdel").onclick=()=>{$("dots").children[0].className="gone";$("simmsg").textContent=SIM_GONE;$("simdel").hidden=true};
 $("feelok").onclick=()=>{const box=$("stances");box.replaceChildren();card.stances.forEach(([w,s])=>box.appendChild(el("div",{class:"stance"},[el("b",{text:w}),el("span",{text:"\""+s+"\""})])));$("stancebox").hidden=false;st.feelDone=true;check();$("stancebox").scrollIntoView({behavior:"smooth",block:"center"})};
 $("back").onclick=()=>show(page-1);
-$("next").onclick=()=>{if(page<4)show(page+1);else if(page===4)submit();else{startCard();syncCard(true)}};
+$("next").onclick=()=>{if(sending)return;if(page===1)stepDone(1,card.deck?4:2);else if(page===2)show(3);else if(page===3)stepDone(3,4);else if(page===4){if(card.deck&&!st.wiseSent)sendWise();else submit()}else{clearSess();startCard();syncCard(true)}};
 $("tbtn").onclick=()=>{const t=$("teacher"),open=t.hidden;t.hidden=!open;$("tbtn").setAttribute("aria-expanded",String(open));if(open&&!pin)$("pin").focus();if(open&&pin)openPanel();if(!open){clearInterval(tTimer);document.body.classList.remove("tmode")}};
 $("tclose").onclick=()=>{$("teacher").hidden=true;document.body.classList.remove("tmode");$("tbtn").setAttribute("aria-expanded","false");$("tconfirm").hidden=true;clearInterval(tTimer)};
-$("pinok").onclick=async()=>{const p=$("pin").value.trim();$("pinerr").textContent="";try{await api("verifyPin",p);pin=p;$("pin").value="";openPanel()}catch(e){$("pinerr").textContent="비밀번호가 맞지 않아요."}};
+$("pinok").onclick=async()=>{const p=$("pin").value.trim();$("pinerr").textContent="";try{await api("verifyPin",p);pin=p;$("pin").value="";try{sessionStorage.setItem("aes.pin",p)}catch(e){}openPanel()}catch(e){$("pinerr").textContent="비밀번호가 맞지 않아요."}};
 $("pin").onkeydown=e=>{if(e.key==="Enter")$("pinok").click()};
-$("cardsel").onchange=e=>{tCard=e.target.value;tStage=0;$("setmsg").textContent="'학생들에게 열기'를 눌러야 학생 화면이 바뀌어요.";refreshResults()};
-$("setcard").onclick=async()=>{try{await api("setCard",pin,tCard);$("setmsg").textContent="열었어요. 아직 시작하지 않은 학생 화면이 이 딜레마로 바뀌어요.";syncCard(false)}catch(e){$("setmsg").textContent="바꾸지 못했어요. 다시 눌러 주세요."}};
+$("cardsel").onchange=e=>{tCard=e.target.value;tStage=0;tFlow=0;tRev=false;tDeck={drawn:[]};tCmp="";tCmpRecs=[];$("setmsg").textContent="'학생들에게 열기'를 눌러야 학생 화면이 바뀌어요.";refreshResults()};
+$("setcard").onclick=async()=>{try{await api("setCard",pin,tCard);tGate=1;tFlow=0;tRev=false;tDeck={drawn:[]};renderGate();$("prep").open=false;$("setmsg").textContent="열었어요. 아직 시작하지 않은 학생 화면이 이 딜레마로 바뀌어요.";syncCard(false)}catch(e){$("setmsg").textContent="바꾸지 못했어요. 다시 눌러 주세요."}};
+/* 이름 카드(QR만 인쇄): 무작위로 나눠 주면 선생님도 누가 어떤 이름인지 몰라요 */
+function cardUrl(n){const base=WEB?location.origin+location.pathname+(SHEET_KEY?"?k="+SHEET_KEY:""):GAS?studentUrl:location.href.split(/[?#]/)[0];return base+(base.includes("?")?"&":"?")+"n="+n}
+function openCards(){
+  let box=$("ncards");if(box)box.remove();
+  const cnt=el("input",{type:"number",min:"1",max:"60",value:"30",class:"txt",style:"width:80px","aria-label":"카드 수"});
+  const grid=el("div",{class:"grid"});
+  const draw=()=>{grid.replaceChildren();const n=Math.max(1,Math.min(60,parseInt(cnt.value,10)||30));
+    for(let i=1;i<=n;i++){const q=el("div",{class:"q"});try{const c=qrcode(0,"M");c.addData(cardUrl(i));c.make();q.innerHTML=c.createSvgTag({cellSize:4,margin:0,scalable:true})}catch(e){q.textContent="QR을 만들지 못했어요"}
+      // 카드에는 이름을 쓰지 않아요: 책에 붙은 카드를 봐도 누구 이름인지 알 수 없게. 이름은 찍은 아이 화면에만 나와요.
+      grid.appendChild(el("div",{class:"ncard"},[el("b",{text:"AI 윤리 저울"}),q,el("small",{text:"도덕 시간마다 이 카드를 찍고 들어와요"})]))}};
+  const pr=el("button",{type:"button",class:"btn small",text:"인쇄하기"}),cl=el("button",{type:"button",class:"btn line small",text:"닫기"});
+  pr.onclick=()=>{document.body.classList.add("printing");window.print()};cl.onclick=()=>box.remove();cnt.oninput=draw;
+  box=el("div",{id:"ncards"},[el("div",{class:"bar"},[el("b",{text:"이름 카드"}),el("label",{},[document.createTextNode("카드 수 "),cnt]),pr,cl,
+    el("span",{style:"font-size:.85rem;color:#555",text:"카드를 잘라 섞은 뒤 무작위로 나눠 주고, 도덕책 뒤표지 안쪽에 붙이게 해요."})]),grid]);
+  document.body.appendChild(box);draw();
+}
+window.addEventListener("afterprint",()=>document.body.classList.remove("printing"));
+$("printcards").onclick=openCards;
 $("copyurl").onclick=async()=>{try{await navigator.clipboard.writeText(studentUrl);$("copyurl").textContent="복사했어요"}catch(e){const r=document.createRange();r.selectNodeContents($("url"));const s=getSelection();s.removeAllRanges();s.addRange(r)}};
+$("gate").onclick=async e=>{const b=e.target.closest("button[data-g]");if(!b)return;const g=+b.dataset.g;try{await api("setGate",pin,g);tGate=g;renderGate();$("setmsg").textContent=g===1?"학생들은 1단계까지만 할 수 있어요.":g===2?"2~3단계를 열었어요.":"4단계를 열었어요."}catch(err){$("setmsg").textContent="바꾸지 못했어요. 다시 눌러 주세요."}};
+document.querySelector(".tvbar").onclick=e=>{const b=e.target.closest("button[data-v]");if(!b)return;tView=b.dataset.v;[...document.querySelectorAll(".tvbar button")].forEach(x=>x.setAttribute("aria-pressed",String(x===b)));castState();$("setmsg").textContent=tView==="student"?"TV 창에 학생 화면이 나와요.":"TV 창에 결과가 나와요."};
+$("linkok").onclick=async()=>{const k=parseKey($("linkurl").value);$("linkerr").textContent="";if(!k){$("linkerr").textContent="주소에서 열쇠를 찾지 못했어요. …/macros/s/열쇠/exec 모양인지 확인해요.";return}
+  const old=SHEET_KEY;SHEET_KEY=k;try{await api("getState");localStorage.setItem("aes.k",k);$("linkurl").value="";pin="";renderLink();$("pinbox").hidden=false;$("tpanel").hidden=true;$("pin").focus();$("pinerr").textContent="연결됐어요. 시트의 선생님 비밀번호로 다시 들어가요."}
+  catch(e){SHEET_KEY=old;$("linkerr").textContent="연결하지 못했어요. 배포가 '모든 사용자'인지, 주소가 맞는지 확인해요."}};
+async function flowGo(d){const F=FL(),cur=F[tFlow];
+  const n=tFlow+d;if(n<0||n>=F.length)return;tFlow=n;const it=F[n];tRev=d<0&&!!it.s;
+  if(it.g&&!SHOW){try{await api("setGate",pin,it.g);tGate=it.g;renderGate()}catch(e){$("setmsg").textContent="단계를 열지 못했어요. 다시 눌러 주세요."}}
+  renderFlowView();castState()}
+$("fnext").onclick=()=>flowGo(1);$("fprev").onclick=()=>flowGo(-1);
 $("sprev").onclick=()=>{if(tStage>0){tStage--;renderTeacher(tRecs)}};
 $("snext").onclick=()=>{if(tStage<stagesFor(byId(tCard)).length-1){tStage++;renderTeacher(tRecs)}};
 $("treset").onclick=()=>{$("tconfirm").hidden=false};$("tno").onclick=()=>{$("tconfirm").hidden=true};
 $("tyes").onclick=async()=>{try{await api("resetCard",pin,tCard);$("tconfirm").hidden=true;refreshResults()}catch(e){$("tconfirm").hidden=true}};
 
-$("demo").hidden=GAS;
+$("demo").hidden=GAS||LINKED();if(WEB&&!LINKED())$("demo").innerHTML='연습 모드예요. 기록은 이 기기 안에만 저장돼요. 실제 수업은 선생님이 주신 QR·주소(열쇠가 붙은 주소)로 접속해요. <a href="?t=1">선생님 화면 둘러보기</a>(비밀번호는 아무 숫자) · <a href="setup.html" target="_blank" rel="noopener">우리 반에서 쓰려면 설치 안내</a>';
+function detectTeach(cb){try{
+  if(GAS&&google.script.url&&google.script.url.getLocation){google.script.url.getLocation(l=>{const q=(l&&l.parameter)||{};cb(!!q.t,!!q.show,q.n)});return}
+  const q=new URLSearchParams(location.search);cb(q.has("t")||location.hash==="#t",q.has("show"),q.get("n"));
+  }catch(e){cb(false,false)}
+}
+let teachReady;const teachDone=new Promise(r=>teachReady=r);
+detectTeach((t,sh,n)=>{
+  const no=parseInt(n,10);MY_NO=no>=1&&no<=99?no:0;teachReady();
+  if(t){SHOW=sh;document.body.classList.add("tfull","tmode");if(sh)document.body.classList.add("tshow");$("teacher").hidden=false;$("sub").textContent=sh?"TV 화면":"선생님 화면";
+    if(sh){try{applyShow(JSON.parse(localStorage.getItem("aes.show")))}catch(e){}}
+    let sp="";try{sp=sessionStorage.getItem("aes.pin")||""}catch(e){}
+    if(sp){pin=sp;openPanel()}else $("pin").focus();
+    document.addEventListener("keydown",e=>{if(/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)||$("tpanel").hidden)return;if(e.key==="ArrowRight")flowGo(1);else if(e.key==="ArrowLeft")flowGo(-1);else if((e.key===" "||e.key==="Enter")&&e.target.tagName!=="BUTTON"){const it=FL()[tFlow];if(it.d){e.preventDefault();drawNext()}else if(it.s&&!tRev){e.preventDefault();tRev=true;tAnim=true;renderFlowView();castState()}}});
+  }else{$("tbtn").hidden=GAS||WEB}
+});
 fresh();
-syncCard(true).then(()=>{if(!$("ctitle").textContent){startCard()}});
+/* 처음 연결이 안 되면 바로 다른 카드로 시작하지 않고 몇 번 더 물어봐요 */
+(async()=>{await teachDone;for(let i=0;i<3;i++){if(await syncCard(true))break;await new Promise(r=>setTimeout(r,2000))}if(!$("ctitle").textContent){startCard()}})();
 setInterval(()=>syncCard(false),6000);
 </script>
 

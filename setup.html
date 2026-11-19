@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>설치 안내 · AI 윤리 저울</title>
+<meta name="description" content="AI 윤리 저울을 우리 반에서 쓰려고 선생님 구글 시트에 연결하는 방법">
+<meta property="og:type" content="website"><meta property="og:title" content="설치 안내 · AI 윤리 저울">
+<meta property="og:image" content="https://olivemiso-lab.github.io/ai-ethics-scale/img/og-image.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f6f4ee;--card:#fff;--ink:#26303f;--muted:#6d7480;--line:#e2dfd6;--main:#3d5a80;--main-soft:#e8eef6;--warm:#c8792f;--warm-soft:#fbefe2}
+@media (prefers-color-scheme:dark){:root{--bg:#15181d;--card:#1d2128;--ink:#e6e9ee;--muted:#9aa2ae;--line:#323944;--main:#8fb0db;--main-soft:#24324a;--warm:#e0a060;--warm-soft:#3a2c1e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.75;word-break:keep-all}
+main{max-width:760px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:1.7rem;margin:0 0 4px}
+h2{font-size:1.15rem;margin:30px 0 10px}
+.lead{color:var(--muted);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:12px 0}
+ol.steps{margin:0;padding-left:1.3em}
+ol.steps li{margin:10px 0}
+code,kbd{background:var(--main-soft);border-radius:6px;padding:1px 6px;font-size:.92em}
+.note{background:var(--warm-soft);border-radius:12px;padding:12px 16px;font-size:.95rem}
+.btn{display:inline-block;background:var(--main);color:#fff;border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.btn.ghost{background:var(--main-soft);color:var(--main)}
+pre{margin:10px 0 0;max-height:320px;overflow:auto;background:#1f2430;color:#e6e9ee;border-radius:10px;padding:14px;font-size:.8rem;line-height:1.5;white-space:pre}
+a{color:var(--main)}
+.small{font-size:.9rem;color:var(--muted)}
+</style></head><body>
+<main>
+  <p class="small"><a href="./">← AI 윤리 저울로</a></p>
+  <h1>우리 반에서 쓰는 방법</h1>
+  <p class="lead">학생 기록이 <b>선생님의 구글 시트</b>에 저장되도록 한 번만 연결해요. 10분쯤 걸려요. 연결하기 전에는 '연습 모드'라서 기록이 그 기기에만 남아요.</p>
+
+  <div class="card">
+    <h2 style="margin-top:0">1. 구글 시트와 Apps Script 준비</h2>
+    <ol class="steps">
+      <li>구글 드라이브에서 <b>새 스프레드시트</b>를 만들어요. 이름은 예를 들어 'AI 윤리 저울 기록'.</li>
+      <li>시트 메뉴 <b>확장 프로그램 → Apps Script</b>를 열어요.</li>
+      <li>편집기에 있는 <code>Code.gs</code> 내용을 모두 지우고, 아래 <b>코드 복사</b>를 눌러 붙여 넣어요.</li>
+      <li>6번째 줄 <code>const TEACHER_PIN = '1234';</code>의 1234를 <b>선생님만 아는 숫자</b>로 바꾸고 저장해요. 1234 그대로면 선생님 화면이 열리지 않아요.</li>
+    </ol>
+    <p style="margin:14px 0 0"><button class="btn" id="copy" type="button">코드 복사</button> <span class="small" id="copied" aria-live="polite"></span></p>
+    <pre id="code">코드를 불러오는 중…</pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">2. 웹 앱으로 배포</h2>
+    <ol class="steps">
+      <li>오른쪽 위 <b>배포 → 새 배포</b> → 톱니바퀴에서 <b>웹 앱</b>을 골라요.</li>
+      <li>실행: <b>나</b>, 액세스 권한: <b>모든 사용자</b>로 두고 <b>배포</b>를 눌러요. 처음에는 권한 허용 창이 떠요(내 계정 → 고급 → 이동 → 허용).</li>
+      <li>나온 <b>웹 앱 주소</b>(…/exec로 끝나요)를 복사해요.</li>
+    </ol>
+    <p class="note" style="margin:12px 0 0">코드를 고친 뒤에는 <b>배포 관리 → 연필 → 버전: 새 버전 → 배포</b>로 올려요. '새 배포'를 하면 주소가 바뀌어서 학생 QR을 다시 나눠 줘야 해요.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">3. 앱에 연결</h2>
+    <ol class="steps">
+      <li><a href="./?t=1" target="_blank" rel="noopener">선생님 화면</a>을 열고(주소 끝 <code>?t=1</code>), 아무 숫자로 들어가요(아직 연습 모드).</li>
+      <li><b>수업 준비 → 구글 시트 연결</b> 칸에 2에서 복사한 주소를 붙여 넣고 <b>연결</b>을 눌러요.</li>
+      <li>이제 1에서 바꾼 비밀번호로 다시 들어가요. 학생 접속 주소와 QR에 연결 열쇠가 저절로 붙어요.</li>
+      <li>학생은 그 QR이나 주소로 들어와요. 이름 대신 무작위 이름이 정해져요.</li>
+    </ol>
+  </div>
+
+  <h2>(선택) AI로 멈춤 질문 묶기</h2>
+  <p>선생님 화면의 'AI로 묶기'는 학생들의 멈춤 질문을 비슷한 것끼리 나눠 보여 줘요. 쓰려면 <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio</a>에서 API 키를 만든 뒤, Apps Script <b>프로젝트 설정(톱니바퀴) → 스크립트 속성</b>에 이름 <code>GEMINI_API_KEY</code>, 값에 키를 넣어요. 편집기에서 <code>testGemini</code>를 한 번 실행해 권한을 허용해요. 키가 없어도 수업은 그대로 돼요. 키는 선생님 Apps Script 안에만 있고 학생 화면에는 나가지 않아요.</p>
+
+  <h2>개인정보</h2>
+  <ul>
+    <li>학생 실명은 쓰지 않아요. 앱이 정해 주는 무작위 이름만 시트에 남아요.</li>
+    <li>기록은 선생님 구글 시트에만 저장돼요. 이 사이트를 만든 사람에게는 아무것도 전송되지 않아요.</li>
+    <li>학교 정책에 따라 개인 계정 시트를 써도 되는지 먼저 확인해 주세요.</li>
+  </ul>
+
+  <h2>딜레마 카드를 고를 때</h2>
+  <ul>
+    <li>카드는 10장이에요. 딜레마 1~9는 김은경·이영준(2023)의 인공지능 윤리 딜레마를 초등 4학년 눈높이로 다시 쓴 것이에요.</li>
+    <li>'돌아가신 가족을 만나는 앱' 카드는 최근 가족을 잃은 학생이 있으면 다른 카드로 바꿔 주세요.</li>
+    <li>한 수업에 카드 하나를 깊게 다루는 것을 권해요. 처음에는 학생과 같은 화면에서 연습 모드로 한 번 해 보세요.</li>
+  </ul>
+  <p class="small" style="margin-top:30px">문의와 의견은 틸더스 앱 페이지 댓글로 남겨 주세요.</p>
+</main>
+<script>
+(function () {
+  var pre = document.getElementById('code'), txt = '';
+  fetch('Code.gs', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw 0; return r.text(); })
+    .then(function (t) { txt = t; pre.textContent = t; })
+    .catch(function () { pre.textContent = '코드를 불러오지 못했어요. 새로고침해 주세요.'; });
+  document.getElementById('copy').onclick = function () {
+    if (!txt) return;
+    var done = function () { document.getElementById('copied').textContent = '복사했어요. Apps Script에 붙여 넣으세요.'; };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, function () { fallback(); });
+    else fallback();
+    function fallback() { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); document.getElementById('copied').textContent = '코드를 선택했어요. Ctrl+C로 복사하세요.'; }
+  };
+})();
+</script>
+</body></html>
